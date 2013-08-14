@@ -1,0 +1,32 @@
+# == Class: cubbystack::cinder::scheduler
+#
+# Configures the cinder-scheduler package
+#
+# === Parameters
+#
+# [*package_ensure*]
+#   The status of the cinder-scheduler package
+#   Defaults to latest
+#
+# [*service_enable*]
+#   The status of the cinder-scheduler service
+#   Defaults to true
+#
+# === Example Usage
+#
+# Please see the `manifests/examples` directory.
+#
+class cubbystack::cinder::scheduler (
+  $package_ensure = latest,
+  $service_enable = true
+) {
+
+  cubbystack::functions::generic_service { 'cinder-scheduler':
+    service_enable => $service_enable,
+    package_ensure => $package_ensure,
+    package_name   => $::cubbystack::params::cinder_scheduler_package_name,
+    service_name   => $::cubbystack::params::cinder_scheduler_service_name,
+    tags           => $::cubbystack::cinder::tags,
+  }
+
+}

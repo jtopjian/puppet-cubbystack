@@ -1,0 +1,131 @@
+class cubbystack::params {
+
+  case $::osfamily {
+    'Debian': {
+      # Keystone
+      $keystone_package_name   = 'keystone'
+      $keystone_service_name   = 'keystone'
+
+      # Glance
+      $glance_package_name          = 'glance'
+      $glance_api_service_name      = 'glance-api'
+      $glance_registry_service_name = 'glance-registry'
+
+      # Cinder
+      $cinder_package_name           = 'cinder-common'
+      $cinder_api_package_name       = 'cinder-api'
+      $cinder_api_service_name       = 'cinder-api'
+      $cinder_scheduler_package_name = 'cinder-scheduler'
+      $cinder_scheduler_service_name = 'cinder-scheduler'
+      $cinder_volume_package_name    = 'cinder-volume'
+      $cinder_volume_service_name    = 'cinder-volume'
+
+      # Nova
+      # nova package names
+      $nova_api_package_name         = 'nova-api'
+      $nova_cert_package_name        = 'nova-cert'
+      $nova_common_package_name      = 'nova-common'
+      $nova_compute_package_name     = 'nova-compute'
+      $nova_doc_package_name         = 'nova-doc'
+      $nova_network_package_name     = 'nova-network'
+      $nova_vncproxy_package_name    = 'nova-novncproxy'
+      $nova_novnc_package_name       = 'novnc'
+      $nova_objectstore_package_name = 'nova-objectstore'
+      $nova_scheduler_package_name   = 'nova-scheduler'
+      $nova_conductor_package_name   = 'nova-conductor'
+      $nova_conductor_service_name   = 'nova-conductor'
+
+      # nova service names
+      $nova_api_service_name         = 'nova-api'
+      $nova_cert_service_name        = 'nova-cert'
+      $nova_compute_service_name     = 'nova-compute'
+      $nova_consoleauth_service_name = 'nova-consoleauth'
+      $nova_network_service_name     = 'nova-network'
+      $nova_vncproxy_service_name    = 'nova-novncproxy'
+      $nova_objectstore_service_name = 'nova-objectstore'
+      $nova_scheduler_service_name   = 'nova-scheduler'
+
+      # Horizon
+      $horizon_apache_user           = 'www-data'
+      $horizon_apache_group          = 'www-data'
+      $horizon_config_file           = '/etc/openstack-dashboard/local_settings.py'
+
+      # debian specific nova config
+      $root_helper              = 'sudo nova-rootwrap'
+      $lock_path                = '/var/lock/nova'
+      $nova_db_charset          = 'latin1'
+
+      # Misc
+      $libvirt_package_name     = 'libvirt-bin'
+      $libvirt_service_name     = 'libvirt-bin'
+      $libvirt_type_kvm         = 'qemu-kvm'
+      $numpy_package_name       = 'python-numpy'
+      $tgt_package_name         = 'tgt'
+      $tgt_service_name         = 'tgt'
+
+      case $::operatingsystem {
+        'Debian': {
+          $service_provider              = 'undef'
+          $nova_consoleauth_package_name = 'nova-console'
+          $horizon_package_name          = 'openstack-dashboard-apache'
+        }
+        default: {
+          $service_provider              = 'upstart'
+          $nova_consoleauth_package_name = 'nova-consoleauth'
+          $horizon_package_name          = 'openstack-dashboard'
+        }
+      }
+    }
+    'RedHat': {
+      # Keystone
+      $keystone_package_name = 'openstack-keystone'
+      $keystone_service_name = 'openstack-keystone'
+
+      # Glance
+      $glance_package_name          = 'openstack-glance'
+      $glance_api_service_name      = 'openstack-glance-api'
+      $glance_registry_service_name = 'openstack-glance-registry'
+
+      # Nova
+      # nova package names
+      $nova_api_package_name         = false
+      $nova_cert_package_name        = false
+      $nova_common_package_name      = 'openstack-nova'
+      $nova_compute_package_name     = false
+      $nova_consoleauth_package_name = false
+      $nova_doc_package_name         = 'openstack-nova-doc'
+      $nova_network_package_name     = false
+      $nova_objectstore_package_name = false
+      $nova_scheduler_package_name   = false
+      $nova_vncproxy_package_name    = 'openstack-nova-novncproxy'
+
+      # nova service names
+      $nova_api_service_name         = 'openstack-nova-api'
+      $nova_cert_service_name        = 'openstack-nova-cert'
+      $nova_compute_service_name     = 'openstack-nova-compute'
+      $nova_consoleauth_service_name = 'openstack-nova-consoleauth'
+      $nova_network_service_name     = 'openstack-nova-network'
+      $nova_objectstore_service_name = 'openstack-nova-objectstore'
+      $nova_scheduler_service_name   = 'openstack-nova-scheduler'
+      $nova_vncproxy_service_name    = 'openstack-nova-novncproxy'
+
+      # Horizon
+      $horizon_apache_user           = 'apache'
+      $horizon_apache_group          = 'apache'
+      $horizon_config_file           = '/etc/openstack-dashboard/local_settings.py'
+
+      # redhat specific config defaults
+      $root_helper = 'sudo nova-rootwrap'
+      $lock_path   = '/var/lib/nova/tmp'
+
+      # Misc
+      $libvirt_package_name = 'libvirt'
+      $libvirt_service_name = 'libvirtd'
+      $numpy_package_name   = 'numpy'
+      $tgt_package_name     = 'scsi-target-utils'
+      $tgt_service_name     = 'tgtd'
+      $service_provider     = undef
+    }
+  }
+
+}
