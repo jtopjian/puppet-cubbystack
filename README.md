@@ -25,7 +25,7 @@ Hiera is recommended, but not a hard requirement.
 
 Usage
 -----
-cubbystack has a set of manifests for almost all OpenStack components (no Quantum or Swift support at this time). These can be found in the `manifests` directory. Please read and review these manifests -- they should be self-explanatory and easy to understand.
+cubbystack has a set of manifests for almost all OpenStack components (no Quantum at this time). These can be found in the `manifests` directory. Please read and review these manifests -- they should be self-explanatory and easy to understand.
 
 All components take a `$settings` parameter. This is a hash of `key => value` settings that ultimately turn into the configuration options for the various OpenStack configuration files. Please see the `manifests/examples/settings` directory for samples of hashes.
 
@@ -39,7 +39,7 @@ Notes
 -----
 
 * As mentioned, there is no Quantum support at this time.
-* Swift support is forthcoming.
+* Swift support is early. I'm not 100% happy with it.
 * The Horizon manifest does not accept a `$settings` parameter like the other components. Unfortunately, there is no easy way to manage Horizon's `local_settings.py` file by way of a Puppet resource. My suggestion is to simply supply a static file or template.
 * As you can see from the manifests, special care has been taken to ensure OpenStack can be installed in a predictable order.
 * The name "cubbystack" comes from my son's nickname *Cubby*. I've been surrounded by pictures of bears and cubs lately, so all of my projects are getting prefixed with "cubby".

@@ -50,6 +50,28 @@ class cubbystack::params {
       $horizon_apache_group          = 'www-data'
       $horizon_config_file           = '/etc/openstack-dashboard/local_settings.py'
 
+      # Swift
+      $swift_package_name                      = 'swift'
+      $swift_client_package_name               = 'python-swiftclient'
+      $swift_proxy_package_name                = 'swift-proxy'
+      $swift_proxy_service_name                = 'swift-proxy'
+      $swift_object_package_name               = 'swift-object'
+      $swift_object_service_name               = 'swift-object'
+      $swift_object_auditor_service_name       = 'swift-object-auditor'
+      $swift_object_replicator_service_name    = 'swift-object-replicator'
+      $swift_object_updater_service_name       = 'swift-object-updater'
+      $swift_container_package_name            = 'swift-container'
+      $swift_container_service_name            = 'swift-container'
+      $swift_container_auditor_service_name    = 'swift-container-auditor'
+      $swift_container_replicator_service_name = 'swift-container-replicator'
+      $swift_container_updater_service_name    = 'swift-container-updater'
+      $swift_account_package_name              = 'swift-account'
+      $swift_account_service_name              = 'swift-account'
+      $swift_account_auditor_service_name      = 'swift-account-auditor'
+      $swift_account_reaper_service_name       = 'swift-account-reaper'
+      $swift_account_replicator_service_name   = 'swift-account-replicator'
+      $swift3                                  = 'swift-plugin-s3'
+
       # debian specific nova config
       $root_helper              = 'sudo nova-rootwrap'
       $lock_path                = '/var/lock/nova'
