@@ -29,9 +29,9 @@
 # Please see the `manifests/examples` directory.
 #
 define cubbystack::functions::generic_service (
-  $package_name,
-  $service_name,
-  $tags = undef,
+  $package_name   = false,
+  $service_name   = false,
+  $tags           = undef,
   $service_enable = true,
   $package_ensure = present,
 ) {
@@ -47,18 +47,23 @@ define cubbystack::functions::generic_service (
       name   => $package_name,
       ensure => $package_ensure,
       tag    => $tags,
-      notify => Service[$service_name],
     }
   }
 
   if ($service_name) {
+
+    if ($package_name) {
+      Package[$package_name] -> Service[$service_name]
+      Package[$package_name] ~> Service[$service_name]
+    }
+
     service { $title:
       name    => $service_name,
       ensure  => $service_ensure,
       enable  => $enable,
       tag     => $tags,
-      require => Package[$package_name],
     }
+
   }
 
 }
