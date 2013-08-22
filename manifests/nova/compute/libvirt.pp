@@ -22,9 +22,15 @@ class cubbystack::nova::compute::libvirt (
 ) {
 
   include ::cubbystack::params
+  include ::cubbystack::nova
 
-  package { "${::cubbystack::params::nova_compute_package_name}-${libvirt_type}":
-    ensure => $package_ensure,
+  $package_name = "${::cubbystack::params::nova_compute_package_name}-${libvirt_type}"
+  Package[$package_name] ~> Service<| tag == 'nova' |>
+
+  cubbystack::functions::generic_service { $package_name:
+    package_ensure => $package_ensure,
+    package_name   => $package_name,
+    tags           => $::cubbystack::nova::tags,
   }
 
 }
