@@ -3,20 +3,18 @@ class cubbystack::examples::roles::compute::libvirt (
   $service_enable = true
 ) {
 
-  package { 'libvirt-bin':
-    ensure => latest,
+  anchor { 'cubbystack::examples::roles::compute::libvirt': }
+
+  class { '::cubbystack::nova::compute::libvirt':
+    libvirt_type => hiera('libvirt_type'),
+    require      => Anchor['cubbystack::examples::roles::compute::libvirt'],
   }
 
-  if ($service_enable) {
-    $service_ensure = 'running'
-  } else {
-    $service_ensure = 'stopped'
-  }
-
-  service { 'libvirt-bin':
-    enable  => $service_enable,
-    ensure  => $service_ensure,
-    require => Package['libvirt-bin'],
+  ::cubbystack::functions::generic_service { 'libvirt-bin':
+    package_name   => 'libvirt-bin',
+    service_name   => 'libvirt-bin',
+    package_ensure => latest,
+    tags           => ['openstack', 'libvirt'],
   }
 
   # Enable migration support
