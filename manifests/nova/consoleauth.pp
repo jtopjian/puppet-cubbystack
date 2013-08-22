@@ -21,6 +21,8 @@ class cubbystack::nova::consoleauth (
   $service_enable = true
 ) {
 
+  include ::cubbystack::nova
+
   cubbystack::functions::generic_service { 'nova-consoleauth':
     service_enable => $service_enable,
     package_ensure => $package_ensure,

@@ -25,6 +25,8 @@ class cubbystack::nova::vncproxy (
     ensure => $package_ensure,
   }
 
+  include ::cubbystack::nova
+
   cubbystack::functions::generic_service { 'nova-vncproxy':
     service_enable => $service_enable,
     package_ensure => $package_ensure,

@@ -21,6 +21,8 @@ class cubbystack::nova::api (
   $service_enable = true
 ) {
 
+  include ::cubbystack::nova
+
   cubbystack::functions::generic_service { 'nova-api':
     service_enable => $service_enable,
     package_ensure => $package_ensure,

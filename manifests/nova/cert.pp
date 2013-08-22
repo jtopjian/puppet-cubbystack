@@ -21,6 +21,8 @@ class cubbystack::nova::cert (
   $service_enable = true
 ) {
 
+  include ::cubbystack::nova
+
   cubbystack::functions::generic_service { 'nova-cert':
     service_enable => $service_enable,
     package_ensure => $package_ensure,

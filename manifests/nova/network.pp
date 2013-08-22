@@ -67,6 +67,8 @@ class cubbystack::nova::network (
   $additional_config = undef
 ) {
 
+  include ::cubbystack::nova
+
   Exec {
     path => $::path
   }
