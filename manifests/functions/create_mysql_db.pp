@@ -33,6 +33,7 @@ define cubbystack::functions::create_mysql_db (
   $user,
   $host          = '127.0.0.1',
   $charset       = 'latin1',
+  $collate       = 'latin1_swedish_ci',
   $allowed_hosts = undef,
 ) {
 
@@ -41,8 +42,8 @@ define cubbystack::functions::create_mysql_db (
     password => $password,
     host     => $host,
     charset  => $charset,
+    collate  => $collate,
     tag      => ['openstack', 'mysql', $name],
-    require  => Class['mysql::config'],
   }
 
   if ($allowed_hosts) {

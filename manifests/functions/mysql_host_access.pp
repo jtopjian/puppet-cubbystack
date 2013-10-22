@@ -25,22 +25,21 @@
 #
 # Please see the `manifests/examples` directory.
 #
-define cubbystack::functions::mysql_host_access(
+define cubbystack::functions::mysql_host_access (
   $user,
   $password,
   $allowed_host,
-  $database
+  $database       = '*',
+  $privileges     = ['ALL'],
 ) {
-  database_user { "${user}@${allowed_host}":
+  mysql_user { "${user}@${allowed_host}":
     password_hash => mysql_password($password),
-    provider      => 'mysql',
-    require       => Database[$database],
   }
-  database_grant { "${user}@${allowed_host}/${database}":
-    # TODO figure out which privileges to grant.
-    privileges => 'all',
-    provider   => 'mysql',
-    require    => Database_user["${user}@${allowed_host}"]
+  mysql_grant { "${user}@${allowed_host}/${database}.*":
+    privileges => $privileges,
+    table      => "${database}.*",
+    user       => "${user}@${allowed_host}",
+    require    => Mysql_user["${user}@${allowed_host}"]
   }
 
 }
