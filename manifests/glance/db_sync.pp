@@ -4,7 +4,7 @@
 #
 # === Example Usage
 #
-# Please see the `manifests/examples` directory.
+# Please see the `examples` directory.
 #
 class cubbystack::glance::db_sync {
 

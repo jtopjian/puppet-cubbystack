@@ -1,45 +1,163 @@
 cubbystack
 ==========
 
-Introduction
-------------
-cubbystack is a set of alternative Puppet manifests to the official Puppet OpenStack modules. It differs from the official Puppet OpenStack modules in that it places a lot more responsibility on the end-user with regard to configuring their OpenStack installation. The tradeoff of this is a set of manifests that are much more simple, concise, and offer a large amount of flexibility when designing your OpenStack environment.
+cubbystack is an OpenStack deployment framework for Puppet.
 
-*Important*: cubbystack is in no way trying to compete with the official Puppet OpenStack modules. In fact, it requires them at this time. cubbystack is simply an alternative way of using Puppet to configure OpenStack.
+#### Table of Contents
 
-Why?
-----
-I created these manifests because I see a continuing trend in the official Puppet OpenStack modules of placing emphasis and conditional logic on individual parameters. If the parameters were removed from the modules, all that would be left is the management of some packages, files, and services -- and that's exactly what cubbystack contains.
+1. [Introduction and Philosophy](#introduction)
+  * [History](#history)
+  * [Philosophy](#philosophy)
+2. [Requirements](#requirements)
+3. [Usage](#usage)
+  * [Getting Started](#getting-started)
+  * [Custom Configurations](#custom-configurations)
+  * [Usage Notes](#usage-notes)
+4. [Notes](#notes)
 
-These manifests take the stance that the Puppet administrator understands OpenStack and does not need assistance with building a configuration file. By providing the ability to supply a set of configuration options, these manifests can be used to create many different OpenStack installations. In addition, as long as the user stays up to date with valid configuration options, these manifests can more easily support multiple releases of OpenStack (pending compatibility of the Puppet OpenStack types and providers).
+## Introduction
 
-Further, these manifests are made for cloud operators who have unique environments and require control toward what gets installed and how. For example, the official Puppet OpenStack Horizon module goes through a lot of work to help you configure Apache to host Horizon. cubbystack's Horizon manifest doesn't and assumes that you will do this configuration yourself. cubbystack only configures OpenStack -- nothing more, nothing less.
+### History
+cubbystack was created to solve a recurring problem of mine: all of my OpenStack deployments always outgrew the [Puppetlabs OpenStack module](https://forge.puppetlabs.com/puppetlabs/openstack). I began to see that it wasn't just my OpenStack environments, but every production deployment that I came across. The cause varied: it could be something as simple as a single missing option for `nova.conf` or wanting to break Keystone out to its own server.
 
-Requirements
-------------
-At this time, cubbystack uses the Puppet OpenStack types and providers, so you must have the official Puppet OpenStack modules installed.
+My initial solution was to compose my own OpenStack module using the individual Puppetlabs OpenStack component modules. This solved some of my issues, but not nearly all of them. For example, if the Glance module didn't have a way for me to configure a certain option, I would either have to patch the module or configure the option outside of the module. The result was a haphazard Frankenstein manifest -- some parts configuring Glance manually and some using the proper module. Not only that, but I was doing this for *each* component and *differently* for each OpenStack environment of mine.
 
-Additionally, you need to be using Puppet 3.2 or higher in order to take advantage of the iteration functionality.
+### Philosophy
+
+The first rule of cubbystack is that there will *never* be a one-size-fits-all OpenStack module. It's simply not possible. One could even argue that the very existence of one goes against what makes OpenStack so great: the almost limitless possibilities you have to building an IaaS environment.
+
+cubbystack will assist you in configuring the various OpenStack components, but it will not help you apply them to your environment. For example, cubbystack can install and configure Horizon, but it will not install and configure Apache. That's your responsibility. cubbystack doesn't know or care if you're also running Nagios on the same server as Horizon. Or if you want to use Nginx instead of Apache.
+
+OpenStack can have a lot of dependant components such as KVM, RabbitMQ, MySQL, and memcache. Configuring these components yourself will take some time and effort. But the trade-off is the ability to use the same cubbystack framework with KVM, RabbitMQ, MySQL as Xen, ZeroMQ, and PostgreSQL.
+
+The second rule of cubbystack is that manifest parameters will be kept to a minimum. OpenStack has [a lot](http://docs.openstack.org/havana/config-reference/content/) of configuration options. Configuration options are added and dropped between OpenStack releases. The options that stay between releases can have their default value changed. Translating manifest parameters into these configuration options is not scalable or maintainable. Even the reference tables in the official [guide](http://docs.openstack.org/havana/config-reference/content/) are automatically generated from the OpenStack source code.
+
+It would be great if every OpenStack configuration option could have a corresponding Puppet manifest parameter that has the correct default value and does proper value validation, but I feel that the time and effort involved with doing that is just too much.
+
+Instead, specify your configuration options as a hash:
+
+```yaml
+keystone_settings:
+  'DEFAULT/verbose': true
+  'DEFAULT/syslog':  true
+  'token/driver':    'keystone.token.backends.memcache.Token'
+```
+
+This gives you the benefit of being able to specify *any* OpenStack configuration option without cubbystack having to know about it as well as benefit of OpenStack automatically using its default value for any value you don't specify.
+
+There are some caveats to this:
+
+1. Sometimes a manifest needs to know about a configuration option. Hence Rule #2 being about *minimum* parameters -- not zero parameters.
+2. Each Linux distribution provides its own set of default configuration files. Sometimes the defaults are sane and sometimes not. To help with this, cubbystack can either keep these default values or *purge* them and only use the ones you specify.
+3. Knowing what configuration options to use can be hard and intimidating to beginners, but just like the trade-off with having to configure RabbitMQ, KVM, etc, I believe this is well worth the flexibility that is gained in the end.
+
+## Requirements
+
+### The PuppetLabs OpenStack Module Suite
+
+It's a little ironic that an alternative module to the PuppetLabs OpenStack modules requires those exact modules. There's a good reason, though: The PuppetLabs OpenStack modules contain a series of `types` and `providers` to assist with building the various OpenStack configuration files. For example:
+
+```puppet
+nova_config { 'DEFAULT/verbose':
+  value => true,
+}
+
+cinder_config { 'DEFAULT/volume_driver':
+  value => 'cinder.volume.drivers.nfs.NfsDriver',
+}
+```
+
+There's nothing wrong with these types and providers and until I find a better solution or they become incompatible with cubbystack, I'll continue to use them.
+
+#### Side-Note
+
+These types and providers contain a lot of repeated code, though. What'd I'd really like to be able to do is have one master `cubbystack_config` type that works like this:
+
+```puppet
+cubbystack_config { '/etc/nova/nova.conf DEFAULT/verbose':
+  value => true,
+}
+```
+
+There are benefits to this, such as being able to have configuration files in other directories (such as `/opt` for source-based installs) as well as automatic support for new configuration files.
+
+Unfortunately such a `type` is not possible with Puppet. The limiting factor would be the inability to `purge` the config file of unmanaged options. This is a deal-breaker to me.
+
+### Puppet
+
+You need to be using Puppet 3.2 or higher in order to take advantage of the iteration functionality.
 
 Hiera is recommended, but not a hard requirement.
 
-Usage
------
-cubbystack has a set of manifests for almost all OpenStack components (no Quantum at this time). These can be found in the `manifests` directory. Please read and review these manifests -- they should be self-explanatory and easy to understand.
+## Usage
 
-All components take a `$settings` parameter. This is a hash of `key => value` settings that ultimately turn into the configuration options for the various OpenStack configuration files. Please see the `manifests/examples/settings` directory for samples of hashes.
+cubbystack has a set of manifests for almost all OpenStack components (no Quantum at this time). These can be found in the `manifests` directory. Please read and review these manifests -- there's nothing terribly advanced about them, but if you find yourself unable to understand them, I recommend brushing up on Puppet before trying to use this module in production.
 
-You can use Hiera or basic Puppet to build your hash -- just as long as what is passed as a parameter is a valid hash.
+All components take a `$settings` parameter. This is a hash of `key => value` settings that ultimately turn into the configuration options for the various OpenStack configuration files. Please see the `examples/settings` directory for samples of hashes.
 
-Each component also has the option to purge all existing configuration options in its configuration file. This allows you to ensure that the only options in the OpenStack configuration files are those that you specify in your `$settings` hash. If this is too strict for you, you can choose to not purge.
+You can use Hiera or Puppet data types to build your hash -- just as long as what is passed as a parameter is a valid hash.
 
-Please see the `manifests/examples/roles` directory for sample manifests including examples for supporting services.
+Please see the `examples/manifests` directory for sample manifests including examples for supporting services.
 
-Notes
------
+### Getting Started
 
-* As mentioned, there is no Quantum support at this time.
-* Swift support is early. I'm not 100% happy with it.
-* The Horizon manifest does not accept a `$settings` parameter like the other components. Unfortunately, there is no easy way to manage Horizon's `local_settings.py` file by way of a Puppet resource. My suggestion is to simply supply a static file or template.
+I recommend copying the `examples/manifests` directory to a site-local module and then modifying the example manifests to suit your environment.
+
+### Custom Configurations
+
+The whole point of cubbystack is to help create customized OpenStack deployments. For example, here's how to install and configure Keystone two different ways:
+
+Install Keystone and configure it to use a memcache token backend:
+
+```puppet
+class { '::cubbystack::keystone':
+  settings        => hiera_hash('keystone_settings'),
+  admin_password  => 'password',
+  purge_resources => false,
+}
+```
+
+Install Keystone and configure it with a SQL token backend, verbose logging, and directed to syslog:
+
+```puppet
+class { '::cubbystack::keystone':
+  settings        => hiera_hash('keystone_settings'),
+  admin_password  => 'password',
+  purge_resources => false,
+}
+```
+
+As you can see, both class declarations are identical. The difference in configuration comes from the `keystone_settings` hash. For a memcache token backend:
+
+```yaml
+keystone_settings:
+  'token/driver': 'keystone.token.backends.memcache.Token'
+```
+
+And for a SQL token backend, verbose logging, and syslog:
+
+```yaml
+keystone_settings:
+  'DEFAULT/verbose':             true
+  'DEFAULT/use_syslog':          true
+  'DEFAULT/syslog_log_facility': 'LOG_LOCAL1'
+  'token/driver':                'keystone.token.backends.sql.Token'
+```
+
+All other components are configured similarly. If you choose to use Hiera and YAML, you can even combine settings from a `common.yaml` with role-specific settings for a Cloud Controller or Compute Node.
+
+### Usage Notes
+
+#### Horizon
+
+Horizon has to be configured a little differently. While it might be possible to structure the `local_settings.py` file in a YAML-ish way, the support isn't there yet. Instead, I recommend using the example manifest and a static `local_settings.py` file in the `module/files` directory.
+
+#### Swift
+
+Swift support is early and I'm not 100% happy with it. The current working example configuration comes off as too complicated. I hope to have something better soon.
+
+## Notes
+
+* There is no Neutron support at this time. Maybe in a few months.
 * As you can see from the manifests, special care has been taken to ensure OpenStack can be installed in a predictable order.
 * The name "cubbystack" comes from my son's nickname *Cubby*. I've been surrounded by pictures of bears and cubs lately, so all of my projects are getting prefixed with "cubby".

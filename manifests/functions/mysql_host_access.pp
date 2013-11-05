@@ -23,7 +23,7 @@
 #
 # === Example Usage
 #
-# Please see the `manifests/examples` directory.
+# Please see the `examples` directory.
 #
 define cubbystack::functions::mysql_host_access (
   $user,

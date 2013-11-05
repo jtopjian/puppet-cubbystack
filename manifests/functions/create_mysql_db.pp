@@ -26,7 +26,7 @@
 #
 # === Example Usage
 #
-# Please see the `manifests/examples` directory.
+# Please see the `examples` directory.
 #
 define cubbystack::functions::create_mysql_db (
   $password,

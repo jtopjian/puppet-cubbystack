@@ -15,19 +15,19 @@
 #   The status of the swift-container service.
 #   Defaults to true
 #
-# [*purge_resources*]
+# [*purge_config*]
 #   Whether or not to purge all settings in container-server.conf
 #   Defaults to true
 #
 # === Example Usage
 #
-# Please see the `manifests/examples` directory.
+# Please see the `examples` directory.
 #
 class cubbystack::swift::container (
   $settings,
-  $purge_resources = true,
+  $purge_config    = true,
   $package_ensure  = latest,
-  $service_enable  = true
+  $service_enable  = true,
 ) {
 
   include ::cubbystack::params
@@ -43,7 +43,7 @@ class cubbystack::swift::container (
 
   # Purge all resources in container-server.conf?
   resources { 'swift_container_config':
-    purge => $purge_resources,
+    purge => $purge_config,
   }
 
   # Default tags

@@ -51,7 +51,7 @@
 #
 # === Example Usage
 #
-# Please see the `manifests/examples` directory.
+# Please see the `examples` directory.
 #
 class cubbystack::nova::network (
   $private_interface,
@@ -64,7 +64,7 @@ class cubbystack::nova::network (
   $network_manager   = 'nova.network.manager.FlatDHCPManager',
   $create_networks   = true,
   $install_service   = true,
-  $additional_config = undef
+  $vlan_start        = undef,
 ) {
 
   include ::cubbystack::nova
@@ -79,12 +79,6 @@ class cubbystack::nova::network (
   # nova-dhcpbridge insists on being 0644
   file { '/var/log/nova/nova-dhcpbridge.log':
     mode => '0644',
-  }
-
-  if ($network_manager == 'nova.network.manager.VlanManager') {
-    $vlan_start = $additional_config['vlan_start']
-  } else {
-    $vlan_start = undef
   }
 
   if ($install_service) {

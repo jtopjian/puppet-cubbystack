@@ -1,0 +1,14 @@
+---
+:backends:
+  - yaml
+
+:hierarchy:
+  - "nodes/%{fqdn}"
+  - "regions/%{region}"
+  - "environments/%{environment}"
+  - "common"
+
+:yaml:
+  :datadir: /etc/puppet/modules/site/data
+
+:merge_behavior: deeper

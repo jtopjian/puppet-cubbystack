@@ -7,22 +7,26 @@
 # [*settings*]
 #   A hash of key => value settings to go in cinder.conf
 #
+# [*config_path*]
+#   The path to cinder.conf
+#   Defaults to /etc/cinder/cinder.conf
+#
 # [*package_ensure*]
 #   The status of the cinder-common package
 #   Defaults to latest
 #
-# [*purge_resources*]
+# [*purge_config*]
 #   Whether or not to purge all settings in cinder.conf
 #   Defaults to true
 #
 # === Example Usage
 #
-# Please see the `manifests/examples` directory.
+# Please see the `examples` directory.
 #
 class cubbystack::cinder (
   $settings,
-  $package_ensure  = latest,
-  $purge_resources = true
+  $package_ensure     = latest,
+  $purge_config       = true,
 ) {
 
   include ::cubbystack::params
@@ -31,19 +35,14 @@ class cubbystack::cinder (
 
   # Make sure cinder is installed before configuration begins
   Package<| tag == 'cinder' |> -> Cinder_config<||>
-  Package<| tag == 'cinder' |> -> Cinder_api_paste_ini<||>
   Cinder_config<||>            -> Service<| tag == 'cinder' |>
-  Cinder_api_paste_ini<||>     -> Service<| tag == 'cinder' |>
 
   # Restart cinder services whenever cinder.conf has been changed
-  Cinder_config<||>             ~> Service<| tag == 'cinder' |>
-  Cinder_api_paste_ini<||>      ~> Service<| tag == 'cinder' |>
+  Cinder_config<||> ~> Service<| tag == 'cinder' |>
 
-  # Purge all resources in cinder.conf
-  if ($purge_resources) {
-    resources { 'cinder_config':
-      purge => true,
-    }
+  # Purge cinder resources
+  resources { 'cinder_config':
+    purge => $purge_resources,
   }
 
   # Default tags to use
@@ -69,20 +68,13 @@ class cubbystack::cinder (
   ## Cinder configuration files
   file { '/var/log/cinder': ensure => directory }
   file { '/etc/cinder/cinder.conf': }
-  file { '/etc/cinder/api-paste.ini': }
 
   ## Configure cinder.conf
 
-  $settings['conf'].each { |$setting, $value|
+  $settings.each { |$setting, $value|
     cinder_config { $setting:
       value => $value,
     }
   }
-  $settings['paste'].each { |$setting, $value|
-    cinder_api_paste_ini { $setting:
-      value => $value,
-    }
-  }
-
 
 }

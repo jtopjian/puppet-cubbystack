@@ -10,7 +10,7 @@
 #
 # === Example Usage
 #
-# Please see the `manifests/examples` directory.
+# Please see the `examples` directory.
 #
 class cubbystack::keystone::templated_catalog (
   $catalog_file = '/etc/keystone/default_catalog.templates'

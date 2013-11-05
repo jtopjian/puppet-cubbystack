@@ -7,7 +7,6 @@
 # [*settings*]
 #   A hash of key => value settings to go in keystone.conf
 #
-#
 # [*admin_password*]
 #  The admin password for Keystone
 #
@@ -23,28 +22,28 @@
 #   The email address of the Keystone admin
 #   Defaults to root@localhost
 #
-# [*purge_resources*]
+# [*purge_config*]
 #   Whether or not to purge all settings in keystone.conf
 #   Defaults to true
 #
 # === Example Usage
 #
-# Please see the `manifests/examples` directory.
+# Please see the `examples` directory.
 #
 class cubbystack::keystone (
   $settings,
   $admin_password,
   $package_ensure  = latest,
+  $purge_config    = true,
   $service_enable  = true,
   $admin_email     = 'root@localhost',
-  $purge_resources = true
 ) {
 
   include ::cubbystack::params
 
   ## Meta settings and globals
   # Make sure keystone.conf exists before any configuration happens
-  File['/etc/keystone/keystone.conf'] -> Keystone_config<||>
+  Package['keystone'] -> Keystone_config<||>
 
   # Also, any changes to keystone.conf should restart the keystone service
   Keystone_config<||>             ~> Service['keystone']
@@ -62,10 +61,8 @@ class cubbystack::keystone (
   Service['keystone'] -> Keystone_user_role<||>
 
   # Purge all resources in keystone.conf
-  if ($purge_resources) {
-    resources { 'keystone_config':
-      purge => true,
-    }
+  resources { 'keystone_config':
+    purge => $purge_resources,
   }
 
   # Global file attributes

@@ -27,7 +27,7 @@
 #
 # === Example Usage
 #
-# Please see the `manifests/examples` directory.
+# Please see the `examples` directory.
 #
 define cubbystack::functions::create_keystone_endpoint (
   $service_name,

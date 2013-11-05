@@ -22,7 +22,7 @@
 #
 # === Example Usage
 #
-# Please see the `manifests/examples` directory.
+# Please see the `examples` directory.
 #
 class cubbystack::horizon (
   $package_ensure = latest,

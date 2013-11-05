@@ -11,18 +11,18 @@
 #   The status of the glance-registry service
 #   Defaults to true
 #
-# [*purge_resources*]
+# [*purge_config*]
 #   Whether or not to purge all settings in glance-registry.conf
 #   Defaults to true
 #
 # === Example Usage
 #
-# Please see the `manifests/examples` directory.
+# Please see the `examples` directory.
 #
 class cubbystack::glance::registry (
   $settings,
-  $service_enable  = true,
-  $purge_resources = true
+  $service_enable = true,
+  $purge_config   = true,
 ) {
 
   include ::cubbystack::params
@@ -37,10 +37,8 @@ class cubbystack::glance::registry (
   Glance_registry_config<||> ~> Service['glance-registry']
 
   # Purge all resources in the Glance config files
-  if ($purge_resources) {
-    resources { 'glance_registry_config':
-      purge => true,
-    }
+  resources { 'glance_registry_config':
+    purge => $purge_resources,
   }
 
   # Default tags

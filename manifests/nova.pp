@@ -11,39 +11,33 @@
 #   The status of the nova-common package
 #   Defaults to latest
 #
-# [*purge_resources*]
+# [*purge_config*]
 #   Whether or not to purge all settings in nova.conf
 #   Defaults to true
 #
 # === Example Usage
 #
-# Please see the `manifests/examples` directory.
+# Please see the `examples` directory.
 #
 class cubbystack::nova (
   $settings,
-  $package_ensure  = latest,
-  $purge_resources = true
+  $package_ensure     = latest,
+  $purge_config       = true,
 ) {
 
   include ::cubbystack::params
 
   ## Meta settings and globals
-
   # Make sure nova is installed before configuration begins
   Package<| tag == 'nova' |> -> Nova_config<||>
-  Package<| tag == 'nova' |> -> Nova_paste_api_ini<||>
-  Nova_config<||>            -> Service<| tag == 'nova' |>
-  Nova_paste_api_ini<||>     -> Service<| tag == 'nova' |>
+  Nova_config<||> -> Service<| tag == 'nova' |>
 
   # Restart nova services whenever nova.conf has been changed
-  Nova_config<||>             ~> Service<| tag == 'nova' |>
-  Nova_paste_api_ini<||>      ~> Service<| tag == 'nova' |>
+  Nova_config<||> ~> Service<| tag == 'nova' |>
 
-  # Purge all resources in nova.conf
-  if ($purge_resources) {
-    resources { 'nova_config':
-      purge => true,
-    }
+  # Purge nova resources
+  resources { 'nova_config':
+    purge => $purge_config,
   }
 
   # Default tags to use
@@ -72,7 +66,6 @@ class cubbystack::nova (
     recurse => true,
   }
   file { '/etc/nova/nova.conf': }
-  file { '/etc/nova/api-paste.ini': }
   # nova-manage insists on 0644
   file { '/var/log/nova/nova-manage.log':
     mode => '0644',
@@ -84,6 +77,5 @@ class cubbystack::nova (
       value => $value,
     }
   }
-
 
 }

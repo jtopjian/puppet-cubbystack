@@ -18,7 +18,7 @@
 #
 # === Example Usage
 #
-# Please see the `manifests/examples` directory.
+# Please see the `examples` directory.
 define cubbystack::functions::create_system_user (
   $uid,
   $gid,

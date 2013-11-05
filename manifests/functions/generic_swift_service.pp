@@ -22,7 +22,7 @@
 #
 # === Example Usage
 #
-# Please see the `manifests/examples` directory.
+# Please see the `examples` directory.
 #
 define cubbystack::functions::generic_swift_service (
   $tags           = undef,

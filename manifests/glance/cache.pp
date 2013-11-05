@@ -11,17 +11,17 @@
 #   The status of the glance-cache service
 #   Defaults to true
 #
-# [*purge_resources*]
+# [*purge_config*]
 #   Whether or not to purge all settings in glance-cache.conf
 #   Defaults to true
 #
 # === Example Usage
 #
-# Please see the `manifests/examples` directory.
+# Please see the `examples` directory.
 #
 class cubbystack::glance::cache (
   $settings,
-  $purge_resources = true
+  $purge_config = true,
 ) {
 
   include ::cubbystack::params
@@ -31,10 +31,8 @@ class cubbystack::glance::cache (
   Package['glance'] -> Glance_cache_config<||>
 
   # Purge all resources in the Glance config files
-  if ($purge_resources) {
-    resources { 'glance_cache_config':
-      purge => true,
-    }
+  resources { 'glance_cache_config':
+    purge => $purge_resources,
   }
 
   # Default tags

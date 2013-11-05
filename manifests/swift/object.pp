@@ -15,19 +15,19 @@
 #   The status of the swift-object service.
 #   Defaults to true
 #
-# [*purge_resources*]
+# [*purge_config*]
 #   Whether or not to purge all settings in object-server.conf
 #   Defaults to true
 #
 # === Example Usage
 #
-# Please see the `manifests/examples` directory.
+# Please see the `examples` directory.
 #
 class cubbystack::swift::object (
   $settings,
-  $purge_resources = true,
+  $purge_config = true,
   $package_ensure  = latest,
-  $service_enable  = true
+  $service_enable  = true,
 ) {
 
   include ::cubbystack::params
@@ -39,11 +39,12 @@ class cubbystack::swift::object (
   Swift_object_config<||>     -> Service<| tag == 'swift' |>
 
   # Restart swift if the configuration changes
-  Swift_object_config<||>     ~> Service<| tag == 'swift' |>
+  Swift_object_config<||> ~> Service<| tag == 'swift' |>
 
   # Purge all resources in object-server.conf?
-  resources { 'swift_object_config':
-    purge => $purge_resources,
+  resources { 'cubbystack_config':
+    purge => $purge_config,
+    tag   => 'swift-object',
   }
 
   # Default tags
@@ -51,7 +52,7 @@ class cubbystack::swift::object (
 
   # object settings
   $settings.each { |$setting, $value|
-    swift_object_config { $setting:
+    swift_object_container { $setting:
       value => $value,
     }
   }
