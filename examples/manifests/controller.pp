@@ -1,23 +1,23 @@
-class cubbystack::roles::controller (
+class site::openstack::controller (
   $horizon_config_file = 'puppet:///modules/cubbystack/horizon/local_settings.py'
 ) {
 
-  anchor { 'cubbystack::roles::controller': }
+  anchor { 'site::openstack::controller': }
 
   Class {
-    require => Anchor['cubbystack::roles::controller']
+    require => Anchor['site::openstack::controller']
   }
 
-  class { 'cubbystack::roles::controller::users': } ->
-  class { 'cubbystack::roles::controller::packages': } ->
-  class { 'cubbystack::roles::controller::memcached': } ->
-  class { 'cubbystack::roles::controller::mysql': } ->
-  class { 'cubbystack::roles::controller::rabbitmq': } ->
-  class { 'cubbystack::roles::controller::keystone': } ->
-  class { 'cubbystack::roles::controller::glance': } ->
-  class { 'cubbystack::roles::controller::cinder': } ->
-  class { 'cubbystack::roles::controller::nova': } ->
-  class { 'cubbystack::roles::controller::horizon':
+  class { 'site::openstack::controller::users': } ->
+  class { 'site::openstack::controller::packages': } ->
+  class { 'site::openstack::controller::memcached': } ->
+  class { 'site::openstack::controller::mysql': } ->
+  class { 'site::openstack::controller::rabbitmq': } ->
+  class { 'site::openstack::controller::keystone': } ->
+  class { 'site::openstack::controller::glance': } ->
+  class { 'site::openstack::controller::cinder': } ->
+  class { 'site::openstack::controller::nova': } ->
+  class { 'site::openstack::controller::horizon':
     config_file => $horizon_config_file,
   }
 

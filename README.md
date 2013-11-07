@@ -24,13 +24,13 @@ My initial solution was to compose my own OpenStack module using the individual 
 
 ### Philosophy
 
-The first rule of cubbystack is that there will *never* be a one-size-fits-all OpenStack module. It's simply not possible. One could even argue that the very existence of one goes against what makes OpenStack so great: the almost limitless possibilities you have to building an IaaS environment.
+The first idea of cubbystack is that there will *never* be a one-size-fits-all OpenStack module. It's simply not possible. One could even argue that the very existence of one goes against what makes OpenStack so great: the almost limitless possibilities you have to building an IaaS environment.
 
 cubbystack will assist you in configuring the various OpenStack components, but it will not help you apply them to your environment. For example, cubbystack can install and configure Horizon, but it will not install and configure Apache. That's your responsibility. cubbystack doesn't know or care if you're also running Nagios on the same server as Horizon. Or if you want to use Nginx instead of Apache.
 
 OpenStack can have a lot of dependant components such as KVM, RabbitMQ, MySQL, and memcache. Configuring these components yourself will take some time and effort. But the trade-off is the ability to use the same cubbystack framework with KVM, RabbitMQ, MySQL as Xen, ZeroMQ, and PostgreSQL.
 
-The second rule of cubbystack is that manifest parameters will be kept to a minimum. OpenStack has [a lot](http://docs.openstack.org/havana/config-reference/content/) of configuration options. Configuration options are added and dropped between OpenStack releases. The options that stay between releases can have their default value changed. Translating manifest parameters into these configuration options is not scalable or maintainable. Even the reference tables in the official [guide](http://docs.openstack.org/havana/config-reference/content/) are automatically generated from the OpenStack source code.
+The second idea of cubbystack is that manifest parameters will be kept to a minimum. OpenStack has [a lot](http://docs.openstack.org/havana/config-reference/content/) of configuration options. Configuration options are added and dropped between OpenStack releases. The options that stay between releases can have their default value changed. Translating manifest parameters into these configuration options is not scalable or maintainable. Even the reference tables in the official [guide](http://docs.openstack.org/havana/config-reference/content/) are automatically generated from the OpenStack source code.
 
 It would be great if every OpenStack configuration option could have a corresponding Puppet manifest parameter that has the correct default value and does proper value validation, but I feel that the time and effort involved with doing that is just too much.
 
@@ -47,7 +47,7 @@ This gives you the benefit of being able to specify *any* OpenStack configuratio
 
 There are some caveats to this:
 
-1. Sometimes a manifest needs to know about a configuration option. Hence Rule #2 being about *minimum* parameters -- not zero parameters.
+1. Sometimes a manifest needs to know about a configuration option. Hence Idea #2 being about *minimum* parameters -- not zero parameters.
 2. Each Linux distribution provides its own set of default configuration files. Sometimes the defaults are sane and sometimes not. To help with this, cubbystack can either keep these default values or *purge* them and only use the ones you specify.
 3. Knowing what configuration options to use can be hard and intimidating to beginners, but just like the trade-off with having to configure RabbitMQ, KVM, etc, I believe this is well worth the flexibility that is gained in the end.
 
@@ -79,7 +79,7 @@ cubbystack_config { '/etc/nova/nova.conf DEFAULT/verbose':
 }
 ```
 
-There are benefits to this, such as being able to have configuration files in other directories (such as `/opt` for source-based installs) as well as automatic support for new configuration files.
+The benefits of this single `type` include the ability to have configuration files in other directories (such as `/opt` for source-based installs), configuration files with non-standard names (such as `nova-compute.conf`), and automatic support for new OpenStack projects' config files.
 
 Unfortunately such a `type` is not possible with Puppet. The limiting factor would be the inability to `purge` the config file of unmanaged options. This is a deal-breaker to me.
 
