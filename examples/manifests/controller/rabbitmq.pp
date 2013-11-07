@@ -10,7 +10,7 @@ class site::openstack::controller::rabbitmq {
     require => Anchor['site::openstack::controller::rabbitmq']
   }
 
-  class { 'rabbitmq':
+  class { '::rabbitmq::server':
     delete_guest_user => $delete_guest_user,
   }
 
@@ -21,7 +21,7 @@ class site::openstack::controller::rabbitmq {
     rabbitmq_user { $user:
       admin    => true,
       password => $password,
-      require  => Class['rabbitmq::server'],
+      require  => Class['::rabbitmq::server'],
     }
     rabbitmq_user_permissions { "${user}@${vhost}":
       configure_permission => '.*',
@@ -31,6 +31,6 @@ class site::openstack::controller::rabbitmq {
   }
 
   rabbitmq_vhost { $vhost:
-    require => Class['rabbitmq::server'],
+    require => Class['::rabbitmq::server'],
   }
 }

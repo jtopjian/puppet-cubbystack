@@ -45,7 +45,7 @@ class site::openstack::controller::nova {
 
   ## Generate an openrc file
   ::cubbystack::functions::create_openrc { '/root/openrc':
-    controller_node      => hiera('cloud_controller'),
+    keystone_host        => hiera('keystone_host'),
     admin_password       => hiera('keystone_admin_password'),
     keystone_admin_token => hiera('keystone_admin_token'),
     admin_tenant         => hiera('keystone_admin_tenant'),

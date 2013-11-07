@@ -40,7 +40,7 @@ class site::openstack::swift::proxy {
 
   class { '::cubbystack::swift::proxy':
     settings        => hiera('swift_proxy_settings'),
-    purge_resources => true,
+    purge_config => true,
   }
 
 

@@ -9,7 +9,7 @@ class site::openstack::controller::keystone {
   class { '::cubbystack::keystone':
     settings        => hiera_hash('keystone_settings'),
     admin_password  => hiera('keystone_admin_password'),
-    purge_resources => false,
+    purge_config => false,
   }
 
   class { 'site::openstack::controller::keystone::endpoints': }

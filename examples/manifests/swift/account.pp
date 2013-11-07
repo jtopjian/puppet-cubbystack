@@ -24,6 +24,6 @@ class site::openstack::swift::account {
 
   class { '::cubbystack::swift::account':
     settings        => $settings['account'],
-    purge_resources => $purge_resources,
+    purge_config => $purge_config,
   }
 }

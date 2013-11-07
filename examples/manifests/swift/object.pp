@@ -24,6 +24,6 @@ class site::openstack::swift::object {
 
   class { '::cubbystack::swift::object':
     settings        => $settings['object'],
-    purge_resources => $purge_resources,
+    purge_config => $purge_config,
   }
 }

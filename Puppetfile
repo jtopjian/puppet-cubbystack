@@ -17,7 +17,8 @@ mod 'swift',
 mod 'mysql',
     :git => 'https://github.com/puppetlabs/puppetlabs-mysql'
 mod 'rabbitmq',
-    :git => 'https://github.com/puppetlabs/puppetlabs-rabbitmq'
+    :git => 'https://github.com/puppetlabs/puppetlabs-rabbitmq',
+    :ref => '2.1.0'
 mod 'inifile',
     :git => 'https://github.com/puppetlabs/puppetlabs-inifile'
 mod 'ssh',
