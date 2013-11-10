@@ -7,7 +7,7 @@
 # [*settings*]
 #   A hash of key => value settings to go in cinder.conf
 #
-# [*config_path*]
+# [*config_file*]
 #   The path to cinder.conf
 #   Defaults to /etc/cinder/cinder.conf
 #
@@ -15,38 +15,27 @@
 #   The status of the cinder-common package
 #   Defaults to latest
 #
-# [*purge_config*]
-#   Whether or not to purge all settings in cinder.conf
-#   Defaults to true
-#
 # === Example Usage
 #
 # Please see the `examples` directory.
 #
 class cubbystack::cinder (
   $settings,
-  $package_ensure     = latest,
-  $purge_config       = true,
+  $package_ensure = latest,
+  $config_file    = '/etc/cinder/cinder.conf',
 ) {
 
   include ::cubbystack::params
 
   ## Meta settings and globals
+  $tags = ['openstack', 'cinder']
 
   # Make sure cinder is installed before configuration begins
-  Package<| tag == 'cinder' |> -> Cinder_config<||>
-  Cinder_config<||>            -> Service<| tag == 'cinder' |>
+  Package<| tag == 'cinder' |>           -> Cubbystack_config<| tag == 'cinder' |>
+  Cubbystack_config<| tag == 'cinder' |> -> Service<| tag == 'cinder' |>
 
   # Restart cinder services whenever cinder.conf has been changed
-  Cinder_config<||> ~> Service<| tag == 'cinder' |>
-
-  # Purge cinder resources
-  resources { 'cinder_config':
-    purge => $purge_resources,
-  }
-
-  # Default tags to use
-  $tags = ['openstack', 'cinder']
+  Cubbystack_config<| tag == 'cinder' |> ~> Service<| tag == 'cinder' |>
 
   # Global file attributes
   File {
@@ -67,13 +56,13 @@ class cubbystack::cinder (
 
   ## Cinder configuration files
   file { '/var/log/cinder': ensure => directory }
-  file { '/etc/cinder/cinder.conf': }
+  file { $config_file: }
 
-  ## Configure cinder.conf
-
+  # Configure cinder.conf
   $settings.each { |$setting, $value|
-    cinder_config { $setting:
+    cubbystack_config { "${config_file}: ${setting}":
       value => $value,
+      tag   => $tags,
     }
   }
 

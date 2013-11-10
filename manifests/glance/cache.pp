@@ -11,9 +11,9 @@
 #   The status of the glance-cache service
 #   Defaults to true
 #
-# [*purge_config*]
-#   Whether or not to purge all settings in glance-cache.conf
-#   Defaults to true
+# [*config_file*]
+#   The path to glance-cache.conf
+#   Defaults to /etc/glance/glance-cache.conf.
 #
 # === Example Usage
 #
@@ -21,22 +21,16 @@
 #
 class cubbystack::glance::cache (
   $settings,
-  $purge_config = true,
+  $config_file = true,
 ) {
 
   include ::cubbystack::params
 
   ## Meta settings and globals
-  # Make sure Glance is installed before any configuration happens
-  Package['glance'] -> Glance_cache_config<||>
-
-  # Purge all resources in the Glance config files
-  resources { 'glance_cache_config':
-    purge => $purge_resources,
-  }
-
-  # Default tags
   $tags = ['openstack', 'glance', 'glance-cache']
+
+  # Make sure Glance is installed before any configuration happens
+  Package['glance'] -> Cubbystack_config<| tag == 'glance-cache' |>
 
   File {
     ensure  => present,
@@ -48,12 +42,13 @@ class cubbystack::glance::cache (
   }
 
   ## Glance cache configuration
-  file { '/etc/glance/glance-cache.conf': }
+  file { $config_file: }
 
   # Configure the Cache service
   $settings.each { |$setting, $value|
-    glance_cache_config { $setting:
+    cubbystack_config { "${config_file}: ${setting}":
       value => $value,
+      tag   => $tags,
     }
   }
 

@@ -15,9 +15,9 @@
 #   The status of the swift-account service.
 #   Defaults to true
 #
-# [*purge_config*]
-#   Whether or not to purge all settings in account-server.conf
-#   Defaults to true
+# [*config_file*]
+#   The path to account-server.conf
+#   Defaults to /etc/swift/account-server.conf
 #
 # === Example Usage
 #
@@ -25,34 +25,25 @@
 #
 class cubbystack::swift::account (
   $settings,
-  $purge_config    = true,
-  $package_ensure  = latest,
-  $service_enable  = true,
+  $package_ensure = latest,
+  $service_enable = true,
+  $config_file    = '/etc/swift/account-server.conf',
 ) {
 
   include ::cubbystack::params
   include ::cubbystack::swift
 
-  # Make sure swift is installed before configuration happens
-  # Make sure swift is configured before the service starts
-  Package<| tag == 'swift' |> -> Swift_account_config<||>
-  Swift_account_config<||>    -> Service<| tag == 'swift' |>
+  ## Meta settings and globals
+  $tags = ['openstack', 'swift', 'swift-account']
 
-  # Restart swift if the configuration changes
-  Swift_account_config<||> ~> Service<| tag == 'swift' |>
-
-  # Purge all resources in account-server.conf?
-  resources { 'swift_account_config':
-    purge => $purge_config,
-  }
-
-  # Default tags
-  $tags = ['openstack', 'swift']
+  # Restart account-server if the configuration changes
+  Cubbystack_config<| tag == 'swift-account' |> ~> Service<| tag == 'swift-account' |>
 
   # account settings
   $settings.each { |$setting, $value|
-    swift_account_config { $setting:
+    cubbystack_config { "${config_file}: ${setting}":
       value => $value,
+      tag   => $tags,
     }
   }
 
@@ -63,16 +54,18 @@ class cubbystack::swift::account (
     $service_ensure = 'stopped'
   }
 
+  # Install the account server and manage its service
   cubbystack::functions::generic_swift_service { 'account':
     service_enable => $service_enable,
     package_ensure => $package_ensure,
-    tags           => $::cubbystack::swift::tags,
+    tags           => $tags,
   }
 
+  # Manage the supplemental swift-account-auditor service
   service { 'swift-account-auditor':
     name   => $::cubbystack::params::swift_account_auditor_service_name,
     enable => $service_enable,
     ensure => $service_ensure,
-    tag    => $::cubbystack::swift::tags,
+    tag    => $tags,
   }
 }

@@ -18,13 +18,13 @@
 #   The status of the keystone service
 #   Defaults to true
 #
+# [*config_file*]
+#   The path to keystone.conf
+#   Defaults to /etc/keystone/keystone.conf.
+#
 # [*admin_email*]
 #   The email address of the Keystone admin
 #   Defaults to root@localhost
-#
-# [*purge_config*]
-#   Whether or not to purge all settings in keystone.conf
-#   Defaults to true
 #
 # === Example Usage
 #
@@ -34,14 +34,16 @@ class cubbystack::keystone (
   $settings,
   $admin_password,
   $package_ensure  = latest,
-  $purge_config    = true,
   $service_enable  = true,
+  $config_file     = '/etc/keystone/keystone.conf',
   $admin_email     = 'root@localhost',
 ) {
 
   include ::cubbystack::params
 
   ## Meta settings and globals
+  $tags = ['keystone', 'openstack']
+
   # Make sure keystone.conf exists before any configuration happens
   Package['keystone'] -> Keystone_config<||>
 
@@ -51,7 +53,7 @@ class cubbystack::keystone (
 
   # Order the db sync correctly
   Package['keystone'] ~> Exec['keystone-manage db_sync']
-  Keystone_config<||> -> Exec['keystone-manage db_sync']
+  Cubbystack_config<| tag == 'keystone' |> -> Exec['keystone-manage db_sync']
   Exec['keystone-manage db_sync'] -> Service['keystone']
 
   # Other ordering
@@ -60,28 +62,25 @@ class cubbystack::keystone (
   Service['keystone'] -> Keystone_role<||>
   Service['keystone'] -> Keystone_user_role<||>
 
-  # Purge all resources in keystone.conf
-  resources { 'keystone_config':
-    purge => $purge_resources,
-  }
-
   # Global file attributes
   File {
     ensure  => present,
     owner   => 'keystone',
     group   => 'keystone',
     mode    => '0640',
-    tag     => ['keystone', 'openstack'],
+    tag     => $tags,
     require => Package['keystone'],
   }
 
   ## Keystone configuration
+
+  # Install keystone and manage its service
   cubbystack::functions::generic_service { 'keystone':
     package_ensure => $package_ensure,
     service_enable => $service_enable,
     package_name   => $::cubbystack::params::keystone_package_name,
     service_name   => $::cubbystack::params::keystone_service_name,
-    tags           => ['keystone', 'openstack'],
+    tags           => $tags,
   }
 
   # Some keystone files
@@ -89,14 +88,15 @@ class cubbystack::keystone (
     ['/etc/keystone', '/var/log/keystone', '/var/lib/keystone']:
       ensure  => directory,
       recurse => true;
-    '/etc/keystone/keystone.conf':
+    $config_file:
       mode => '0600';
   }
 
   # Configure the keystone.conf file
   $settings.each { |$setting, $value|
-    keystone_config { $setting:
+    cubbystack_config { "${config_file}: ${setting}":
       value => $value,
+      tag   => $tags,
     }
   }
 

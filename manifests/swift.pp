@@ -4,17 +4,13 @@
 #
 # === Parameters
 #
-# [*swift_hash_path_suffix*]
-#   The hash path suffix to use.
+# [*settings*]
+#   A hash of key => value settings to go in swift.conf
 #   Required.
 #
-# [*config_path*]
+# [*config_file*]
 #   The path to swift.conf
 #   Defaults to /etc/swift/swift.conf
-#
-# [*purge_config*]
-#   Whether or not to purge all settings in swift.conf
-#   Defaults to true
 #
 # [*package_ensure*]
 #   The state of the swift package.
@@ -25,31 +21,29 @@
 # Please see the `examples` directory.
 #
 class cubbystack::swift (
-  $swift_hash_path_suffix,
+  $settings,
   $package_ensure = latest,
-  $config_path    = '/etc/swift/swift.conf',
+  $config_file    = '/etc/swift/swift.conf',
   $purge_config   = true,
 ) {
 
   include ::cubbystack::params
 
   # Meta and globals
-  Package['swift'] -> Cubbystack_config<| tag == 'swift' |>
   $tags = 'swift'
 
+  # Make sure swift.conf exists before any configuration happens
+  Package<| tag == 'swift' |> -> Cubbystack_config<| tag == 'swift' |>
+  Cubbystack_config<| tag == 'swift' |> -> Service<| tag == 'swift' |>
+
+  # Install the swift package
   package { 'swift':
     name   => $::cubbystack::params::swift_package_name,
     ensure => $package_ensure,
+    tag    => $tags,
   }
 
-  # Purge swift resources
-  if ($purge_config) {
-    resources { 'cubbystack_config':
-      purge => true,
-      tag   => 'swift',
-    }
-  }
-
+  # Global file attributes
   File {
     ensure  => present,
     owner   => 'swift',
@@ -64,9 +58,11 @@ class cubbystack::swift (
     recurse => true;
   }
 
-  cubbystack_config { 'swift-hash/swift_hash_path_suffix':
-    value => $swift_hash_path_suffix,
-    path  => $config_path,
-    tag   => 'swift',
+  # Configure the swift.conf file
+  $settings.each { |$setting, $value|
+    cubbystack_config { "${config_file}: ${setting}":
+      value => $value,
+      tag   => $tags,
+    }
   }
 }

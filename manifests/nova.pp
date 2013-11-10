@@ -11,9 +11,9 @@
 #   The status of the nova-common package
 #   Defaults to latest
 #
-# [*purge_config*]
-#   Whether or not to purge all settings in nova.conf
-#   Defaults to true
+# [*config_file*]
+#   The path to nova.conf
+#   Defaults to /etc/nova/nova.conf
 #
 # === Example Usage
 #
@@ -21,27 +21,21 @@
 #
 class cubbystack::nova (
   $settings,
-  $package_ensure     = latest,
-  $purge_config       = true,
+  $package_ensure = latest,
+  $config_file    = '/etc/nova/nova.conf',
 ) {
 
   include ::cubbystack::params
 
   ## Meta settings and globals
+  $tags = ['openstack', 'nova']
+
   # Make sure nova is installed before configuration begins
-  Package<| tag == 'nova' |> -> Nova_config<||>
-  Nova_config<||> -> Service<| tag == 'nova' |>
+  Package<| tag == 'nova' |> -> Cubbystack_config<| tag == 'nova' |>
+  Cubbystack_config<| tag == 'nova' |> -> Service<| tag == 'nova' |>
 
   # Restart nova services whenever nova.conf has been changed
-  Nova_config<||> ~> Service<| tag == 'nova' |>
-
-  # Purge nova resources
-  resources { 'nova_config':
-    purge => $purge_config,
-  }
-
-  # Default tags to use
-  $tags = ['openstack', 'nova']
+  Cubbystack_config<| tag == 'nova' |> ~> Service<| tag == 'nova' |>
 
   # Global file attributes
   File {
@@ -65,7 +59,7 @@ class cubbystack::nova (
     ensure  => directory,
     recurse => true,
   }
-  file { '/etc/nova/nova.conf': }
+  file { $config_file: }
   # nova-manage insists on 0644
   file { '/var/log/nova/nova-manage.log':
     mode => '0644',
@@ -73,8 +67,9 @@ class cubbystack::nova (
 
   ## Configure nova.conf
   $settings.each { |$setting, $value|
-    nova_config { $setting:
+    cubbystack_config { "${config_file}: ${setting}":
       value => $value,
+      tag   => $tags,
     }
   }
 
