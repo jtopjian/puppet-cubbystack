@@ -18,18 +18,11 @@ class site::openstack::compute::nova {
 
   $multi_host = $nova_settings['conf']['DEFAULT/multi_host']
   if ($multi_host) {
-    # Install / configure nova-compute
-    class { '::cubbystack::nova::api': }
-
     # Keystone authentication
     class { '::cubbystack::nova::keystone':
       settings => $nova_settings['paste'],
     }
 
-    class { '::cubbystack::nova::network':
-      create_networks   => false,
-      fixed_range       => $nova_settings['conf']['DEFAULT/fixed_range'],
-      private_interface => $nova_settings['conf']['DEFAULT/flat_interface'],
-    }
+    class { '::cubbystack::nova::network': }
   }
 }

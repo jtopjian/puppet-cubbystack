@@ -21,7 +21,7 @@
 #
 class cubbystack::glance::cache (
   $settings,
-  $config_file = true,
+  $config_file = '/etc/glance/glance-cache.conf',
 ) {
 
   include ::cubbystack::params

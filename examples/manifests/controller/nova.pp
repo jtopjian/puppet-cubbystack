@@ -35,12 +35,7 @@ class site::openstack::controller::nova {
   # Configure nova-network
   $multi_host = $nova_settings['conf']['DEFAULT/multi_host']
   if ($multi_host == false) {
-    class { '::cubbystack::nova::network':
-      create_networks   => false,
-      private_interface => hiera('network_interface'),
-      network_manager   => $nova_settings['conf']['DEFAULT/network_manager'],
-      fixed_range       => $nova_settings['conf']['DEFAULT/fixed_range'],
-    }
+    class { '::cubbystack::nova::network': }
   }
 
   ## Generate an openrc file

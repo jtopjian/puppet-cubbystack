@@ -51,8 +51,6 @@ nova_mysql_dbname:        'nova'
 nova_keystone_password:   'password'
 nova_mysql_password:      'password'
 floating_range:           false
-fixed_range:              '10.10.0.0/16'
-num_networks:             5
 
 # Cinder
 cinder_mysql_dbname:      'cinder'
@@ -118,6 +116,7 @@ glance_settings:
     'keystone_authtoken/admin_tenant_name': 'services'
     'keystone_authtoken/admin_user':        'glance'
     'keystone_authtoken/admin_password':    'password'
+    'paste_deploy/flavor':                  'keystone'
   cache:
     'DEFAULT/use_syslog':               true
     'DEFAULT/syslog_log_facility':      'LOG_LOCAL1'
@@ -128,6 +127,7 @@ glance_settings:
     'DEFAULT/auth_url':                 'http://192.168.1.1:5000/v2.0/'
     'DEFAULT/admin_tenant_name':        'services'
     'DEFAULT/admin_user':               'glance'
+    'DEFAULT/admin_password':           'password'
   registry:
     'DEFAULT/use_syslog':                   true
     'DEFAULT/syslog_log_facility':          'LOG_LOCAL1'
@@ -167,12 +167,19 @@ nova_settings:
     'DEFAULT/novncproxy_base_url':             'http://192.168.1.1:6080/vnc_auto.html'
     'DEFAULT/instance_usage_audit_period':     'hour'
     'DEFAULT/instance_usage_audit':            true
+    'DEFAULT/network_manager':                 'nova.network.manager.FlatDHCPManager'
+    'DEFAULT/fixed_range':                     '10.10.10.0/24'
+    'DEFAULT/num_networks':                    1
+    'DEFAULT/network_size':                    255
+    'DEFAULT/flat_interface':                  'eth1'
+    'DEFAULT/flat_network_bridge':             'br0'
   paste:
     'filter:authtoken/auth_host':         '192.168.1.1'
     'filter:authtoken/auth_port':         35357
     'filter:authtoken/auth_protocol':     'http'
     'filter:authtoken/admin_tenant_name': 'services'
     'filter:authtoken/admin_user':        'nova'
+    'filter:authtoken/admin_password':    'password'
 
 # Cinder settings
 cinder_settings:
@@ -259,7 +266,7 @@ swift_settings:
     'filter:authtoken/auth_host':                '192.168.1.1'
     'filter:authtoken/auth_port':                35357
     'filter:authtoken/auth_protocol':            'http'
-    'filter:authtoken/auth_uri':                 'http://192.168.1.1:5000'
+    'filter:authtoken/auth_uri':                 'http://192.168.1.1:35357'
     'filter:authtoken/admin_tenant_name':        'services'
     'filter:authtoken/admin_user':               'swift'
     'filter:authtoken/admin_password':           'password'
