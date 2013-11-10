@@ -10,18 +10,15 @@ class site::openstack::controller::glance {
 
   class { '::cubbystack::glance': }
   class { '::cubbystack::glance::api':
-    settings        => $glance_settings['api'],
-    purge_config => false,
+    settings => $glance_settings['api'],
   }
 
   class { '::cubbystack::glance::registry':
-    settings        => $glance_settings['registry'],
-    purge_config => false,
+    settings => $glance_settings['registry'],
   }
 
   class { '::cubbystack::glance::cache':
-    settings        => $glance_settings['cache'],
-    purge_config => false,
+    settings => $glance_settings['cache'],
   }
 
   class { '::cubbystack::glance::db_sync': }

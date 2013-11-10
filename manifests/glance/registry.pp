@@ -11,9 +11,9 @@
 #   The status of the glance-registry service
 #   Defaults to true
 #
-# [*purge_config*]
-#   Whether or not to purge all settings in glance-registry.conf
-#   Defaults to true
+# [*config_file*]
+#   The path to glance-registry.conf
+#   Defaults to /etc/glance/glance-registry.conf
 #
 # === Example Usage
 #
@@ -22,27 +22,21 @@
 class cubbystack::glance::registry (
   $settings,
   $service_enable = true,
-  $purge_config   = true,
+  $config_file    = '/etc/glance/glance-registry.conf',
 ) {
 
   include ::cubbystack::params
 
   ## Meta settings and globals
+  $tags = ['openstack', 'glance', 'glance-registry']
+
   # Make sure Glance is installed before any configuration happens
   # Make sure Glance Registry is configured before the service starts
-  Package['glance']          -> Glance_registry_config<||>
-  Glance_registry_config<||> -> Service['glance-registry']
+  Package['glance'] -> Cubbystack_config<| tag == 'glance-registry' |>
+  Cubbystack_config<| tag == 'glance-registry' |> -> Service['glance-registry']
 
   # Restart glance after any config changes
-  Glance_registry_config<||> ~> Service['glance-registry']
-
-  # Purge all resources in the Glance config files
-  resources { 'glance_registry_config':
-    purge => $purge_resources,
-  }
-
-  # Default tags
-  $tags = ['openstack', 'glance', 'glance-registry']
+  Cubbystack_config<| tag == 'glance-registry' |> ~> Service['glance-registry']
 
   File {
     ensure  => present,
@@ -55,12 +49,13 @@ class cubbystack::glance::registry (
   }
 
   ## Glance Registry configuration
-  file { '/etc/glance/glance-registry.conf': }
+  file { $config_file: }
 
   # Configure the Registry service
   $settings.each { |$setting, $value|
-    glance_registry_config { $setting:
+    cubbystack_config { "${config_file}: ${setting}":
       value => $value,
+      tag   => $tags,
     }
   }
 

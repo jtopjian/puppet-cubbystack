@@ -15,9 +15,9 @@
 #   The status of the swift-proxy service.
 #   Defaults to true
 #
-# [*purge_config*]
-#   Whether or not to purge all settings in proxy-server.conf
-#   Defaults to true
+# [*config_file*]
+#   The path to proxy-server.conf
+#   Defaults to /etc/swift/proxy-server.conf
 #
 # === Example Usage
 #
@@ -25,42 +25,34 @@
 #
 class cubbystack::swift::proxy (
   $settings,
-  $purge_config    = true,
-  $package_ensure  = latest,
-  $service_enable  = true,
+  $package_ensure = latest,
+  $service_enable = true,
+  $config_file    = '/etc/swift/proxy-server.conf',
 ) {
 
   include ::cubbystack::params
   include ::cubbystack::swift
 
-  # Make sure swift is installed before configuration happens
-  # Make sure swift is configured before the service starts
-  Package<| tag == 'swift' |> -> Swift_proxy_config<||>
-  Swift_proxy_config<||>      -> Service<| tag == 'swift' |>
+  # Meta settings and globals
+  $tags = ['openstack', 'swift', 'swift-proxy']
 
-  # Restart swift if the configuration changes
-  Swift_proxy_config<||> ~> Service<| tag == 'swift' |>
-
-  # Purge all resources in proxy-server.conf?
-  resources { 'swift_proxy_config':
-    purge => $purge_config,
-  }
-
-  # Default tags
-  $tags = ['openstack', 'swift']
+  # Restart proxy-server if the configuration changes
+  Cubbystack_config<| tag == 'swift-proxy' |> ~> Service<| tag == 'swift-proxy' |>
 
   # proxy settings
   $settings.each { |$setting, $value|
-    swift_proxy_config { $setting:
+    cubbystack_config { "${config_file}: ${setting}":
       value => $value,
+      tag   => $tags,
     }
   }
 
+  # Install the swift-proxy package and manage its service
   cubbystack::functions::generic_service { 'swift-proxy':
     service_enable => $service_enable,
     package_ensure => $package_ensure,
     package_name   => $::cubbystack::params::swift_proxy_package_name,
     service_name   => $::cubbystack::params::swift_proxy_service_name,
-    tags           => $::cubbystack::swift::tags,
+    tags           => $tags,
   }
 }

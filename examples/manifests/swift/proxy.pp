@@ -39,8 +39,7 @@ class site::openstack::swift::proxy {
   } ->
 
   class { '::cubbystack::swift::proxy':
-    settings        => hiera('swift_proxy_settings'),
-    purge_config => true,
+    settings => hiera('swift_proxy_settings'),
   }
 
 

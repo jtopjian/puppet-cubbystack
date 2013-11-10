@@ -23,7 +23,6 @@ class site::openstack::swift::container {
   }
 
   class { '::cubbystack::swift::container':
-    settings        => $settings['container'],
-    purge_config => $purge_config,
+    settings => $settings['container'],
   }
 }

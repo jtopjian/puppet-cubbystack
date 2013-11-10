@@ -9,12 +9,11 @@
 class cubbystack::nova::db_sync {
 
   # Order the db sync correctly
-  Package<| tag == 'nova' |>  ~> Exec['nova-manage db sync']
-  Exec['nova-manage db sync'] ~> Service<| tag == 'nova' |>
-  Nova_config<||>             -> Exec['nova-manage db sync']
-  Nova_paste_api_ini<||>      -> Exec['nova-manage db sync']
-  Exec['nova-manage db sync'] -> Nova_network<||>
-  Exec['nova-manage db sync'] -> Nova_floating<||>
+  Package<| tag == 'nova' |>           ~> Exec['nova-manage db sync']
+  Exec['nova-manage db sync']          ~> Service<| tag == 'nova' |>
+  Cubbystack_config<| tag == 'nova' |> -> Exec['nova-manage db sync']
+  Exec['nova-manage db sync']          -> Nova_network<||>
+  Exec['nova-manage db sync']          -> Nova_floating<||>
 
   # Configure the nova database
   exec { 'nova-manage db sync':

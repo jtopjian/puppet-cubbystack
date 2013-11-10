@@ -15,9 +15,9 @@
 #   The status of the swift-container service.
 #   Defaults to true
 #
-# [*purge_config*]
-#   Whether or not to purge all settings in container-server.conf
-#   Defaults to true
+# [*config_file*]
+#   The path to container-server.conf
+#   Defaults to /etc/swift/container-server.conf
 #
 # === Example Usage
 #
@@ -25,34 +25,25 @@
 #
 class cubbystack::swift::container (
   $settings,
-  $purge_config    = true,
-  $package_ensure  = latest,
-  $service_enable  = true,
+  $package_ensure = latest,
+  $service_enable = true,
+  $config_file    = '/etc/swift/container-server.conf',
 ) {
 
   include ::cubbystack::params
   include ::cubbystack::swift
 
-  # Make sure swift is installed before configuration happens
-  # Make sure swift is configured before the service starts
-  Package<| tag == 'swift' |> -> Swift_container_config<||>
-  Swift_container_config<||>  -> Service<| tag == 'swift' |>
+  ## Meta settings and globals
+  $tags = ['openstack', 'swift', 'swift-container']
 
-  # Restart swift if the configuration changes
-  Swift_container_config<||>  ~> Service<| tag == 'swift' |>
-
-  # Purge all resources in container-server.conf?
-  resources { 'swift_container_config':
-    purge => $purge_config,
-  }
-
-  # Default tags
-  $tags = ['openstack', 'swift']
+  # Restart container-server if the configuration changes
+  Cubbystack_config<| tag == 'swift-container' |>  ~> Service<| tag == 'swift-container' |>
 
   # container settings
   $settings.each { |$setting, $value|
-    swift_container_config { $setting:
+    cubbystack_config { "${config_file}: ${setting}":
       value => $value,
+      tag   => $tags,
     }
   }
 
@@ -63,23 +54,26 @@ class cubbystack::swift::container (
     $service_ensure = 'stopped'
   }
 
+  # Install the container server package and manage its service
   cubbystack::functions::generic_swift_service { 'container':
     service_enable => $service_enable,
     package_ensure => $package_ensure,
-    tags           => $::cubbystack::swift::tags,
+    tags           => $tags,
   }
 
+  # Manage the supplemental auditor service
   service { 'swift-container-auditor':
     name   => $::cubbystack::params::swift_container_auditor_service_name,
     enable => $service_enable,
     ensure => $service_ensure,
-    tag    => $::cubbystack::swift::tags,
+    tag    => $tags,
   }
 
+  # Manage the supplemental updater service
   service { 'swift-container-updater':
     name   => $::cubbystack::params::swift_container_updater_service_name,
     enable => $service_enable,
     ensure => $service_ensure,
-    tag    => $::cubbystack::swift::tags,
+    tag    => $tags,
   }
 }

@@ -23,7 +23,6 @@ class site::openstack::swift::account {
   }
 
   class { '::cubbystack::swift::account':
-    settings        => $settings['account'],
-    purge_config => $purge_config,
+    settings => $settings['account'],
   }
 }

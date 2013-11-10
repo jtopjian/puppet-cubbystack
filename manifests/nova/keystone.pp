@@ -4,8 +4,9 @@
 #
 # === Parameters
 #
-# [*settings*]
-#   A hash of key => value settings to go in ap-paste.ini
+# [*config_file*]
+#   The path to nova's api-paste.ini file
+#   Defaults to /etc/nova/api-paste.ini
 #
 # [*purge_config*]
 #   Whether or not to purge all settings in api-paste.ini
@@ -17,22 +18,10 @@
 #
 class cubbystack::nova::keystone (
   $settings,
-  $purge_config = false,
+  $config_file = '/etc/nova/api-paste.ini',
 ) {
 
   ## Meta settings and globals
-  # Make sure nova is installed before configuration begins
-  Package<| tag == 'nova' |> -> Nova_paste_api_ini<||>
-  Nova_paste_api_ini<||>     -> Service<| tag == 'nova' |>
-
-  # Restart nova services whenever api-paste.ini has been changed
-  Nova_paste_api_ini<||> ~> Service<| tag == 'nova' |>
-
-  resources { 'nova_paste_api_ini':
-    purge => $purge_config,
-  }
-
-  # Default tags to use
   $tags = ['openstack', 'nova']
 
   # Global file attributes
@@ -45,11 +34,12 @@ class cubbystack::nova::keystone (
     require => Package['nova-common'],
   }
 
-  file { '/etc/nova/api-paste.ini': }
+  file { $config_file: }
 
   $settings.each { |$setting, $value|
-    nova_paste_api_ini { $setting:
+    cubbystack_config { "${config_file}: ${setting}":
       value => $value,
+      tag   => $tags,
     }
   }
 }

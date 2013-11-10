@@ -62,7 +62,6 @@ cinder_mysql_password:    'password'
 
 # Swift
 swift_keystone_password: 'password'
-swift_hash_suffix:       'password'
 swift_part_power:        2
 swift_replicas:          3
 
@@ -204,6 +203,8 @@ cinder_settings:
 
 # Swift settings
 swift_settings:
+  conf:
+    swift_hash_suffix: 'password'
   account:
     'DEFAULT/devices':                '/srv/node'
     'DEFAULT/bind_port':              6002

@@ -11,9 +11,9 @@
 #   The status of the glance-api service
 #   Defaults to true
 #
-# [*purge_config*]
-#   Whether or not to purge all settings in glance-api.conf
-#   Defaults to true
+# [*config_file*]
+#   The path to glance-api.conf
+#   Defaults to /etc/glance/glance-api.conf
 #
 # === Example Usage
 #
@@ -22,27 +22,21 @@
 class cubbystack::glance::api (
   $settings,
   $service_enable = true,
-  $purge_config   = true,
+  $config_file    = '/etc/glance/glance-api.conf',
 ) {
 
   include ::cubbystack::params
 
   ## Meta settings and globals
+  $tags = ['openstack', 'glance', 'glance-api']
+
   # Make sure Glance is installed before any configuration happens
   # Make sure Glance API is configured before the service starts
-  Package['glance']     -> Glance_api_config<||>
-  Glance_api_config<||> -> Service['glance-api']
+  Package['glance'] -> Cubbystack_config<| tag == 'glance-api' |>
+  Cubbystack_config<| tag == 'glance-api' |> -> Service['glance-api']
 
   # Restart glance after any config changes
-  Glance_api_config<||> ~> Service['glance-api']
-
-  # Purge all resources in the Glance config files
-  resources { 'glance_api_config':
-    purge => $purge_config,
-  }
-
-  # Default tags
-  $tags = ['openstack', 'glance', 'glance-api']
+  Cubbystack_config<| tag == 'glance-api' |> ~> Service['glance-api']
 
   File {
     ensure  => present,
@@ -55,12 +49,13 @@ class cubbystack::glance::api (
   }
 
   ## Glance API configuration
-  file { '/etc/glance/glance-api.conf': }
+  file { $config_file: }
 
   # Configure the API service
   $settings.each { |$setting, $value|
-    glance_api_config { $setting:
+    cubbystack_config { "${config_file}: ${setting}":
       value => $value,
+      tag   => $tags,
     }
   }
 

@@ -9,11 +9,9 @@
 class cubbystack::glance::db_sync {
 
   # Order and notifications
-  Package<| tag == 'glance' |>  ~> Exec['glance-manage db_sync']
-  Glance_api_config<||>         -> Exec['glance-manage db_sync']
-  Glance_cache_config<||>       -> Exec['glance-manage db_sync']
-  Glance_registry_config<||>    -> Exec['glance-manage db_sync']
-  Exec['glance-manage db_sync'] -> Service<| tag == 'glance' |>
+  Package<| tag == 'glance' |>           ~> Exec['glance-manage db_sync']
+  Cubbystack_config<| tag == 'glance' |> -> Exec['glance-manage db_sync']
+  Exec['glance-manage db_sync']          -> Service<| tag == 'glance' |>
 
   exec { 'glance-manage db_sync':
     path        => '/usr/bin',
