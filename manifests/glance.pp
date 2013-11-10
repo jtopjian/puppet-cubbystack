@@ -1,11 +1,11 @@
 # == Class: cubbystack::glance
 #
-# Configures the cinder package
+# Configures the glance package
 #
 # === Parameters
 #
 # [*package_ensure*]
-#   The status of the cinder-common package
+#   The status of the glance package
 #   Defaults to latest
 #
 # === Example Usage

@@ -1,11 +1,12 @@
 # == Class: cubbystack::glance::api
 #
-# Configures the glance-api.conf file
+# Manages the glance-api service
 #
 # === Parameters
 #
-# [*settings*]
-#   A hash of key => value settings to go in glance-api.conf
+# [*config_file*]
+#   The path to a puppet-hosted static config file
+#   Required
 #
 # [*service_enable*]
 #   The status of the glance-api service

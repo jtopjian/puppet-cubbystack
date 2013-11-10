@@ -4,6 +4,10 @@
 #
 # === Parameters
 #
+# [*config_file*]
+#   The path to a puppet-hosted static config file
+#   Required
+#
 # [*settings*]
 #   A hash of key => value settings to go in cinder.conf
 #
