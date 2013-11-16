@@ -34,6 +34,9 @@ git clone https://github.com/puppetlabs/puppetlabs-rsync rsync
 # memcached
 git clone https://github.com/saz/puppet-memcached memcached
 
+# sysctl
+git clone https://github.com/puppetlabs/puppetlabs-sysctl sysctl
+
 # rabbitmq
 git clone https://github.com/puppetlabs/puppetlabs-rabbitmq rabbitmq
 cd /etc/puppet/modules/rabbitmq

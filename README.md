@@ -24,15 +24,21 @@ My initial solution was to compose my own OpenStack module using the individual 
 
 ### Philosophy
 
+#### Composition Over Monolithic
+
 The first idea of cubbystack is that there will *never* be a one-size-fits-all OpenStack module. It's simply not possible. One could even argue that the very existence of one goes against what makes OpenStack so great: the almost limitless possibilities you have to building an IaaS environment.
 
 cubbystack will assist you in configuring the various OpenStack components, but it will not help you apply them to your environment. For example, cubbystack can install and configure Horizon, but it will not install and configure Apache. That's your responsibility. cubbystack doesn't know or care if you're also running Nagios on the same server as Horizon. Or if you want to use Nginx instead of Apache.
 
 OpenStack can have a lot of dependant components such as KVM, RabbitMQ, MySQL, and memcache. Configuring these components yourself will take some time and effort. But the trade-off is the ability to use the same cubbystack framework with KVM, RabbitMQ, MySQL as Xen, ZeroMQ, and PostgreSQL.
 
-The second idea of cubbystack is that manifest parameters will be kept to a minimum. OpenStack has [a lot](http://docs.openstack.org/havana/config-reference/content/) of configuration options. Configuration options are added and dropped between OpenStack releases. The options that stay between releases can have their default value changed. Translating manifest parameters into these configuration options is not scalable or maintainable. Even the reference tables in the official [guide](http://docs.openstack.org/havana/config-reference/content/) are automatically generated from the OpenStack source code.
+#### OpenStack Options are not Puppet Parameters
 
-It would be great if every OpenStack configuration option could have a corresponding Puppet manifest parameter that has the correct default value and does proper value validation, but I feel that the time and effort involved with doing that is just too much.
+The second idea of cubbystack is that manifest parameters will be kept to a minimum.
+
+OpenStack has [a lot](http://docs.openstack.org/havana/config-reference/content/) of configuration options which are added and dropped between releases. The options that stay between releases can have their default values changed. This volatile activity is great for providing new features to OpenStack but it becomes too much work to translate them into Puppet module parameters. Even the reference tables in the official [guide](http://docs.openstack.org/havana/config-reference/content/) are automatically generated from the OpenStack source code.
+
+It would be great if every OpenStack configuration option could have a corresponding Puppet manifest parameter with the correct default value and proper value validation, but I feel that the time and effort involved with doing that is just too much.
 
 Instead, specify your configuration options as a hash:
 
@@ -48,50 +54,43 @@ This gives you the benefit of being able to specify *any* OpenStack configuratio
 There are some caveats to this:
 
 1. Sometimes a manifest needs to know about a configuration option. Hence Idea #2 being about *minimum* parameters -- not zero parameters.
-2. Each Linux distribution provides its own set of default configuration files. Sometimes the defaults are sane and sometimes not. To help with this, cubbystack can either keep these default values or *purge* them and only use the ones you specify.
+2. Each Linux distribution provides its own set of default configuration files. Sometimes the defaults are sane and sometimes not. Managing what values you want requires you to know them beforehand -- ie: test the distro's installation.
 3. Knowing what configuration options to use can be hard and intimidating to beginners, but just like the trade-off with having to configure RabbitMQ, KVM, etc, I believe this is well worth the flexibility that is gained in the end.
 
 ## Requirements
 
-### The PuppetLabs OpenStack Module Suite
+### The PuppetLabs OpenStack Modules
 
-It's a little ironic that an alternative module to the PuppetLabs OpenStack modules requires those exact modules. There's a good reason, though: The PuppetLabs OpenStack modules contain a series of `types` and `providers` to assist with building the various OpenStack configuration files. For example:
+It might seem ironic that an alternative to the PuppetLabs OpenStack Modules ends up requiring these modules, but there's good reason.
 
-```puppet
-nova_config { 'DEFAULT/verbose':
-  value => true,
-}
+#### puppetlabs-keystone
 
-cinder_config { 'DEFAULT/volume_driver':
-  value => 'cinder.volume.drivers.nfs.NfsDriver',
-}
-```
+This module comes with a great suite of type/providers to assist in creating Keystone users, projects, and roles. As long as these type/providers are compatible with cubbystack, there's no reason not to use them.
 
-There's nothing wrong with these types and providers and until I find a better solution or they become incompatible with cubbystack, I'll continue to use them.
+#### puppetlabs-nova
 
-#### Side-Note
-
-These types and providers contain a lot of repeated code, though. What'd I'd really like to be able to do is have one master `cubbystack_config` type that works like this:
-
-```puppet
-cubbystack_config { '/etc/nova/nova.conf DEFAULT/verbose':
-  value => true,
-}
-```
-
-The benefits of this single `type` include the ability to have configuration files in other directories (such as `/opt` for source-based installs), configuration files with non-standard names (such as `nova-compute.conf`), and automatic support for new OpenStack projects' config files.
-
-Unfortunately such a `type` is not possible with Puppet. The limiting factor would be the inability to `purge` the config file of unmanaged options. This is a deal-breaker to me.
+In order to create nova-network-based networks with Puppet, I recommend using the `nova_network` and `nova_floating` type/providers that are bundled with this module.
 
 ### Puppet
 
-You need to be using Puppet 3.2 or higher in order to take advantage of the iteration functionality.
+You need to be using Puppet 3.2 or higher in order to take advantage of the iteration functionality:
+
+```
+[master]
+parser = future
+```
 
 Hiera is recommended, but not a hard requirement.
 
+### Other
+
+Other requirements will be based on your own environment.
+
+If you use RabbitMQ, you'll obviously need a RabbitMQ module. See the `ext/deps.sh` script for a list of modules required to use the example manifests.
+
 ## Usage
 
-cubbystack has a set of manifests for almost all OpenStack components (no Quantum at this time). These can be found in the `manifests` directory. Please read and review these manifests -- there's nothing terribly advanced about them, but if you find yourself unable to understand them, I recommend brushing up on Puppet before trying to use this module in production.
+cubbystack has a set of manifests for almost all OpenStack components (no Neutron at this time). These can be found in the `manifests` directory. Please read and review these manifests -- there's nothing terribly advanced about them, but if you find yourself unable to understand them, I recommend brushing up on Puppet before trying to use this module in production.
 
 All components take a `$settings` parameter. This is a hash of `key => value` settings that ultimately turn into the configuration options for the various OpenStack configuration files. Please see the `examples/settings` directory for samples of hashes.
 
@@ -145,6 +144,46 @@ keystone_settings:
 ```
 
 All other components are configured similarly. If you choose to use Hiera and YAML, you can even combine settings from a `common.yaml` with role-specific settings for a Cloud Controller or Compute Node.
+
+### The cubbystack_config type
+
+This module comes with a custom type called `cubbystack_config`. It's a wrapper around the [puppetlabs/inifile](http://github.com/puppetlabs/puppetlabs-inifile) module's `ini_setting` type.
+
+You can use this type to add a setting to any configuration file:
+
+```puppet
+cubbystack_config { '/etc/nova/nova.conf: DEFAULT/verbose':
+  value => true,
+}
+
+cubbystack_config { '/etc/keystone/keystone.conf: token/driver':
+  value => 'keystone.token.backends.sql.Token',
+}
+```
+
+Internally, cubbystack simply applies `cubbystack_config` to each iteration of your `$settings` hash.
+
+#### Multiple Configuration Files
+
+A benefit to `cubbystack_config` is that you can specify *any* configuration file to apply the setting to.
+
+One reason you might want to do this is to add separate settings to `/etc/nova/nova-compute.conf` such as what's done in the Ubuntu package of `nova-compute`.
+
+Another benefit to this is the ability to support any OpenStack component that standardizes its configuration on an `ini` file. This allows a similar configuration pattern to be applied to all OpenStack projects.
+
+#### Purging
+
+The disadvantage of the `cubbystack_config` type is the inability to purge full `ini` files. This means that if a package provider installs unwanted default options, you must deal with this yourself.
+
+If you want to remove them, `cubbystack_config` has a syntactic trick: simply prepend the value of any setting with `--`:
+
+```puppet
+cubbystack_config { '/etc/nova/nova.conf: DEFAULT/verbose':
+  value => '--True',
+}
+```
+
+The `DEFAULT/verbose` setting will then be removed upon the next Puppet run.
 
 ### Usage Notes
 

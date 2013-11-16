@@ -1,0 +1,156 @@
+---
+## OpenStack
+
+# MySQL
+mysql_root_password: 'password'
+trusted_networks_mysql:
+  - '127.0.0.%'
+  - '192.168.1.%'
+
+# Keystone
+keystone_catalog_file:    '/etc/keystone/default_catalog.templates'
+keystone_admin_email:     'root@localhost'
+keystone_admin_tenant:    'admin'
+keystone_mysql_dbname:    'keystone'
+keystone_mysql_user:      'keystone'
+keystone_admin_token:     'password'
+keystone_admin_password:  'password'
+keystone_mysql_password:  'password'
+
+# Keystone Endpoints
+keystone_identity_endpoint:       'http://192.168.1.1:5000/v2.0'
+keystone_identity_admin_endpoint: 'http://192.168.1.1:35357/v2.0'
+keystone_image_endpoint:          'http://192.168.1.1:9292'
+keystone_volume_endpoint:         'http://192.168.1.1:8776/v1/%(tenant_id)s'
+keystone_compute_endpoint:        'http://192.168.1.1:8774/v2/%(tenant_id)s'
+keystone_ec2_endpoint:            'http://192.168.1.1:8773/services/Cloud'
+keystone_object_endpoint:         'https://192.168.1.1:8080/v1/AUTH_%(tenant_id)s'
+keystone_s3_endpoint:             'https://192.168.1.1:8080'
+
+# Glance
+glance_mysql_dbname:      'glance'
+glance_mysql_user:        'glance'
+glance_keystone_password: 'password'
+glance_mysql_password:    'password'
+
+# Horizon
+horizon_app_links: "[['Nagios','http://192.168.1.1/nagios3'],]"
+
+# Nova
+nova_mysql_user:          'nova'
+nova_mysql_dbname:        'nova'
+nova_keystone_password:   'password'
+nova_mysql_password:      'password'
+floating_range:           false
+
+# Cinder
+cinder_mysql_dbname:      'cinder'
+cinder_mysql_user:        'cinder'
+cinder_keystone_password: 'password'
+cinder_mysql_password:    'password'
+
+### OpenStack conf settings
+
+# keystone settings
+keystone_settings:
+  'DEFAULT/admin_token':         'password'
+  'DEFAULT/verbose':             true
+  'DEFAULT/debug':               true
+  'DEFAULT/use_syslog':          true
+  'DEFAULT/syslog_log_facility': 'LOG_LOCAL2'
+  'DEFAULT/log_file':            'keystone.log'
+  'DEFAULT/log_dir':             '/var/log/keystone'
+  'DEFAULT/log_config':          '/etc/keystone/logging.conf'
+  'sql/connection':              'mysql://keystone:password@192.168.1.1/keystone'
+  'identity/driver':             'keystone.identity.backends.sql.Identity'
+  'catalog/driver':              'keystone.catalog.backends.templated.TemplatedCatalog'
+  'catalog/template_file':       '/etc/keystone/default_catalog.templates'
+  'token/driver':                'keystone.token.backends.memcache.Token'
+  'policy/driver':               'keystone.policy.backends.rules.Policy'
+  'ec2/driver':                  'keystone.contrib.ec2.backends.sql.Ec2'
+  'signing/token_format':        'UUID'
+
+# Glance settings
+glance_settings:
+  api:
+    'DEFAULT/verbose':                      true
+    'DEFAULT/debug':                        true
+    'DEFAULT/log_dir':                      '/var/log/glance'
+    'DEFAULT/log_file':                     '/var/log/glance/api.log'
+    'DEFAULT/default_store':                'file'
+    'DEFAULT/use_syslog':                   true
+    'DEFAULT/syslog_log_facility':          'LOG_LOCAL1'
+    'DEFAULT/backlog':                      4096
+    'DEFAULT/workers':                      "%{::processorcount}"
+    'DEFAULT/image_cache_dir':              '/var/lib/glance/image-cache/'
+    'DEFAULT/sql_connection':               'mysql://glance:password@192.168.1.1/glance'
+    'keystone_authtoken/auth_host':         '192.168.1.1'
+    'keystone_authtoken/auth_port':         35357
+    'keystone_authtoken/auth_protocol':     'http'
+    'keystone_authtoken/admin_tenant_name': 'services'
+    'keystone_authtoken/admin_user':        'glance'
+    'keystone_authtoken/admin_password':    'password'
+    'paste_deploy/flavor':                  'keystone'
+  cache:
+    'DEFAULT/use_syslog':               true
+    'DEFAULT/syslog_log_facility':      'LOG_LOCAL1'
+    'DEFAULT/log_dir':                  '/var/log/glance'
+    'DEFAULT/log_file':                 '/var/log/glance/cache.log'
+    'DEFAULT/image_cache_dir':          '/var/lib/glance/image-cache/'
+    'DEFAULT/filesystem_store_datadir': '/var/lib/glance/images/'
+    'DEFAULT/auth_url':                 'http://192.168.1.1:5000/v2.0/'
+    'DEFAULT/admin_tenant_name':        'services'
+    'DEFAULT/admin_user':               'glance'
+    'DEFAULT/admin_password':           'password'
+  registry:
+    'DEFAULT/use_syslog':                   true
+    'DEFAULT/syslog_log_facility':          'LOG_LOCAL1'
+    'DEFAULT/log_dir':                      '/var/log/glance'
+    'DEFAULT/log_file':                     '/var/log/glance/registry.log'
+    'DEFAULT/backlog':                      4096
+    'DEFAULT/limit_param_default':          25
+    'DEFAULT/sql_connection':               'mysql://glance:password@192.168.1.1/glance'
+    'keystone_authtoken/auth_host':         '192.168.1.1'
+    'keystone_authtoken/auth_port':         '35357'
+    'keystone_authtoken/auth_protocol':     'http'
+    'keystone_authtoken/admin_tenant_name': 'services'
+    'keystone_authtoken/admin_user':        'glance'
+    'keystone_authtoken/admin_password':    'password'
+    'paste_deploy/flavor':                  'keystone'
+
+# Nova settings
+nova_settings:
+  paste:
+    'filter:authtoken/auth_host':         '192.168.1.1'
+    'filter:authtoken/auth_port':         35357
+    'filter:authtoken/auth_protocol':     'http'
+    'filter:authtoken/admin_tenant_name': 'services'
+    'filter:authtoken/admin_user':        'nova'
+    'filter:authtoken/admin_password':    'password'
+
+# Cinder settings
+cinder_settings:
+  conf:
+    'DEFAULT/debug':                true
+    'DEFAULT/verbose':              true
+    'DEFAULT/use_syslog':           true
+    'DEFAULT/syslog_log_facility':  'LOG_LOCAL3'
+    'DEFAULT/state_path':           '/var/lib/cinder'
+    'DEFAULT/log_dir':              '/var/log/cinder'
+    'DEFAULT/rootwrap_config':      '/etc/cinder/rootwrap.conf'
+    'DEFAULT/api_paste_config':     '/etc/cinder/api-paste.ini'
+    'DEFAULT/auth_strategy':        'keystone'
+    'DEFAULT/volumes_dir':          '/var/lib/cinder/volumes'
+    'DEFAULT/rabbit_host':          '192.168.1.1'
+    'DEFAULT/rabbit_userid':        'nova'
+    'DEFAULT/rabbit_password':      'password'
+    'DEFAULT/sql_connection':       'mysql://cinder:password@192.168.1.1/cinder'
+    'DEFAULT/glance_host':          '192.168.1.1'
+    'DEFAULT/volumes_dir':          '/var/lib/cinder/volumes'
+  paste:
+    'filter:authtoken/auth_host':         '192.168.1.1'
+    'filter:authtoken/auth_port':         '35357'
+    'filter:authtoken/auth_protocol':     'http'
+    'filter:authtoken/admin_tenant_name': 'services'
+    'filter:authtoken/admin_user':        'cinder'
+    'filter:authtoken/admin_password':    'password'

@@ -3,9 +3,7 @@
   - yaml
 
 :hierarchy:
-  - "nodes/%{fqdn}"
-  - "regions/%{region}"
-  - "environments/%{environment}"
+  - "roles/%{role}"
   - "common"
 
 :yaml:

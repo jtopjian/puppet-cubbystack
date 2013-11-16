@@ -1,0 +1,53 @@
+---
+## OpenStack
+
+# RabbitMQ
+rabbit_user:     'nova'
+rabbit_password: 'password'
+
+# Hosts and Regions
+cloud_controller: '192.168.1.1'
+keystone_host:    '192.168.1.1'
+openstack_region: 'RegionOne'
+
+# UIDs and GIDs
+nova_uid:            '999'
+nova_gid:            '999'
+glance_uid:          '998'
+glance_gid:          '998'
+keystone_uid:        '997'
+keystone_gid:        '997'
+cinder_uid:          '996'
+cinder_gid:          '996'
+swift_uid:           '995'
+swift_gid:           '995'
+
+### OpenStack conf settings
+
+# Nova settings
+nova_settings:
+  conf:
+    'DEFAULT/verbose':                         true
+    'DEFAULT/debug':                           true
+    'DEFAULT/use_syslog':                      true
+    'DEFAULT/syslog_log_facility':             'LOG_LOCAL0'
+    'DEFAULT/log_dir':                         '/var/log/nova'
+    'DEFAULT/state_path':                      '/var/lib/nova'
+    'DEFAULT/lock_path':                       '/var/lock/nova'
+    'DEFAULT/auth_strategy':                   'keystone'
+    'DEFAULT/rootwrap_config':                 '/etc/nova/rootwrap.conf'
+    'DEFAULT/glance_api_servers':              '192.168.1.1:9292'
+    'DEFAULT/api_paste_config':                '/etc/nova/api-paste.ini'
+    'DEFAULT/rabbit_host':                     '192.168.1.1'
+    'DEFAULT/rabbit_userid':                   'nova'
+    'DEFAULT/rabbit_password':                 'password'
+    'DEFAULT/novncproxy_base_url':             'http://192.168.1.1:6080/vnc_auto.html'
+    'DEFAULT/instance_usage_audit_period':     'hour'
+    'DEFAULT/instance_usage_audit':            true
+    'DEFAULT/network_manager':                 'nova.network.manager.FlatDHCPManager'
+    'DEFAULT/fixed_range':                     '10.10.10.0/24'
+    'DEFAULT/num_networks':                    1
+    'DEFAULT/network_size':                    255
+    'DEFAULT/flat_interface':                  'eth1'
+    'DEFAULT/flat_network_bridge':             'br0'
+    'DEFAULT/multi-host':                      true

@@ -1,0 +1,289 @@
+---
+## OpenStack
+
+# MySQL
+mysql_root_password: 'password'
+trusted_networks_mysql:
+  - '127.0.0.%'
+  - '192.168.1.%'
+
+# RabbitMQ
+rabbit_user:     'nova'
+rabbit_password: 'password'
+
+# Hosts and Regions
+cloud_controller: '192.168.1.1'
+keystone_host:    '192.168.1.1'
+openstack_region: 'RegionOne'
+
+# Keystone
+keystone_catalog_file:    '/etc/keystone/default_catalog.templates'
+keystone_admin_email:     'root@localhost'
+keystone_admin_tenant:    'admin'
+keystone_mysql_dbname:    'keystone'
+keystone_mysql_user:      'keystone'
+keystone_admin_token:     'password'
+keystone_admin_password:  'password'
+keystone_mysql_password:  'password'
+
+# Keystone Endpoints
+keystone_identity_endpoint:       'http://192.168.1.1:5000/v2.0'
+keystone_identity_admin_endpoint: 'http://192.168.1.1:35357/v2.0'
+keystone_image_endpoint:          'http://192.168.1.1:9292'
+keystone_volume_endpoint:         'http://192.168.1.1:8776/v1/%(tenant_id)s'
+keystone_compute_endpoint:        'http://192.168.1.1:8774/v2/%(tenant_id)s'
+keystone_ec2_endpoint:            'http://192.168.1.1:8773/services/Cloud'
+keystone_object_endpoint:         'https://192.168.1.1:8080/v1/AUTH_%(tenant_id)s'
+keystone_s3_endpoint:             'https://192.168.1.1:8080'
+
+# Glance
+glance_mysql_dbname:      'glance'
+glance_mysql_user:        'glance'
+glance_keystone_password: 'password'
+glance_mysql_password:    'password'
+
+# Horizon
+horizon_app_links: "[['Nagios','http://192.168.1.1/nagios3'],]"
+
+# Nova
+nova_mysql_user:          'nova'
+nova_mysql_dbname:        'nova'
+nova_keystone_password:   'password'
+nova_mysql_password:      'password'
+floating_range:           false
+
+# Cinder
+cinder_mysql_dbname:      'cinder'
+cinder_mysql_user:        'cinder'
+cinder_keystone_password: 'password'
+cinder_mysql_password:    'password'
+
+# Swift
+swift_keystone_password: 'password'
+swift_part_power:        2
+swift_replicas:          3
+
+# UIDs and GIDs
+nova_uid:            '999'
+nova_gid:            '999'
+glance_uid:          '998'
+glance_gid:          '998'
+keystone_uid:        '997'
+keystone_gid:        '997'
+cinder_uid:          '996'
+cinder_gid:          '996'
+swift_uid:           '995'
+swift_gid:           '995'
+
+### OpenStack conf settings
+
+# keystone settings
+keystone_settings:
+  'DEFAULT/admin_token':         'password'
+  'DEFAULT/verbose':             true
+  'DEFAULT/debug':               true
+  'DEFAULT/use_syslog':          true
+  'DEFAULT/syslog_log_facility': 'LOG_LOCAL2'
+  'DEFAULT/log_file':            'keystone.log'
+  'DEFAULT/log_dir':             '/var/log/keystone'
+  'DEFAULT/log_config':          '/etc/keystone/logging.conf'
+  'sql/connection':              'mysql://keystone:password@192.168.1.1/keystone'
+  'identity/driver':             'keystone.identity.backends.sql.Identity'
+  'catalog/driver':              'keystone.catalog.backends.templated.TemplatedCatalog'
+  'catalog/template_file':       '/etc/keystone/default_catalog.templates'
+  'token/driver':                'keystone.token.backends.memcache.Token'
+  'policy/driver':               'keystone.policy.backends.rules.Policy'
+  'ec2/driver':                  'keystone.contrib.ec2.backends.sql.Ec2'
+  'signing/token_format':        'UUID'
+
+# Glance settings
+glance_settings:
+  api:
+    'DEFAULT/verbose':                      true
+    'DEFAULT/debug':                        true
+    'DEFAULT/log_dir':                      '/var/log/glance'
+    'DEFAULT/log_file':                     '/var/log/glance/api.log'
+    'DEFAULT/default_store':                'file'
+    'DEFAULT/use_syslog':                   true
+    'DEFAULT/syslog_log_facility':          'LOG_LOCAL1'
+    'DEFAULT/backlog':                      4096
+    'DEFAULT/workers':                      "%{::processorcount}"
+    'DEFAULT/image_cache_dir':              '/var/lib/glance/image-cache/'
+    'DEFAULT/sql_connection':               'mysql://glance:password@192.168.1.1/glance'
+    'keystone_authtoken/auth_host':         '192.168.1.1'
+    'keystone_authtoken/auth_port':         35357
+    'keystone_authtoken/auth_protocol':     'http'
+    'keystone_authtoken/admin_tenant_name': 'services'
+    'keystone_authtoken/admin_user':        'glance'
+    'keystone_authtoken/admin_password':    'password'
+    'paste_deploy/flavor':                  'keystone'
+  cache:
+    'DEFAULT/use_syslog':               true
+    'DEFAULT/syslog_log_facility':      'LOG_LOCAL1'
+    'DEFAULT/log_dir':                  '/var/log/glance'
+    'DEFAULT/log_file':                 '/var/log/glance/cache.log'
+    'DEFAULT/image_cache_dir':          '/var/lib/glance/image-cache/'
+    'DEFAULT/filesystem_store_datadir': '/var/lib/glance/images/'
+    'DEFAULT/auth_url':                 'http://192.168.1.1:5000/v2.0/'
+    'DEFAULT/admin_tenant_name':        'services'
+    'DEFAULT/admin_user':               'glance'
+    'DEFAULT/admin_password':           'password'
+  registry:
+    'DEFAULT/use_syslog':                   true
+    'DEFAULT/syslog_log_facility':          'LOG_LOCAL1'
+    'DEFAULT/log_dir':                      '/var/log/glance'
+    'DEFAULT/log_file':                     '/var/log/glance/registry.log'
+    'DEFAULT/backlog':                      4096
+    'DEFAULT/limit_param_default':          25
+    'DEFAULT/sql_connection':               'mysql://glance:password@192.168.1.1/glance'
+    'keystone_authtoken/auth_host':         '192.168.1.1'
+    'keystone_authtoken/auth_port':         '35357'
+    'keystone_authtoken/auth_protocol':     'http'
+    'keystone_authtoken/admin_tenant_name': 'services'
+    'keystone_authtoken/admin_user':        'glance'
+    'keystone_authtoken/admin_password':    'password'
+    'paste_deploy/flavor':                  'keystone'
+
+# Nova settings
+nova_settings:
+  conf:
+    'DEFAULT/verbose':                         true
+    'DEFAULT/debug':                           true
+    'DEFAULT/use_syslog':                      true
+    'DEFAULT/syslog_log_facility':             'LOG_LOCAL0'
+    'DEFAULT/log_dir':                         '/var/log/nova'
+    'DEFAULT/state_path':                      '/var/lib/nova'
+    'DEFAULT/lock_path':                       '/var/lock/nova'
+    'DEFAULT/auth_strategy':                   'keystone'
+    'DEFAULT/rootwrap_config':                 '/etc/nova/rootwrap.conf'
+    'DEFAULT/glance_api_servers':              '192.168.1.1:9292'
+    'DEFAULT/api_paste_config':                '/etc/nova/api-paste.ini'
+    'DEFAULT/rabbit_host':                     '192.168.1.1'
+    'DEFAULT/rabbit_userid':                   'nova'
+    'DEFAULT/rabbit_password':                 'password'
+    'DEFAULT/connection_type':                 'libvirt'
+    'DEFAULT/compute_driver':                  'libvirt.LibvirtDriver'
+    'DEFAULT/vncserver_listen':                '0.0.0.0'
+    'DEFAULT/novncproxy_base_url':             'http://192.168.1.1:6080/vnc_auto.html'
+    'DEFAULT/instance_usage_audit_period':     'hour'
+    'DEFAULT/instance_usage_audit':            true
+    'DEFAULT/network_manager':                 'nova.network.manager.FlatDHCPManager'
+    'DEFAULT/fixed_range':                     '10.10.10.0/24'
+    'DEFAULT/num_networks':                    1
+    'DEFAULT/network_size':                    255
+    'DEFAULT/flat_interface':                  'eth1'
+    'DEFAULT/flat_network_bridge':             'br0'
+  paste:
+    'filter:authtoken/auth_host':         '192.168.1.1'
+    'filter:authtoken/auth_port':         35357
+    'filter:authtoken/auth_protocol':     'http'
+    'filter:authtoken/admin_tenant_name': 'services'
+    'filter:authtoken/admin_user':        'nova'
+    'filter:authtoken/admin_password':    'password'
+
+# Cinder settings
+cinder_settings:
+  conf:
+    'DEFAULT/debug':                true
+    'DEFAULT/verbose':              true
+    'DEFAULT/use_syslog':           true
+    'DEFAULT/syslog_log_facility':  'LOG_LOCAL3'
+    'DEFAULT/state_path':           '/var/lib/cinder'
+    'DEFAULT/log_dir':              '/var/log/cinder'
+    'DEFAULT/rootwrap_config':      '/etc/cinder/rootwrap.conf'
+    'DEFAULT/api_paste_config':     '/etc/cinder/api-paste.ini'
+    'DEFAULT/auth_strategy':        'keystone'
+    'DEFAULT/volumes_dir':          '/var/lib/cinder/volumes'
+    'DEFAULT/rabbit_host':          '192.168.1.1'
+    'DEFAULT/rabbit_userid':        'nova'
+    'DEFAULT/rabbit_password':      'password'
+    'DEFAULT/sql_connection':       'mysql://cinder:password@192.168.1.1/cinder'
+    'DEFAULT/glance_host':          '192.168.1.1'
+    'DEFAULT/volumes_dir':          '/var/lib/cinder/volumes'
+  paste:
+    'filter:authtoken/auth_host':         '192.168.1.1'
+    'filter:authtoken/auth_port':         '35357'
+    'filter:authtoken/auth_protocol':     'http'
+    'filter:authtoken/admin_tenant_name': 'services'
+    'filter:authtoken/admin_user':        'cinder'
+    'filter:authtoken/admin_password':    'password'
+
+# Swift settings
+swift_settings:
+  conf:
+    swift_hash_suffix: 'password'
+  account:
+    'DEFAULT/devices':                '/srv/node'
+    'DEFAULT/bind_port':              6002
+    'DEFAULT/mount_check':            false
+    'DEFAULT/user':                   'swift'
+    'DEFAULT/log_facility':           'LOG_LOCAL2'
+    'DEFAULT/workers':                1
+    'pipeline:main/pipeline':         'recon account-server'
+    'app:account-server/use':         'egg:swift#account'
+    'account-replicator/concurrency': "%{::processorcount}"
+    'account-reaper/concurrency':     "%{::processorcount}"
+    'filter:recon/use':               'egg:swift#recon'
+    'filter:recon/recon_cache_path':  '/var/cache/swift'
+  container:
+    'DEFAULT/devices':                  '/srv/node'
+    'DEFAULT/bind_port':                6001
+    'DEFAULT/mount_check':              false
+    'DEFAULT/user':                     'swift'
+    'DEFAULT/log_facility':             'LOG_LOCAL2'
+    'DEFAULT/workers':                  1
+    'DEFAULT/allowed_sync_hosts':       '127.0.0.1'
+    'pipeline:main/pipeline':           'recon container-server'
+    'app:container-server/use':         'egg:swift#container'
+    'container-replicator/concurrency': "%{::processorcount}"
+    'container-updater/concurrency':    "%{::processorcount}"
+    'filter:recon/use':                 'egg:swift#recon'
+    'filter:recon/recon_cache_path':    '/var/cache/swift'
+  object:
+    'DEFAULT/devices':               '/srv/node'
+    'DEFAULT/bind_port':             6000
+    'DEFAULT/mount_check':           false
+    'DEFAULT/user':                  'swift'
+    'DEFAULT/log_facility':          'LOG_LOCAL2'
+    'DEFAULT/workers':               1
+    'pipeline:main/pipeline':        'recon object-server'
+    'app:object-server/use':         'egg:swift#object'
+    'object-replicator/concurrency': "%{::processorcount}"
+    'object-updater/concurrency':    "%{::processorcount}"
+    'filter:recon/use':              'egg:swift#recon'
+    'filter:recon/recon_cache_path': '/var/cache/swift'
+  proxy:
+    'DEFAULT/bind_port':                         8080
+    'DEFAULT/workers':                           "%{::processorcount}"
+    'DEFAULT/user':                              'swift'
+    'DEFAULT/log_level':                         'DEBUG'
+    'pipeline:main/pipeline':                    'healthcheck cache swift3 s3token authtoken keystone staticweb proxy-logging container_quotas account_quotas proxy-server'
+    'app:proxy-server/use':                      'egg:swift#proxy'
+    'app:proxy-server/allow_account_management': true
+    'app:proxy-server/account_autocreate':       true
+    'filter:authtoken/paste.filter_factory':     'keystoneclient.middleware.auth_token:filter_factory'
+    'filter:authtoken/signing_dir':              '/etc/swift'
+    'filter:authtoken/auth_host':                '192.168.1.1'
+    'filter:authtoken/auth_port':                35357
+    'filter:authtoken/auth_protocol':            'http'
+    'filter:authtoken/auth_uri':                 'http://192.168.1.1:35357'
+    'filter:authtoken/admin_tenant_name':        'services'
+    'filter:authtoken/admin_user':               'swift'
+    'filter:authtoken/admin_password':           'password'
+    'filter:authtoken/delay_auth_decision':      1
+    'filter:cache/use':                          'egg:swift#memcache'
+    'filter:cache/memcache_servers':             '127.0.0.1:11211'
+    'filter:healthcheck/use':                    'egg:swift#healthcheck'
+    'filter:proxy-logging/use':                  'egg:swift#proxy_logging'
+    'filter:swift3/use':                         'egg:swift3#swift3'
+    'filter:s3token/paste.filter_factory':       'keystone.middleware.s3_token:filter_factory'
+    'filter:s3token/auth_port':                  35357
+    'filter:s3token/auth_protocol':              'http'
+    'filter:s3token/auth_host':                  '192.168.1.1'
+    'filter:account_quotas/use':                 'egg:swift#account_quotas'
+    'filter:container_quotas/use':               'egg:swift#container_quotas'
+    'filter:keystone/use':                       'egg:swift#keystoneauth'
+    'filter:keystone/operator_roles':            'admin, Member, swiftoperator'
+    'filter:keystone/is_admin':                  true
+    'filter:keystone/cache':                     'swift.cache'
+    'filter:staticweb/use':                      'egg:swift#staticweb'
