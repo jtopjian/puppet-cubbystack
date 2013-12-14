@@ -33,9 +33,11 @@ class site::openstack::controller::nova {
   }
 
   # Configure nova-network
-  $multi_host = $nova_settings['conf']['DEFAULT/multi_host']
-  if ($multi_host == false) {
-    class { '::cubbystack::nova::network': }
+  $neutron = hiera('keystone_network_endpoint', false)
+  if ($neutron == false) {
+    if (has_key($nova_settings['conf'], 'DEFAULT/multi_host')) {
+      class { '::cubbystack::nova::network': }
+    }
   }
 
   ## Generate an openrc file

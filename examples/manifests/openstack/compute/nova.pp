@@ -16,13 +16,13 @@ class site::openstack::compute::nova {
   # Install / configure nova-compute
   class { '::cubbystack::nova::compute': }
 
-  $multi_host = $nova_settings['conf']['DEFAULT/multi_host']
-  if ($multi_host) {
-    # Keystone authentication
-    class { '::cubbystack::nova::keystone':
-      settings => $nova_settings['paste'],
+  $neutron_settings = hiera('neutron_settings', false)
+  if ($neutron_settings == false) {
+    if (has_key($nova_settings['conf'], 'DEFAULT/multi_host')) {
+      class { '::cubbystack::nova::keystone':
+        settings => $nova_settings['paste'],
+      }
+      class { '::cubbystack::nova::network': }
     }
-
-    class { '::cubbystack::nova::network': }
   }
 }

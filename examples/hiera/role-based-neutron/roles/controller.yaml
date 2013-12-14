@@ -26,7 +26,6 @@ keystone_compute_endpoint:        'http://192.168.1.1:8774/v2/%(tenant_id)s'
 keystone_ec2_endpoint:            'http://192.168.1.1:8773/services/Cloud'
 keystone_object_endpoint:         'https://192.168.1.1:8080/v1/AUTH_%(tenant_id)s'
 keystone_s3_endpoint:             'https://192.168.1.1:8080'
-keystone_network_endpoint:        'https://192.168.1.1:9696'
 
 # Glance
 glance_mysql_dbname:      'glance'
@@ -155,3 +154,31 @@ cinder_settings:
     'filter:authtoken/admin_tenant_name': 'services'
     'filter:authtoken/admin_user':        'cinder'
     'filter:authtoken/admin_password':    'password'
+
+# Neutron settings
+neutron_settings:
+  paste:
+    'filter:authtoken/auth_host':         '192.168.1.1'
+    'filter:authtoken/auth_port':         '35357'
+    'filter:authtoken/auth_protocol':     'http'
+    'filter:authtoken/admin_tenant_name': 'services'
+    'filter:authtoken/admin_user':        'neutron'
+    'filter:authtoken/admin_password':    'password'
+  dhcp:
+    'DEFAULT/interface_driver': 'neutron.agent.linux.interface.OVSInterfaceDriver'
+    'DEFAULT/dhcp_driver':      'neutron.agent.linux.dhcp.Dnsmasq'
+    'DEFAULT/use_namespaces':   false
+  l3:
+    'DEFAULT/debug':            true
+    'DEFAULT/interface_driver': 'neutron.agent.linux.interface.OVSInterfaceDriver'
+    'DEFAULT/use_namespaces':   false
+    'DEFAULT/router_id':        'change-me'
+  metadata:
+    'DEFAULT/debug':                        true
+    'DEFAULT/auth_url':                     'http://192.168.1.1:5000/v2.0'
+    'DEFAULT/auth_region':                  'RegionOne'
+    'DEFAULT/admin_tenant_name':            'services'
+    'DEFAULT/admin_user':                   'neutron'
+    'DEFAULT/admin_password':               'password'
+    'DEFAULT/nova_metadata_ip':             '192.168.1.1'
+    'DEFAULT/metadata_proxy_shared_secret': 'password'

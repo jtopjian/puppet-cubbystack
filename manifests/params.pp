@@ -12,7 +12,7 @@ class cubbystack::params {
       $glance_registry_service_name = 'glance-registry'
 
       # Cinder
-      $cinder_package_name           = 'cinder-common'
+      $cinder_common_package_name    = 'cinder-common'
       $cinder_api_package_name       = 'cinder-api'
       $cinder_api_service_name       = 'cinder-api'
       $cinder_scheduler_package_name = 'cinder-scheduler'
@@ -44,6 +44,19 @@ class cubbystack::params {
       $nova_vncproxy_service_name    = 'nova-novncproxy'
       $nova_objectstore_service_name = 'nova-objectstore'
       $nova_scheduler_service_name   = 'nova-scheduler'
+
+      # Neutron
+      $neutron_common_package_name     = 'neutron-common'
+      $neutron_server_package_name     = 'neutron-server'
+      $neutron_server_service_name     = 'neutron-server'
+      $neutron_dhcp_package_name       = 'neutron-dhcp-agent'
+      $neutron_dhcp_service_name       = 'neutron-dhcp-agent'
+      $neutron_l3_package_name         = 'neutron-l3-agent'
+      $neutron_l3_service_name         = 'neutron-l3-agent'
+      $neutron_metadata_package_name   = 'neutron-metadata-agent'
+      $neutron_plugin_ovs_package_name = ['neutron-plugin-openvswitch', 'neutron-plugin-openvswitch-agent']
+      $neutron_plugin_ovs_service_name = 'neutron-plugin-openvswitch'
+
 
       # Horizon
       $horizon_apache_user           = 'www-data'

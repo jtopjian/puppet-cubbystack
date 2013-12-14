@@ -1,0 +1,88 @@
+---
+## OpenStack
+
+# RabbitMQ
+rabbit_user:     'nova'
+rabbit_password: 'password'
+
+# Hosts and Regions
+cloud_controller: '192.168.1.1'
+keystone_host:    '192.168.1.1'
+openstack_region: 'RegionOne'
+
+# UIDs and GIDs
+nova_uid:            '999'
+nova_gid:            '999'
+glance_uid:          '998'
+glance_gid:          '998'
+keystone_uid:        '997'
+keystone_gid:        '997'
+cinder_uid:          '996'
+cinder_gid:          '996'
+swift_uid:           '995'
+swift_gid:           '995'
+
+### OpenStack conf settings
+
+# Nova settings
+nova_settings:
+  conf:
+    'DEFAULT/verbose':                              true
+    'DEFAULT/debug':                                true
+    'DEFAULT/use_syslog':                           true
+    'DEFAULT/syslog_log_facility':                  'LOG_LOCAL0'
+    'DEFAULT/log_dir':                              '/var/log/nova'
+    'DEFAULT/state_path':                           '/var/lib/nova'
+    'DEFAULT/lock_path':                            '/var/lock/nova'
+    'DEFAULT/auth_strategy':                        'keystone'
+    'DEFAULT/rootwrap_config':                      '/etc/nova/rootwrap.conf'
+    'DEFAULT/glance_api_servers':                   '192.168.1.1:9292'
+    'DEFAULT/api_paste_config':                     '/etc/nova/api-paste.ini'
+    'DEFAULT/rabbit_host':                          '192.168.1.1'
+    'DEFAULT/rabbit_userid':                        'nova'
+    'DEFAULT/rabbit_password':                      'password'
+    'DEFAULT/novncproxy_base_url':                  'http://192.168.1.1:6080/vnc_auto.html'
+    'DEFAULT/instance_usage_audit_period':          'hour'
+    'DEFAULT/instance_usage_audit':                 true
+    'DEFAULT/service_neutron_metadata_proxy':       true
+    'DEFAULT/neutron_metadata_proxy_shared_secret': 'password'
+    'DEFAULT/network_api_class':                    'nova.network.neutronv2.api.API'
+    'DEFAULT/neutron_admin_username':               'neutron'
+    'DEFAULT/neutron_admin_password':               'password'
+    'DEFAULT/neutron_admin_auth_url':               'http://192.168.1.1:35357/v2.0/'
+    'DEFAULT/neutron_admin_tenant_name':            'services'
+    'DEFAULT/neutron_url':                          'http://192.168.1.1:9696/'
+    'DEFAULT/libvirt_vif_driver':                   'nova.virt.libvirt.vif.LibvirtHybridOVSBridgeDriver'
+    'DEFAULT/firewall_driver':                      'nova.virt.firewall.NoopFirewallDriver'
+    'DEFAULT/security_group_api':                   'neutron'
+    'DEFAULT/neutron_ovs_bridge':                   'br-int'
+    'DEFAULT/neutron_region_name':                  'RegionOne'
+
+neutron_settings:
+  conf:
+    'DEFAULT/debug':                        true
+    'DEFAULT/verbose':                      true
+    'DEFAULT/state_path':                   '/var/lib/neutron'
+    'DEFAULT/lock_path':                    '$state_path/lock'
+    'DEFAULT/core_plugin':                  'neutron.plugins.openvswitch.ovs_neutron_plugin.OVSNeutronPluginV2'
+    'DEFAULT/rabbit_host':                  '192.168.1.1'
+    'DEFAULT/rabbit_password':              'password'
+    'DEFAULT/rabbit_userid':                'nova'
+    'DEFAULT/notification_driver':          'neutron.openstack.common.notifier.rpc_notifier'
+    'agent/root_helper':                    'sudo /usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf'
+    'keystone_authtoken/auth_host':         '127.0.0.1'
+    'keystone_authtoken/auth_port':         '35357'
+    'keystone_authtoken/auth_protocol':     'http'
+    'keystone_authtoken/admin_tenant_name': 'services'
+    'keystone_authtoken/admin_user':        'neutron'
+    'keystone_authtoken/admin_password':    'password'
+    'keystone_authtoken/signing_dir':       '$state_path/keystone-signing'
+  ovs:
+    'ovs/tenant_network_type':       'gre'
+    'ovs/network_vlan_ranges':       'vm_network:300:300,ext_net:20:20'
+    'ovs/enable_tunneling':          true
+    'ovs/tunnel_type':               'gre'
+    'ovs/tunnel_id_ranges':          '1:1000'
+    'ovs/local_ip':                  "%{::ipaddress_vlan30}"
+    'ovs/bridge_mappings':           'vm_network:br-vlan300,ext_net:br-ex'
+    'securitygroup/firewall_driver': 'neutron.agent.linux.iptables_firewall.OVSHybridIptablesFirewallDriver'

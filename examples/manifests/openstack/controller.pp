@@ -17,6 +17,7 @@ class site::openstack::controller (
   class { 'site::openstack::controller::glance': } ->
   class { 'site::openstack::controller::cinder': } ->
   class { 'site::openstack::controller::nova': } ->
+  class { 'site::openstack::controller::neutron': } ->
   class { 'site::openstack::controller::horizon':
     config_file => $horizon_config_file,
   }
