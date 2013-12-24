@@ -23,6 +23,13 @@ class site::openstack::controller::keystone::users {
     email    => 'cinder@localhost',
   }
 
+  ::cubbystack::functions::create_keystone_user { 'neutron':
+    password => hiera('neutron_keystone_password'),
+    tenant   => 'services',
+    role     => 'admin',
+    email    => 'neutron@localhost',
+  }
+
   ::cubbystack::functions::create_keystone_user { 'swift':
     password => hiera('swift_keystone_password'),
     tenant   => 'services',

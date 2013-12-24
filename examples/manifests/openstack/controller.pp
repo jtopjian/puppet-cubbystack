@@ -5,9 +5,10 @@ class site::openstack::controller (
   anchor { 'site::openstack::controller': }
 
   Class {
-    require => Anchor['site::openstack::controller']
+    require => [Anchor['site::openstack::controller'], Class['mysql::server']]
   }
 
+  class { '::cubbystack::repo': } ->
   class { 'site::openstack::controller::users': } ->
   class { 'site::openstack::controller::packages': } ->
   class { 'site::openstack::controller::memcached': } ->

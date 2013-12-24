@@ -67,8 +67,8 @@ class cubbystack::neutron::ovs (
   cubbystack::functions::generic_service { 'neutron-plugin-ovs':
     service_enable => $service_enable,
     package_ensure => $package_ensure,
-    package_name   => $::cubbystack::params::neutron_ovs_package_name,
-    service_name   => $::cubbystack::params::neutron_ovs_service_name,
+    package_name   => $::cubbystack::params::neutron_plugin_ovs_package_name,
+    service_name   => $::cubbystack::params::neutron_plugin_ovs_service_name,
     tags           => $tags,
   }
 
