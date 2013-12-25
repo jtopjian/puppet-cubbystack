@@ -16,6 +16,8 @@ class site::openstack::controller::neutron {
     settings => $neutron_settings['paste'],
   }
 
+  class { '::cubbystack::neutron::server': }
+
   class { '::cubbystack::neutron::dhcp':
     settings => $neutron_settings['dhcp'],
   }

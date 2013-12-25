@@ -8,11 +8,11 @@ class site::openstack::compute::neutron {
   }
 
   class { '::cubbystack::neutron':
-    settings => $neutron['conf'],
-  } ->
+    settings => $neutron_settings['conf'],
+  }
 
   class { '::cubbystack::neutron::plugins::ovs':
-    settings => $neutron['ovs'],
+    settings => $neutron_settings['ovs'],
   }
 
 }

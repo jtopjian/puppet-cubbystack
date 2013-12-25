@@ -54,9 +54,15 @@ class cubbystack::neutron (
     tag    => $tags,
   }
 
-  ## Cinder configuration files
-  file { '/var/log/neutron': ensure => directory }
-  file { $config_file: }
+  ## Neutron configuration files
+  file {
+    '/var/log/neutron':
+      ensure  => directory,
+      recurse => true;
+    '/etc/neutron':
+      ensure  => directory,
+      recurse => true;
+  }
 
   # Configure neutron.conf
   $settings.each { |$setting, $value|

@@ -55,8 +55,8 @@ class cubbystack::params {
       $neutron_l3_service_name         = 'neutron-l3-agent'
       $neutron_metadata_package_name   = 'neutron-metadata-agent'
       $neutron_metadata_service_name   = 'neutron-metadata-agent'
-      $neutron_plugin_ovs_package_name = 'neutron-plugin-openvswitch'
-      $neutron_plugin_ovs_service_name = 'neutron-plugin-openvswitch'
+      $neutron_plugin_ovs_package_name = 'neutron-plugin-openvswitch-agent'
+      $neutron_plugin_ovs_service_name = 'neutron-plugin-openvswitch-agent'
 
 
       # Horizon

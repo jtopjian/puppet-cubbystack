@@ -50,4 +50,13 @@ class site::openstack::controller::keystone::endpoints {
     tag          => $region,
   }
 
+  # Configure Neutron endpoint in Keystone
+  ::cubbystack::functions::create_keystone_endpoint { "${region}/network":
+    public_url   => hiera('keystone_network_endpoint'),
+    admin_url    => hiera('keystone_network_endpoint'),
+    internal_url => hiera('keystone_network_endpoint'),
+    service_name => 'OpenStack Network Service',
+    tag          => $region,
+  }
+
 }

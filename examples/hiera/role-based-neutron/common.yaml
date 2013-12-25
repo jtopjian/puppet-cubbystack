@@ -77,6 +77,7 @@ neutron_settings:
     'DEFAULT/rabbit_password':              'password'
     'DEFAULT/rabbit_userid':                'nova'
     'DEFAULT/notification_driver':          'neutron.openstack.common.notifier.rpc_notifier'
+    'database/connection':                  "mysql://neutron:%{hiera('neutron_mysql_password')}@%{hiera('cloud_controller')}/neutron"
     'agent/root_helper':                    'sudo /usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf'
     'keystone_authtoken/auth_host':         '127.0.0.1'
     'keystone_authtoken/auth_port':         '35357'

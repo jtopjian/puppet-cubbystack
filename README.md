@@ -59,17 +59,9 @@ There are some caveats to this:
 
 ## Requirements
 
-### The PuppetLabs OpenStack Modules
-
-It might seem ironic that an alternative to the PuppetLabs OpenStack Modules ends up requiring these modules, but there's good reason.
-
-#### puppetlabs-keystone
+### puppetlabs-keystone
 
 This module comes with a great suite of type/providers to assist in creating Keystone users, projects, and roles. As long as these type/providers are compatible with cubbystack, there's no reason not to use them.
-
-#### puppetlabs-nova
-
-In order to create nova-network-based networks with Puppet, I recommend using the `nova_network` and `nova_floating` type/providers that are bundled with this module.
 
 ### Puppet
 
@@ -197,6 +189,6 @@ Swift support is early and I'm not 100% happy with it. The current working examp
 
 ## Notes
 
-* There is no Neutron support at this time. Maybe in a few months.
+* There is no way to create either nova-network based networks or neutron-based networks outside of `exec` resources yet.
 * As you can see from the manifests, special care has been taken to ensure OpenStack can be installed in a predictable order.
 * The name "cubbystack" comes from my son's nickname *Cubby*. I've been surrounded by pictures of bears and cubs lately, so all of my projects are getting prefixed with "cubby".
