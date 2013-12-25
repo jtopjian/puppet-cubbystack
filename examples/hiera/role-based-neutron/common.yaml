@@ -10,16 +10,25 @@ cloud_controller: '192.168.1.1'
 openstack_region: 'RegionOne'
 
 # UIDs and GIDs
-nova_uid:            '999'
-nova_gid:            '999'
-glance_uid:          '998'
-glance_gid:          '998'
-keystone_uid:        '997'
-keystone_gid:        '997'
-cinder_uid:          '996'
-cinder_gid:          '996'
-swift_uid:           '995'
-swift_gid:           '995'
+openstack_users:
+  nova:
+    uid: 999
+    gid: 999
+  glance:
+    uid: 998
+    gid: 998
+  keystone:
+    uid: 997
+    gid: 997
+  cinder:
+    uid: 996
+    gid: 996
+  swift:
+    uid: 995
+    gid: 995
+  neutron:
+    uid: 994
+    gid: 994
 
 ### OpenStack conf settings
 

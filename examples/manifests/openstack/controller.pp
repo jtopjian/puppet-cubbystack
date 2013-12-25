@@ -9,7 +9,7 @@ class site::openstack::controller (
   }
 
   class { '::cubbystack::repo': } ->
-  class { 'site::openstack::controller::users': } ->
+  class { 'site::openstack::users': } ->
   class { 'site::openstack::controller::packages': } ->
   class { 'site::openstack::controller::memcached': } ->
   class { 'site::openstack::controller::mysql': } ->
