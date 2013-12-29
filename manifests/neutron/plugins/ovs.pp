@@ -23,7 +23,7 @@
 #
 # Please see the `examples` directory.
 #
-class cubbystack::neutron::ovs (
+class cubbystack::neutron::plugins::ovs (
   $settings,
   $package_ensure = latest,
   $service_enable = true,
