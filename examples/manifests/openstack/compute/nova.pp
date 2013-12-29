@@ -16,7 +16,7 @@ class site::openstack::compute::nova {
   # Install / configure nova-compute
   class { '::cubbystack::nova::compute': }
 
-  $neutron_settings = hiera('neutron_settings', false)
+  $neutron_settings = hiera_hash('neutron_settings', false)
   if ($neutron_settings == false) {
     if (has_key($nova_settings['conf'], 'DEFAULT/multi_host')) {
       class { '::cubbystack::nova::keystone':

@@ -1,13 +1,18 @@
 ---
 ## OpenStack
 
+# Hosts and Regions
+cloud_controller: '192.168.1.1'
+openstack_region: 'RegionOne'
+
 # RabbitMQ
 rabbit_user:     'nova'
 rabbit_password: 'password'
 
-# Hosts and Regions
-cloud_controller: '192.168.1.1'
-openstack_region: 'RegionOne'
+# Nova
+nova_keystone_password:   'password'
+nova_mysql_password:      'password'
+floating_range:           false
 
 # UIDs and GIDs
 openstack_users:
@@ -46,6 +51,7 @@ nova_settings:
     'DEFAULT/rootwrap_config':                      '/etc/nova/rootwrap.conf'
     'DEFAULT/glance_api_servers':                   "%{hiera('cloud_controller')}:9292"
     'DEFAULT/api_paste_config':                     '/etc/nova/api-paste.ini'
+    'DEFAULT/sql_connection':                       "mysql://nova:%{hiera('nova_mysql_password')}@%{hiera('cloud_controller')}/nova"
     'DEFAULT/rabbit_host':                          "%{hiera('cloud_controller')}"
     'DEFAULT/rabbit_userid':                        'nova'
     'DEFAULT/rabbit_password':                      'password'

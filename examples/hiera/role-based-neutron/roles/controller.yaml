@@ -30,11 +30,6 @@ keystone_s3_endpoint:             "https://%{hiera('cloud_controller')}:8080"
 glance_keystone_password: 'password'
 glance_mysql_password:    'password'
 
-# Nova
-nova_keystone_password:   'password'
-nova_mysql_password:      'password'
-floating_range:           false
-
 # Cinder
 cinder_keystone_password: 'password'
 cinder_mysql_password:    'password'
