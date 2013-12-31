@@ -10,10 +10,6 @@
 #   The password of the admin
 #   Required
 #
-# [*keystone_admin_token*]
-#   The Keystone Admin Token
-#   Required
-#
 # [*controller_node*]
 #   The Keystone host
 #   Defaults to 127.0.0.1
@@ -36,7 +32,6 @@
 #
 define cubbystack::functions::create_openrc (
   $admin_password,
-  $keystone_admin_token,
   $keystone_host        = '127.0.0.1',
   $admin_user           = 'admin',
   $admin_tenant         = 'admin',

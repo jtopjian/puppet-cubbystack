@@ -7,9 +7,6 @@
 # [*settings*]
 #   A hash of key => value settings to go in keystone.conf
 #
-# [*admin_password*]
-#  The admin password for Keystone
-#
 # [*package_ensure*]
 #   The status of the keystone package
 #   Defaults to latest
@@ -22,21 +19,16 @@
 #   The path to keystone.conf
 #   Defaults to /etc/keystone/keystone.conf.
 #
-# [*admin_email*]
-#   The email address of the Keystone admin
-#   Defaults to root@localhost
-#
 # === Example Usage
 #
 # Please see the `examples` directory.
 #
 class cubbystack::keystone (
   $settings,
-  $admin_password,
-  $package_ensure  = latest,
-  $service_enable  = true,
-  $config_file     = '/etc/keystone/keystone.conf',
-  $admin_email     = 'root@localhost',
+  $package_ensure = latest,
+  $service_enable = true,
+  $config_file    = '/etc/keystone/keystone.conf',
+  $admin_email    = 'root@localhost',
 ) {
 
   include ::cubbystack::params
@@ -61,6 +53,9 @@ class cubbystack::keystone (
   Service['keystone'] -> Keystone_user<||>
   Service['keystone'] -> Keystone_role<||>
   Service['keystone'] -> Keystone_user_role<||>
+  Service['keystone'] -> Cubbystack::Functions::Create_keystone_user<||>
+  Cubbystack::Functions::Create_keystone_endpoint<||> -> Service['keystone']
+  Cubbystack::Functions::Create_keystone_endpoint<||> ~> Service['keystone']
 
   # Global file attributes
   File {
@@ -112,31 +107,6 @@ class cubbystack::keystone (
       path        => '/usr/bin',
       refreshonly => true,
     }
-  }
-
-  ## Basic Keystone tenants, roles, and users
-  # Configure Keystone users and tenants
-  keystone_tenant { 'services':
-    ensure      => present,
-    enabled     => true,
-    description => 'Tenant for the openstack services',
-  } ->
-
-  keystone_tenant { 'admin':
-    ensure      => present,
-    enabled     => true,
-    description => 'admin tenant',
-  } ->
-
-  keystone_role { ['admin', 'Member']:
-    ensure => present,
-  } ->
-
-  cubbystack::functions::create_keystone_user { 'admin':
-    password => $admin_password,
-    email    => $admin_email,
-    tenant   => 'admin',
-    role     => 'admin',
   }
 
 }
