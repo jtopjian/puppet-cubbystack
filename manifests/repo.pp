@@ -8,17 +8,17 @@ class cubbystack::repo (
         ensure => latest,
       }
 
-      file { '/etc/apt/sources.list.d/cloud.list':
-        ensure  => present,
-        content => template('cubbystack/cloud.list.erb'),
-        require => Package['ubuntu-cloud-keyring'],
-        notify  => Exec['apt-get update for openstack'],
+      case $::lsbdistcodename {
+        'precise': {
+          apt::source {
+            location         => 'http://ubuntu-cloud.archive.canonical.com/ubuntu',
+            release          => "precise-updates/${release}",
+            repos            => 'main',
+            require_packages => 'ubuntu-cloud-keyring'
+          }
+        }
       }
 
-      exec { 'apt-get update for openstack':
-        command     => '/usr/bin/apt-get update',
-        refreshonly => true,
-      }
     }
   }
 
