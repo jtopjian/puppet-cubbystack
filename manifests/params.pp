@@ -104,11 +104,13 @@ class cubbystack::params {
           $service_provider              = 'undef'
           $nova_consoleauth_package_name = 'nova-console'
           $horizon_package_name          = 'openstack-dashboard-apache'
+          $horizon_package_Deps          = []
         }
         default: {
           $service_provider              = 'upstart'
           $nova_consoleauth_package_name = 'nova-consoleauth'
           $horizon_package_name          = 'openstack-dashboard'
+          $horizon_package_deps          = ['python-django', 'python-compressor', 'python-appconf', 'python-cloudfiles', 'python-tz', 'node-less']
         }
       }
     }

@@ -33,4 +33,11 @@ class cubbystack::nova::compute::libvirt (
     tags           => $::cubbystack::nova::tags,
   }
 
+  cubbystack::functions::generic_service { 'libvirt':
+    package_name   => $::cubbystack::params::libvirt_package_name,
+    service_name   => $::cubbystack::params::libvirt_service_name,
+    package_ensure => latest,
+    tags           => ['openstack', 'libvirt'],
+  }
+
 }

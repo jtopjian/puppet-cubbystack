@@ -4,9 +4,6 @@
 #
 # === Parameters
 #
-# [*settings*]
-#   A hash of key => value settings to go in cinder.conf
-#
 # [*config_file*]
 #   The location of the local_settings.py file to deploy.
 #   Defaults to 'modules/cubbystack/files/horizon/local_settings.py'
@@ -35,6 +32,10 @@ class cubbystack::horizon (
 
   package { 'horizon':
     name   => $::cubbystack::params::horizon_package_name,
+    ensure => $package_ensure,
+  }
+
+  package { $::cubbystack::params::horizon_package_deps:
     ensure => $package_ensure,
   }
 
