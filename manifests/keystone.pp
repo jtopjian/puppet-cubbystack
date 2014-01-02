@@ -28,7 +28,6 @@ class cubbystack::keystone (
   $package_ensure = latest,
   $service_enable = true,
   $config_file    = '/etc/keystone/keystone.conf',
-  $admin_email    = 'root@localhost',
 ) {
 
   include ::cubbystack::params

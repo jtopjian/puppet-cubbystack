@@ -10,11 +10,11 @@ class cubbystack::repo (
 
       case $::lsbdistcodename {
         'precise': {
-          apt::source {
-            location         => 'http://ubuntu-cloud.archive.canonical.com/ubuntu',
-            release          => "precise-updates/${release}",
-            repos            => 'main',
-            require_packages => 'ubuntu-cloud-keyring'
+          apt::source { 'ubuntu-cloud-archive':
+            location          => 'http://ubuntu-cloud.archive.canonical.com/ubuntu',
+            release           => "precise-updates/${release}",
+            repos             => 'main',
+            required_packages => 'ubuntu-cloud-keyring'
           }
         }
       }

@@ -14,6 +14,7 @@ cubbystack is an OpenStack deployment framework for Puppet.
   * [Custom Configurations](#custom-configurations)
   * [Usage Notes](#usage-notes)
 4. [Notes](#notes)
+5. [TODO](#todo)
 
 ## Introduction
 
@@ -26,7 +27,7 @@ My initial solution was to compose my own OpenStack module using the individual 
 
 #### Composition Over Monolithic
 
-The first idea of cubbystack is that there will *never* be a one-size-fits-all OpenStack module. It's simply not possible. One could even argue that the very existence of one goes against what makes OpenStack so great: the almost limitless possibilities you have to building an IaaS environment.
+The first idea of cubbystack is that there will *never* be a one-size-fits-all OpenStack module. It's simply not possible. One could even argue that the existence of one goes against what makes OpenStack so great: the almost limitless possibilities you have to building an IaaS environment.
 
 cubbystack will assist you in configuring the various OpenStack components, but it will not help you apply them to your environment. For example, cubbystack can install and configure Horizon, but it will not install and configure Apache. That's your responsibility. cubbystack doesn't know or care if you're also running Nagios on the same server as Horizon. Or if you want to use Nginx instead of Apache.
 
@@ -43,10 +44,10 @@ It would be great if every OpenStack configuration option could have a correspon
 Instead, specify your configuration options as a hash:
 
 ```yaml
-keystone_settings:
+keystone::settings:
   'DEFAULT/verbose': true
-  'DEFAULT/syslog':  true
-  'token/driver':    'keystone.token.backends.memcache.Token'
+  'DEFAULT/syslog': true
+  'token/driver': 'keystone.token.backends.memcache.Token'
 ```
 
 This gives you the benefit of being able to specify *any* OpenStack configuration option without cubbystack having to know about it as well as benefit of OpenStack automatically using its default value for any value you don't specify.
@@ -61,11 +62,11 @@ There are some caveats to this:
 
 ### puppetlabs-keystone
 
-This module comes with a great suite of type/providers to assist in creating Keystone users, projects, and roles. As long as these type/providers are compatible with cubbystack, there's no reason not to use them.
+This module comes with a great suite of providers to assist in creating Keystone users, projects, and roles. As long as these providers are compatible with cubbystack, there's no reason not to use them.
 
 ### Puppet
 
-You need to be using Puppet 3.2 or higher in order to take advantage of the iteration functionality:
+You need to be using Puppet 3.2 or higher in order to take advantage of the [iteration functionality](http://docs.puppetlabs.com/puppet/3/reference/experiments_lambdas.html):
 
 ```
 [master]
@@ -74,25 +75,21 @@ parser = future
 
 Hiera is recommended, but not a hard requirement.
 
-### Other
+### Required Modules
 
-Other requirements will be based on your own environment.
-
-If you use RabbitMQ, you'll obviously need a RabbitMQ module. See the `ext/deps.sh` script for a list of modules required to use the example manifests.
+See the included Puppetfile for a list of required modules and their known working versions.
 
 ## Usage
 
-cubbystack has a set of manifests for almost all OpenStack components (no Neutron at this time). These can be found in the `manifests` directory. Please read and review these manifests -- there's nothing terribly advanced about them, but if you find yourself unable to understand them, I recommend brushing up on Puppet before trying to use this module in production.
+cubbystack has a set of manifests for all core OpenStack components. These can be found in the `manifests` directory. Please read and review these manifests -- there's nothing terribly advanced about them, but if you find yourself unable to understand them, I recommend brushing up on Puppet before trying to use this module in production.
 
-All components take a `$settings` parameter. This is a hash of `key => value` settings that ultimately turn into the configuration options for the various OpenStack configuration files. Please see the `examples/settings` directory for samples of hashes.
+All components take a `$settings` parameter. This is a hash of `key => value` settings that ultimately turn into the configuration options for the various OpenStack configuration files.
 
 You can use Hiera or Puppet data types to build your hash -- just as long as what is passed as a parameter is a valid hash.
 
-Please see the `examples/manifests` directory for sample manifests including examples for supporting services.
-
 ### Getting Started
 
-I recommend copying the `examples/manifests` directory to a site-local module and then modifying the example manifests to suit your environment.
+I have built a [reference module](https://github.com/jtopjian/puppet-havana) to be used as both a working example and the basis for custom configurations.
 
 ### Custom Configurations
 
@@ -102,9 +99,7 @@ Install Keystone and configure it to use a memcache token backend:
 
 ```puppet
 class { '::cubbystack::keystone':
-  settings        => hiera_hash('keystone_settings'),
-  admin_password  => 'password',
-  purge_resources => false,
+  settings => hiera_hash('keystone::settings'),
 }
 ```
 
@@ -112,9 +107,7 @@ Install Keystone and configure it with a SQL token backend, verbose logging, and
 
 ```puppet
 class { '::cubbystack::keystone':
-  settings        => hiera_hash('keystone_settings'),
-  admin_password  => 'password',
-  purge_resources => false,
+  settings => hiera_hash('keystone::settings'),
 }
 ```
 
@@ -129,13 +122,13 @@ And for a SQL token backend, verbose logging, and syslog:
 
 ```yaml
 keystone_settings:
-  'DEFAULT/verbose':             true
-  'DEFAULT/use_syslog':          true
+  'DEFAULT/verbose': true
+  'DEFAULT/use_syslog': true
   'DEFAULT/syslog_log_facility': 'LOG_LOCAL1'
-  'token/driver':                'keystone.token.backends.sql.Token'
+  'token/driver': 'keystone.token.backends.sql.Token'
 ```
 
-All other components are configured similarly. If you choose to use Hiera and YAML, you can even combine settings from a `common.yaml` with role-specific settings for a Cloud Controller or Compute Node.
+All other components are configured similarly. If you choose to use Hiera and YAML, you can even combine settings from a common file with role-specific settings for a Cloud Controller or Compute Node.
 
 ### The cubbystack_config type
 
@@ -152,8 +145,6 @@ cubbystack_config { '/etc/keystone/keystone.conf: token/driver':
   value => 'keystone.token.backends.sql.Token',
 }
 ```
-
-Internally, cubbystack simply applies `cubbystack_config` to each iteration of your `$settings` hash.
 
 #### Multiple Configuration Files
 
@@ -192,3 +183,7 @@ Swift support is early and I'm not 100% happy with it. The current working examp
 * There is no way to create either nova-network based networks or neutron-based networks outside of `exec` resources yet.
 * As you can see from the manifests, special care has been taken to ensure OpenStack can be installed in a predictable order.
 * The name "cubbystack" comes from my son's nickname *Cubby*. I've been surrounded by pictures of bears and cubs lately, so all of my projects are getting prefixed with "cubby".
+
+## TODO
+
+tests, tests, tests
