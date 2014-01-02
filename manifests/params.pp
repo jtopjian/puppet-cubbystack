@@ -5,6 +5,7 @@ class cubbystack::params {
       # Keystone
       $keystone_package_name   = 'keystone'
       $keystone_service_name   = 'keystone'
+      $keystone_package_deps   = ['python-memcache']
 
       # Glance
       $glance_package_name          = 'glance'
