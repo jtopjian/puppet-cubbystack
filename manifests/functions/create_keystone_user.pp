@@ -48,12 +48,14 @@ define cubbystack::functions::create_keystone_user (
     email    => $email,
     tenant   => $tenant,
     tag      => ['keystone', 'openstack', $name],
+    require  => Keystone_tenant[$tenant],
   }
 
   keystone_user_role { "${name}@${tenant}":
-    ensure => present,
-    roles  => $role,
-    tag    => ['keystone', 'openstack', $name],
+    ensure  => present,
+    roles   => $role,
+    tag     => ['keystone', 'openstack', $name],
+    require => Keystone_role[$role],
   }
 
 }
