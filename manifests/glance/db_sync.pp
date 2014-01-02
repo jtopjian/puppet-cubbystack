@@ -16,6 +16,7 @@ class cubbystack::glance::db_sync {
   exec { 'glance-manage db_sync':
     path        => '/usr/bin',
     refreshonly => true,
+    logoutput   => 'on_failure',
   }
 
 }
