@@ -37,20 +37,20 @@ class cubbystack::neutron::metadata (
 
   # Make sure Neutron Metadata is installed before any configuration begins
   # Make sure Neutron Metadata is configured before the service starts
-  Package['neutron-metadata'] -> Cubbystack_config<| tag == 'neutron-metadata' |>
+  Package<| tag == 'neutron' |> -> Cubbystack_config<| tag == 'neutron-metadata' |>
+  Package<| tag == 'neutron' |> -> File<| tag == 'neutron-metadata' |>
   Cubbystack_config<| tag == 'neutron-metadata' |> -> Service['neutron-metadata']
 
   # Restart neutron-metadata after any config changes
   Cubbystack_config<| tag == 'neutron-metadata' |> ~> Service['neutron-metadata']
 
   File {
-    ensure  => present,
-    owner   => 'neutron',
-    group   => 'neutron',
-    mode    => '0640',
-    tag     => $tags,
-    notify  => Service['neutron-metadata'],
-    require => Package['neutron-metadata'],
+    ensure => present,
+    owner  => 'neutron',
+    group  => 'neutron',
+    mode   => '0640',
+    tag    => $tags,
+    notify => Service['neutron-metadata'],
   }
 
   ## Neutron Metadata configuration

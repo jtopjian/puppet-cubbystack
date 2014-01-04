@@ -78,11 +78,6 @@ class cubbystack::keystone (
     tags           => $tags,
   }
 
-  # Packages that Keystone depends on
-  package { $::cubbystack::params::keystone_package_deps:
-    ensure => $package_ensure,
-  }
-
   # Some keystone files
   file {
     ['/etc/keystone', '/var/log/keystone', '/var/lib/keystone']:

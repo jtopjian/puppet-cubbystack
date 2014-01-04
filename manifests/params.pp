@@ -2,10 +2,13 @@ class cubbystack::params {
 
   case $::osfamily {
     'Debian': {
+
+      # Utils / Misc
+      $openstack_utils = false
+
       # Keystone
       $keystone_package_name   = 'keystone'
       $keystone_service_name   = 'keystone'
-      $keystone_package_deps   = ['python-memcache']
 
       # Glance
       $glance_package_name          = 'glance'
@@ -105,7 +108,7 @@ class cubbystack::params {
           $service_provider              = 'undef'
           $nova_consoleauth_package_name = 'nova-console'
           $horizon_package_name          = 'openstack-dashboard-apache'
-          $horizon_package_Deps          = []
+          $horizon_package_deps          = false
         }
         default: {
           $service_provider              = 'upstart'
@@ -116,6 +119,10 @@ class cubbystack::params {
       }
     }
     'RedHat': {
+
+      # Utils / Misc
+      $openstack_utils = ['openstack-utils', 'openstack-selinux']
+
       # Keystone
       $keystone_package_name = 'openstack-keystone'
       $keystone_service_name = 'openstack-keystone'
@@ -125,15 +132,24 @@ class cubbystack::params {
       $glance_api_service_name      = 'openstack-glance-api'
       $glance_registry_service_name = 'openstack-glance-registry'
 
+      # Cinder
+      $cinder_common_package_name    = 'openstack-cinder'
+      $cinder_api_package_name       = false
+      $cinder_api_service_name       = 'openstack-cinder-api'
+      $cinder_scheduler_package_name = false
+      $cinder_scheduler_service_name = 'openstack-cinder-scheduler'
+      $cinder_volume_package_name    = false
+      $cinder_volume_service_name    = 'openstack-cinder-volume'
+
       # Nova
       # nova package names
       $nova_api_package_name         = false
       $nova_cert_package_name        = false
       $nova_common_package_name      = 'openstack-nova'
-      $nova_compute_package_name     = false
+      $nova_compute_package_name     = 'openstack-nova-compute'
       $nova_consoleauth_package_name = false
       $nova_doc_package_name         = 'openstack-nova-doc'
-      $nova_network_package_name     = false
+      $nova_network_package_name     = 'openstack-nova-network'
       $nova_objectstore_package_name = false
       $nova_scheduler_package_name   = false
       $nova_vncproxy_package_name    = 'openstack-nova-novncproxy'
@@ -148,7 +164,22 @@ class cubbystack::params {
       $nova_scheduler_service_name   = 'openstack-nova-scheduler'
       $nova_vncproxy_service_name    = 'openstack-nova-novncproxy'
 
+      # Neutron
+      $neutron_common_package_name     = 'openstack-neutron'
+      $neutron_server_package_name     = false
+      $neutron_server_service_name     = 'neutron-server'
+      $neutron_dhcp_package_name       = false
+      $neutron_dhcp_service_name       = 'neutron-dhcp-agent'
+      $neutron_l3_package_name         = false
+      $neutron_l3_service_name         = 'neutron-l3-agent'
+      $neutron_metadata_package_name   = false
+      $neutron_metadata_service_name   = 'neutron-metadata-agent'
+      $neutron_plugin_ovs_package_name = 'openstack-neutron-openvswitch'
+      $neutron_plugin_ovs_service_name = 'neutron-openvswitch-agent'
+
       # Horizon
+      $horizon_package_name          = 'openstack-dashboard'
+      $horizon_package_deps          = false
       $horizon_apache_user           = 'apache'
       $horizon_apache_group          = 'apache'
       $horizon_config_file           = '/etc/openstack-dashboard/local_settings.py'

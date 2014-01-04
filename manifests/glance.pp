@@ -43,5 +43,9 @@ class cubbystack::glance (
     ensure  => directory,
     recurse => true,
   }
+  file { '/var/log/glance':
+    ensure  => directory,
+    recurse => true,
+  }
 
 }

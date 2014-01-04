@@ -37,20 +37,20 @@ class cubbystack::neutron::l3 (
 
   # Make sure Neutron L3 is installed before any configuration begins
   # Make sure Neutron L3 is configured before the service starts
-  Package['neutron-l3'] -> Cubbystack_config<| tag == 'neutron-l3' |>
+  Package<| tag == 'neutron' |> -> Cubbystack_config<| tag == 'neutron-l3' |>
+  Package<| tag == 'neutron' |> -> File<| tag == 'neutron-l3' |>
   Cubbystack_config<| tag == 'neutron-l3' |> -> Service['neutron-l3']
 
   # Restart neutron-l3 after any config changes
   Cubbystack_config<| tag == 'neutron-l3' |> ~> Service['neutron-l3']
 
   File {
-    ensure  => present,
-    owner   => 'neutron',
-    group   => 'neutron',
-    mode    => '0640',
-    tag     => $tags,
-    notify  => Service['neutron-l3'],
-    require => Package['neutron-l3'],
+    ensure => present,
+    owner  => 'neutron',
+    group  => 'neutron',
+    mode   => '0640',
+    tag    => $tags,
+    notify => Service['neutron-l3'],
   }
 
   ## Neutron L3 configuration

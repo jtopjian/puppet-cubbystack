@@ -1,25 +1,14 @@
-class cubbystack::repo (
+# Humbly based on the openstack module
+class cubbystack::repo(
   $release = 'havana'
 ) {
-
-  case $::lsbdistid {
-    'Ubuntu': {
-      package { 'ubuntu-cloud-keyring':
-        ensure => latest,
+  case $release {
+    'havana', 'grizzly': {
+      if $::osfamily == 'RedHat' {
+        class {'cubbystack::repo::redhat': release => $release }
+      } elsif $::operatingsystem == 'Ubuntu' {
+        class {'cubbystack::repo::ubuntu': release => $release }
       }
-
-      case $::lsbdistcodename {
-        'precise': {
-          apt::source {
-            location         => 'http://ubuntu-cloud.archive.canonical.com/ubuntu',
-            release          => "precise-updates/${release}",
-            repos            => 'main',
-            require_packages => 'ubuntu-cloud-keyring'
-          }
-        }
-      }
-
     }
   }
-
 }

@@ -21,11 +21,14 @@ class cubbystack::nova::vncproxy (
   $service_enable = true
 ) {
 
-  package { $::cubbystack::params::nova_novnc_package_name:
-    ensure => $package_ensure,
-  }
-
+  include ::cubbystack::params
   include ::cubbystack::nova
+
+  if $::cubbystack::params::nova_novnc_package_name {
+    package { $::cubbystack::params::nova_novnc_package_name:
+      ensure => $package_ensure,
+    }
+  }
 
   cubbystack::functions::generic_service { 'nova-vncproxy':
     service_enable => $service_enable,

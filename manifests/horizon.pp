@@ -35,8 +35,10 @@ class cubbystack::horizon (
     ensure => $package_ensure,
   }
 
-  package { $::cubbystack::params::horizon_package_deps:
-    ensure => $package_ensure,
+  if $::cubbystack::params::horizon_package_deps {
+    package { $::cubbystack::params::horizon_package_deps:
+      ensure => $package_ensure,
+    }
   }
 
   File {

@@ -37,20 +37,20 @@ class cubbystack::neutron::dhcp (
 
   # Make sure Neutron DHCP is installed before any configuration begins
   # Make sure Neutron DHCP is configured before the service starts
-  Package['neutron-dhcp'] -> Cubbystack_config<| tag == 'neutron-dhcp' |>
+  Package<| tag =='neutron' |> -> Cubbystack_config<| tag == 'neutron-dhcp' |>
+  Package<| tag =='neutron' |> -> File<| tag == 'neutron-dhcp' |>
   Cubbystack_config<| tag == 'neutron-dhcp' |> -> Service['neutron-dhcp']
 
   # Restart neutron-dhcp after any config changes
   Cubbystack_config<| tag == 'neutron-dhcp' |> ~> Service['neutron-dhcp']
 
   File {
-    ensure  => present,
-    owner   => 'neutron',
-    group   => 'neutron',
-    mode    => '0640',
-    tag     => $tags,
-    notify  => Service['neutron-dhcp'],
-    require => Package['neutron-dhcp'],
+    ensure => present,
+    owner  => 'neutron',
+    group  => 'neutron',
+    mode   => '0640',
+    tag    => $tags,
+    notify => Service['neutron-dhcp'],
   }
 
   ## Neutron DHCP configuration
