@@ -35,8 +35,8 @@ class cubbystack::neutron::plugins::ovs (
   ## Meta settings and globals
   $tags = ['openstack', 'neutron', 'neutron-plugin-ovs']
 
-  # Make sure Neutron Open vSwitch is installed before any configuration begins
-  # Make sure Neutron Open vSwitch is configured before the service starts
+  # Make sure Neutron is installed before any configuration begins
+  # Make sure Neutron is configured before the service starts
   Package<| tag == 'neutron' |> -> Cubbystack_config<| tag == 'neutron-plugin-ovs' |>
   Package<| tag == 'neutron' |> -> File<| tag == 'neutron-plugin-ovs' |>
   Cubbystack_config<| tag == 'neutron-plugin-ovs' |> -> Service['neutron-plugin-ovs']
@@ -45,17 +45,20 @@ class cubbystack::neutron::plugins::ovs (
   Cubbystack_config<| tag == 'neutron-plugin-ovs' |> ~> Service['neutron-plugin-ovs']
 
   File {
-    ensure => present,
-    owner  => 'neutron',
-    group  => 'neutron',
-    mode   => '0640',
-    tag    => $tags,
-    notify => Service['neutron-plugin-ovs'],
+    ensure  => present,
+    owner   => 'neutron',
+    group   => 'neutron',
+    mode    => '0640',
+    tag     => $tags,
+    require => Package['neutron-plugin-ovs'],
+    notify  => Service['neutron-plugin-ovs'],
   }
 
   ## Neutron Open vSwitch configuration
   file { $config_file: }
 
+  # This is for RH-based distros
+  # But it won't hurt to have for all distros
   file { '/etc/neutron/plugin.ini':
     ensure => link,
     target => $config_file,

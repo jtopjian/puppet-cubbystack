@@ -85,6 +85,7 @@ class cubbystack::keystone (
       recurse => true;
     $config_file:
       mode => '0600';
+    '/var/log/keystone/keystone.log':;
   }
 
   # Configure the keystone.conf file
