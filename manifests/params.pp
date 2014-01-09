@@ -37,7 +37,6 @@ class cubbystack::params {
       $nova_objectstore_package_name = 'nova-objectstore'
       $nova_scheduler_package_name   = 'nova-scheduler'
       $nova_conductor_package_name   = 'nova-conductor'
-      $nova_conductor_service_name   = 'nova-conductor'
 
       # nova service names
       $nova_api_service_name         = 'nova-api'
@@ -48,6 +47,7 @@ class cubbystack::params {
       $nova_vncproxy_service_name    = 'nova-novncproxy'
       $nova_objectstore_service_name = 'nova-objectstore'
       $nova_scheduler_service_name   = 'nova-scheduler'
+      $nova_conductor_service_name   = 'nova-conductor'
 
       # Neutron
       $neutron_common_package_name     = 'neutron-common'
@@ -147,12 +147,12 @@ class cubbystack::params {
       $nova_cert_package_name        = false
       $nova_common_package_name      = 'openstack-nova'
       $nova_compute_package_name     = 'openstack-nova-compute'
-      $nova_consoleauth_package_name = false
       $nova_doc_package_name         = 'openstack-nova-doc'
       $nova_network_package_name     = 'openstack-nova-network'
+      $nova_vncproxy_package_name    = 'openstack-nova-novncproxy'
       $nova_objectstore_package_name = false
       $nova_scheduler_package_name   = false
-      $nova_vncproxy_package_name    = 'openstack-nova-novncproxy'
+      $nova_conductor_package_name   = false
 
       # nova service names
       $nova_api_service_name         = 'openstack-nova-api'
@@ -163,6 +163,7 @@ class cubbystack::params {
       $nova_objectstore_service_name = 'openstack-nova-objectstore'
       $nova_scheduler_service_name   = 'openstack-nova-scheduler'
       $nova_vncproxy_service_name    = 'openstack-nova-novncproxy'
+      $nova_conductor_service_name   = 'openstack-nova-conductor'
 
       # Neutron
       $neutron_common_package_name     = 'openstack-neutron'
