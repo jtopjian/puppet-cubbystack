@@ -37,7 +37,7 @@ class cubbystack::swift::rings (
       path    => ['/usr/bin'],
       creates => "/etc/swift/${ring}.builder",
       before  => Class['::cubbystack::swift::proxy'],
-      require => Package['swift'],
+      require => [File['/etc/swift/backups'], Package['swift']]
     }
 
     exec { "rebalance_${ring}":

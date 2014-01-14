@@ -31,7 +31,6 @@ class cubbystack::swift::account (
 ) {
 
   include ::cubbystack::params
-  include ::cubbystack::swift
 
   ## Meta settings and globals
   $tags = ['openstack', 'swift', 'swift-account']

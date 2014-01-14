@@ -31,7 +31,6 @@ class cubbystack::swift::proxy (
 ) {
 
   include ::cubbystack::params
-  include ::cubbystack::swift
 
   # Meta settings and globals
   $tags = ['openstack', 'swift', 'swift-proxy']

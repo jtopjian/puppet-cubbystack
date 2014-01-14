@@ -52,7 +52,7 @@ class cubbystack::swift (
     require => Package['swift'],
   }
 
-  $swift_directories = ['/etc/swift', '/var/lib/swift']
+  $swift_directories = ['/etc/swift', '/etc/swift/backups', '/var/lib/swift']
   file { $swift_directories:
     ensure  => directory,
     recurse => true;
