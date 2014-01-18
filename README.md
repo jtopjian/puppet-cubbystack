@@ -21,7 +21,7 @@ cubbystack is an OpenStack deployment framework for Puppet.
 ### History
 cubbystack was created to solve a recurring problem of mine: all of my OpenStack deployments always outgrew the [Puppetlabs OpenStack module](https://forge.puppetlabs.com/puppetlabs/openstack). I began to see that it wasn't just my OpenStack environments, but every production deployment that I came across. The cause varied: it could be something as simple as a single missing option for `nova.conf` or wanting to break Keystone out to its own server.
 
-My initial solution was to compose my own OpenStack module using the individual Puppetlabs OpenStack component modules. This solved some of my issues, but not nearly all of them. For example, if the Glance module didn't have a way for me to configure a certain option, I would either have to patch the module or configure the option outside of the module. The result was a haphazard Frankenstein manifest -- some parts configuring Glance manually and some using the proper module. Not only that, but I was doing this for *each* component and *differently* for each OpenStack environment of mine.
+My initial solution was to compose my own OpenStack module using the individual Puppetlabs OpenStack component modules. This solved some of my issues, but not nearly all of them. For example, if the Glance module didn't have a way for me to configure a certain option, I would either have to patch the module or configure the option outside of the module. The result was a haphazard Frankenstein manifest: some parts configuring Glance manually and some using the proper module. Not only that, but I was doing this for *each* component and *differently* for each OpenStack environment of mine.
 
 ### Philosophy
 
@@ -50,7 +50,7 @@ keystone::settings:
   'token/driver': 'keystone.token.backends.memcache.Token'
 ```
 
-This gives you the benefit of being able to specify *any* OpenStack configuration option without cubbystack having to know about it as well as benefit of OpenStack automatically using its default value for any value you don't specify.
+This gives you the benefit of being able to specify *any* OpenStack configuration option without cubbystack having to know about it as well as OpenStack automatically using its default value for any value you don't specify.
 
 There are some caveats to this:
 
@@ -111,7 +111,7 @@ class { '::cubbystack::keystone':
 }
 ```
 
-As you can see, both class declarations are identical. The difference in configuration comes from the `keystone_settings` hash. For a memcache token backend:
+As you can see, both class declarations are identical. The difference in configuration comes from the `keystone::settings` hash. For a memcache token backend:
 
 ```yaml
 keystone_settings:
@@ -148,11 +148,9 @@ cubbystack_config { '/etc/keystone/keystone.conf: token/driver':
 
 #### Multiple Configuration Files
 
-A benefit to `cubbystack_config` is that you can specify *any* configuration file to apply the setting to.
+Just like the `ini_setting` type, but different from the Official OpenStack module types, `cubbystack_config` can be used with any configurartion file.
 
-One reason you might want to do this is to add separate settings to `/etc/nova/nova-compute.conf` such as what's done in the Ubuntu package of `nova-compute`.
-
-Another benefit to this is the ability to support any OpenStack component that standardizes its configuration on an `ini` file. This allows a similar configuration pattern to be applied to all OpenStack projects.
+This allows each OpenStack component to be able to utilize multiple configuration files (though this really isn't a common practice). As well, a new type does not need to exist for each OpenStack component: the same `cubbystack_config` type can configure both Nova, Glance, Keystone, Cinder, Swift, Neutron, etc.
 
 #### Purging
 
@@ -174,15 +172,11 @@ The `DEFAULT/verbose` setting will then be removed upon the next Puppet run.
 
 Horizon has to be configured a little differently. While it might be possible to structure the `local_settings.py` file in a YAML-ish way, the support isn't there yet. Instead, I recommend using the example manifest and a static `local_settings.py` file in the `module/files` directory.
 
-#### Swift
-
-Swift support is early and I'm not 100% happy with it. The current working example configuration comes off as too complicated. I hope to have something better soon.
-
 ## Notes
 
 * There is no way to create either nova-network based networks or neutron-based networks outside of `exec` resources yet.
 * As you can see from the manifests, special care has been taken to ensure OpenStack can be installed in a predictable order.
-* The name "cubbystack" comes from my son's nickname *Cubby*. I've been surrounded by pictures of bears and cubs lately, so all of my projects are getting prefixed with "cubby".
+* The name "cubbystack" comes from my son's nickname *Cubby*. This project was started soon after he was born, so I was surrounded by pictures of bears and cubs.
 
 ## TODO
 
