@@ -57,7 +57,7 @@ class cubbystack::neutron::l3 (
   file { $config_file: }
 
   # Configure the L3 service
-  $settings.each { |$setting, $value|
+  $settings.each |$setting, $value| {
     cubbystack_config { "${config_file}: ${setting}":
       value => $value,
       tag   => $tags,

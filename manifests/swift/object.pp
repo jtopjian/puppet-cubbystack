@@ -39,7 +39,7 @@ class cubbystack::swift::object (
   Cubbystack_config<| tag == 'swift-object' |> ~> Service<| tag == 'swift-object' |>
 
   # object settings
-  $settings.each { |$setting, $value|
+  $settings.each |$setting, $value| {
     cubbystack_config { "${config_file}: ${setting}":
       value => $value,
       tag   => $tags,

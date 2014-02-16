@@ -31,7 +31,7 @@ class cubbystack::swift::rings (
   Exec['create_object']    -> Ring_object_device<||> ~> Exec['rebalance_object']
 
   $rings = ['account', 'container', 'object']
-  $rings.each { |$ring|
+  $rings.each |$ring| {
     exec { "create_${ring}":
       command => "swift-ring-builder /etc/swift/${ring}.builder create ${part_power} ${replicas} ${min_part_hours}",
       path    => ['/usr/bin'],

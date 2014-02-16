@@ -88,7 +88,7 @@ class cubbystack::keystone (
   }
 
   # Configure the keystone.conf file
-  $settings.each { |$setting, $value|
+  $settings.each |$setting, $value| {
     cubbystack_config { "${config_file}: ${setting}":
       value => $value,
       tag   => $tags,

@@ -39,7 +39,7 @@ class cubbystack::swift::account (
   Cubbystack_config<| tag == 'swift-account' |> ~> Service<| tag == 'swift-account' |>
 
   # account settings
-  $settings.each { |$setting, $value|
+  $settings.each |$setting, $value| {
     cubbystack_config { "${config_file}: ${setting}":
       value => $value,
       tag   => $tags,

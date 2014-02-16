@@ -39,7 +39,7 @@ class cubbystack::swift::proxy (
   Cubbystack_config<| tag == 'swift-proxy' |> ~> Service<| tag == 'swift-proxy' |>
 
   # proxy settings
-  $settings.each { |$setting, $value|
+  $settings.each |$setting, $value| {
     cubbystack_config { "${config_file}: ${setting}":
       value => $value,
       tag   => $tags,

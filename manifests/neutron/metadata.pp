@@ -57,7 +57,7 @@ class cubbystack::neutron::metadata (
   file { $config_file: }
 
   # Configure the Metadata service
-  $settings.each { |$setting, $value|
+  $settings.each |$setting, $value| {
     cubbystack_config { "${config_file}: ${setting}":
       value => $value,
       tag   => $tags,

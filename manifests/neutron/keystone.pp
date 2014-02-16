@@ -35,7 +35,7 @@ class cubbystack::neutron::keystone (
 
   file { $config_file: }
 
-  $settings.each { |$setting, $value|
+  $settings.each |$setting, $value| {
     cubbystack_config { "${config_file}: ${setting}":
       value => $value,
       tag   => $tags,

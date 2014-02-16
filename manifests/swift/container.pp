@@ -39,7 +39,7 @@ class cubbystack::swift::container (
   Cubbystack_config<| tag == 'swift-container' |>  ~> Service<| tag == 'swift-container' |>
 
   # container settings
-  $settings.each { |$setting, $value|
+  $settings.each |$setting, $value| {
     cubbystack_config { "${config_file}: ${setting}":
       value => $value,
       tag   => $tags,

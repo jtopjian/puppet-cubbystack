@@ -59,7 +59,7 @@ class cubbystack::cinder (
   file { $config_file: }
 
   # Configure cinder.conf
-  $settings.each { |$setting, $value|
+  $settings.each |$setting, $value| {
     cubbystack_config { "${config_file}: ${setting}":
       value => $value,
       tag   => $tags,

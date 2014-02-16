@@ -57,7 +57,7 @@ class cubbystack::neutron::plugins::linuxbridge (
   file { $config_file: }
 
   # Configure the Open vSwitch service
-  $settings.each { |$setting, $value|
+  $settings.each |$setting, $value| {
     cubbystack_config { "${config_file}: ${setting}":
       value => $value,
       tag   => $tags,
