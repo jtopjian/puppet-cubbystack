@@ -36,6 +36,7 @@ define cubbystack::functions::create_openrc (
   $admin_user           = 'admin',
   $admin_tenant         = 'admin',
   $region               = 'RegionOne',
+  $protocol             = 'http',
 ) {
   file { $name:
     content =>
@@ -43,7 +44,7 @@ define cubbystack::functions::create_openrc (
 export OS_TENANT_NAME=${admin_tenant}
 export OS_USERNAME=${admin_user}
 export OS_PASSWORD=\"${admin_password}\"
-export OS_AUTH_URL=\"http://${keystone_host}:5000/v2.0/\"
+export OS_AUTH_URL=\"${protocol}://${keystone_host}:5000/v2.0/\"
 export OS_AUTH_STRATEGY=keystone
 export OS_REGION_NAME=${region}
 "
