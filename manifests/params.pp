@@ -38,6 +38,7 @@ class cubbystack::params {
       $nova_scheduler_package_name    = 'nova-scheduler'
       $nova_conductor_package_name    = 'nova-conductor'
       $nova_api_metadata_package_name = 'nova-api-metadata'
+      $nova_cells_package_name        = 'nova-cells'
 
       # nova service names
       $nova_api_service_name          = 'nova-api'
@@ -50,6 +51,7 @@ class cubbystack::params {
       $nova_scheduler_service_name    = 'nova-scheduler'
       $nova_conductor_service_name    = 'nova-conductor'
       $nova_api_metadata_service_name = 'nova-api-metadata'
+      $nova_cells_service_name        = 'nova-cells'
 
       # Neutron
       $neutron_common_package_name     = 'neutron-common'
