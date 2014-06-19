@@ -12,7 +12,7 @@ class cubbystack::params {
       $glance_registry_service_name = 'glance-registry'
 
       # Cinder
-      $cinder_package_name           = 'cinder-common'
+      $cinder_common_package_name    = 'cinder-common'
       $cinder_api_package_name       = 'cinder-api'
       $cinder_api_service_name       = 'cinder-api'
       $cinder_scheduler_package_name = 'cinder-scheduler'

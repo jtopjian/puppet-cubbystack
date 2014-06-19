@@ -119,27 +119,27 @@ class cubbystack::keystone (
 
   ## Basic Keystone tenants, roles, and users
   # Configure Keystone users and tenants
-  keystone_tenant { 'services':
-    ensure      => present,
-    enabled     => true,
-    description => 'Tenant for the openstack services',
-  } ->
+  #keystone_tenant { 'services':
+  #  ensure      => present,
+  #  enabled     => true,
+  #  description => 'Tenant for the openstack services',
+  #} ->
 
-  keystone_tenant { 'admin':
-    ensure      => present,
-    enabled     => true,
-    description => 'admin tenant',
-  } ->
+  #keystone_tenant { 'admin':
+  #  ensure      => present,
+  #  enabled     => true,
+  #  description => 'admin tenant',
+  #} ->
 
-  keystone_role { ['admin', 'Member']:
-    ensure => present,
-  } ->
+  #keystone_role { ['admin', 'Member']:
+  #  ensure => present,
+  #} ->
 
-  cubbystack::functions::create_keystone_user { 'admin':
-    password => $admin_password,
-    email    => $admin_email,
-    tenant   => 'admin',
-    role     => 'admin',
-  }
+  #cubbystack::functions::create_keystone_user { 'admin':
+  #  password => $admin_password,
+  #  email    => $admin_email,
+  #  tenant   => 'admin',
+  #  role     => 'admin',
+  #}
 
 }

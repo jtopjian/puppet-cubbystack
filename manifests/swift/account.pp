@@ -75,4 +75,5 @@ class cubbystack::swift::account (
     ensure => $service_ensure,
     tag    => $::cubbystack::swift::tags,
   }
+
 }
