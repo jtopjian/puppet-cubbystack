@@ -48,8 +48,10 @@ class cubbystack::horizon (
     mode   => '0640',
   }
 
-  file { $::cubbystack::params::horizon_config_file:
-    source => $config_file,
+  if $config_file {
+    file { $::cubbystack::params::horizon_config_file:
+      source => $config_file,
+    }
   }
 
 }

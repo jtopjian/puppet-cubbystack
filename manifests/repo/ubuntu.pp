@@ -14,7 +14,6 @@ class cubbystack::repo::ubuntu (
         required_packages => 'ubuntu-cloud-keyring',
       }
 
-      Exec['apt_update'] -> Package<||>
     }
   }
 }
