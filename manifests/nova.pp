@@ -31,13 +31,10 @@ class cubbystack::nova (
 
   # Make sure nova is installed before configuration begins
   Package<| tag == 'nova' |> -> Nova_config<||>
-  Package<| tag == 'nova' |> -> Nova_paste_api_ini<||>
   Nova_config<||>            -> Service<| tag == 'nova' |>
-  Nova_paste_api_ini<||>     -> Service<| tag == 'nova' |>
 
   # Restart nova services whenever nova.conf has been changed
   Nova_config<||>             ~> Service<| tag == 'nova' |>
-  Nova_paste_api_ini<||>      ~> Service<| tag == 'nova' |>
 
   # Purge all resources in nova.conf
   if ($purge_resources) {
@@ -84,6 +81,5 @@ class cubbystack::nova (
       value => $value,
     }
   }
-
 
 }

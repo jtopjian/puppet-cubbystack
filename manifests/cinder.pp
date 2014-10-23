@@ -31,13 +31,10 @@ class cubbystack::cinder (
 
   # Make sure cinder is installed before configuration begins
   Package<| tag == 'cinder' |> -> Cinder_config<||>
-  Package<| tag == 'cinder' |> -> Cinder_api_paste_ini<||>
   Cinder_config<||>            -> Service<| tag == 'cinder' |>
-  Cinder_api_paste_ini<||>     -> Service<| tag == 'cinder' |>
 
   # Restart cinder services whenever cinder.conf has been changed
   Cinder_config<||>             ~> Service<| tag == 'cinder' |>
-  Cinder_api_paste_ini<||>      ~> Service<| tag == 'cinder' |>
 
   # Purge all resources in cinder.conf
   if ($purge_resources) {
@@ -73,13 +70,8 @@ class cubbystack::cinder (
 
   ## Configure cinder.conf
 
-  $settings['conf'].each { |$setting, $value|
+  $settings.each { |$setting, $value|
     cinder_config { $setting:
-      value => $value,
-    }
-  }
-  $settings['paste'].each { |$setting, $value|
-    cinder_api_paste_ini { $setting:
       value => $value,
     }
   }
