@@ -2,8 +2,6 @@
 #
 # Creates an openrc OpenStack auth file
 #
-# TODO: make this so rc files can be created for any user
-#
 # === Parameters
 #
 # [*admin_password*]
@@ -26,6 +24,15 @@
 #   The OpenStack region
 #   Defaults to RegionOne
 #
+# [*protocol*]
+#   Whether http or https
+#
+# [*owner*]
+#   The system user owner of the file
+#
+# [*group*]
+#   The system group owner of the file
+#
 define cubbystack::functions::create_openrc (
   $admin_password,
   $keystone_host  = '127.0.0.1',
@@ -33,8 +40,13 @@ define cubbystack::functions::create_openrc (
   $admin_tenant   = 'admin',
   $region         = 'RegionOne',
   $protocol       = 'http',
+  $owner          = 'root',
+  $group          = 'root',
 ) {
   file { $name:
+    owner   => $owner,
+    group   => $group,
+    mode    => '0640',
     content =>
 "
 export OS_TENANT_NAME=${admin_tenant}
