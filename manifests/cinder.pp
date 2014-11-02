@@ -55,6 +55,11 @@ class cubbystack::cinder (
   }
 
   ## Cinder configuration files
+  file { '/etc/cinder':
+    ensure  => directory,
+    recurse => true,
+  }
+
   file { '/var/log/cinder': ensure => directory }
   file { $config_file: }
 

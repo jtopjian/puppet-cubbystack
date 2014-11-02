@@ -59,7 +59,14 @@ class cubbystack::nova (
     ensure  => directory,
     recurse => true,
   }
+
+  file { '/etc/nova':
+    ensure  => directory,
+    recurse => true,
+  }
+
   file { $config_file: }
+
   # nova-manage insists on 0644
   file { '/var/log/nova/nova-manage.log':
     mode => '0644',

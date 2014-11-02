@@ -1,5 +1,5 @@
 class cubbystack::repo::ubuntu (
-  $release = 'havana',
+  $release = 'juno',
   $repo    = 'updates'
 ) {
 
@@ -13,6 +13,8 @@ class cubbystack::repo::ubuntu (
         repos             => 'main',
         required_packages => 'ubuntu-cloud-keyring',
       }
+
+      Exec['apt_update'] -> Package<||>
 
     }
   }
