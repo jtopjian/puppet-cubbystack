@@ -15,10 +15,6 @@
 #   The path to nova.conf
 #   Defaults to /etc/nova/nova.conf
 #
-# === Example Usage
-#
-# Please see the `examples` directory.
-#
 class cubbystack::nova (
   $settings,
   $package_ensure = latest,

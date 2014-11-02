@@ -15,10 +15,6 @@
 #   The path to glance-api.conf
 #   Defaults to /etc/glance/glance-api.conf
 #
-# === Example Usage
-#
-# Please see the `examples` directory.
-#
 class cubbystack::glance::api (
   $settings,
   $service_enable = true,

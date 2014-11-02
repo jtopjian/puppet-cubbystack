@@ -15,10 +15,6 @@
 #   The status of the cinder-common package
 #   Defaults to latest
 #
-# === Example Usage
-#
-# Please see the `examples` directory.
-#
 class cubbystack::cinder (
   $settings,
   $package_ensure = latest,

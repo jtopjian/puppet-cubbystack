@@ -19,10 +19,6 @@
 #   The path to container-server.conf
 #   Defaults to /etc/swift/container-server.conf
 #
-# === Example Usage
-#
-# Please see the `examples` directory.
-#
 class cubbystack::swift::container (
   $settings,
   $package_ensure = latest,

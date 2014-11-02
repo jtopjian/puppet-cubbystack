@@ -28,10 +28,6 @@
 #   Status of the user's account
 #   Defaults to true
 #
-# === Example Usage
-#
-# Please see the `examples` directory.
-#
 define cubbystack::functions::create_keystone_user (
   $password,
   $tenant,

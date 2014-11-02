@@ -19,10 +19,6 @@
 #   The path to account-server.conf
 #   Defaults to /etc/swift/account-server.conf
 #
-# === Example Usage
-#
-# Please see the `examples` directory.
-#
 class cubbystack::swift::account (
   $settings,
   $package_ensure = latest,

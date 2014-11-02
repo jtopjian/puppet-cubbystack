@@ -20,10 +20,6 @@
 #   The status of the package
 #   Defaults to present
 #
-# === Example Usage
-#
-# Please see the `examples` directory.
-#
 define cubbystack::functions::generic_swift_service (
   $tags           = undef,
   $service_enable = true,

@@ -25,10 +25,6 @@
 #   The name of the templated catalog file
 #   Defaults to '/etc/keystone/default_catalog.templates'
 #
-# === Example Usage
-#
-# Please see the `examples` directory.
-#
 define cubbystack::functions::create_keystone_endpoint (
   $service_name,
   $public_url,

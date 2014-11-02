@@ -15,10 +15,6 @@
 #   The status of the neutron-common package
 #   Defaults to latest
 #
-# === Example Usage
-#
-# Please see the `examples` directory.
-#
 class cubbystack::neutron (
   $settings,
   $package_ensure = latest,

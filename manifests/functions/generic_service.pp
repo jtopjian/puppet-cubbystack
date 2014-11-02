@@ -24,10 +24,6 @@
 #   The status of the package
 #   Defaults to present
 #
-# === Example Usage
-#
-# Please see the `examples` directory.
-#
 define cubbystack::functions::generic_service (
   $package_name   = false,
   $service_name   = false,

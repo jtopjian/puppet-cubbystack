@@ -19,10 +19,6 @@
 #   The path to the object-server.conf file
 #   Defaults to /etc/swift/object-server.conf
 #
-# === Example Usage
-#
-# Please see the `examples` directory.
-#
 class cubbystack::swift::object (
   $settings,
   $package_ensure = latest,

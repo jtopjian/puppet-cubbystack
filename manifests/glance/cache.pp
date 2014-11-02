@@ -15,10 +15,6 @@
 #   The path to glance-cache.conf
 #   Defaults to /etc/glance/glance-cache.conf.
 #
-# === Example Usage
-#
-# Please see the `examples` directory.
-#
 class cubbystack::glance::cache (
   $settings,
   $config_file = '/etc/glance/glance-cache.conf',

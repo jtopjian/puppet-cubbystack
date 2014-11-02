@@ -12,10 +12,6 @@
 #   The libvirt category to use
 #   Defaults to kvm
 #
-# === Example Usage
-#
-# Please see the `manifests/examples` directory.
-#
 class cubbystack::nova::compute::libvirt (
   $package_ensure = latest,
   $libvirt_type   = 'kvm'

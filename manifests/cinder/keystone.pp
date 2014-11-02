@@ -11,10 +11,6 @@
 #   The path to api-paste.ini
 #   Defaults to /etc/cinder/api-paste.ini
 #
-# === Example Usage
-#
-# Please see the `examples` directory.
-#
 class cubbystack::cinder::keystone (
   $settings,
   $config_file = '/etc/cinder/api-paste.ini',

@@ -15,10 +15,6 @@
 #   The path to glance-registry.conf
 #   Defaults to /etc/glance/glance-registry.conf
 #
-# === Example Usage
-#
-# Please see the `examples` directory.
-#
 class cubbystack::glance::registry (
   $settings,
   $service_enable = true,

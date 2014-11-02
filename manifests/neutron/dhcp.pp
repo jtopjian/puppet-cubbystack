@@ -19,10 +19,6 @@
 #   The path to dhcp_agent.ini
 #   Defaults to /etc/neutron/dhcp_agent.ini
 #
-# === Example Usage
-#
-# Please see the `examples` directory.
-#
 class cubbystack::neutron::dhcp (
   $settings,
   $package_ensure = latest,

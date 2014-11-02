@@ -19,10 +19,6 @@
 #   The path to keystone.conf
 #   Defaults to /etc/keystone/keystone.conf.
 #
-# === Example Usage
-#
-# Please see the `examples` directory.
-#
 class cubbystack::keystone (
   $settings,
   $package_ensure = latest,

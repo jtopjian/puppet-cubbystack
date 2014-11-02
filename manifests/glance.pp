@@ -8,10 +8,6 @@
 #   The status of the glance-common package
 #   Defaults to latest
 #
-# === Example Usage
-#
-# Please see the `examples` directory.
-#
 class cubbystack::glance (
   $package_ensure = latest
 ) {

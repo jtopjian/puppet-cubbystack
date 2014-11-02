@@ -12,10 +12,6 @@
 #   Whether or not to purge all settings in api-paste.ini
 #   Defaults to false
 #
-# === Example Usage
-#
-# Please see the `examples` directory.
-#
 class cubbystack::nova::keystone (
   $settings,
   $config_file = '/etc/nova/api-paste.ini',

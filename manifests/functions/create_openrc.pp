@@ -26,17 +26,13 @@
 #   The OpenStack region
 #   Defaults to RegionOne
 #
-# === Example Usage
-#
-# Please see the `examples` directory.
-#
 define cubbystack::functions::create_openrc (
   $admin_password,
-  $keystone_host        = '127.0.0.1',
-  $admin_user           = 'admin',
-  $admin_tenant         = 'admin',
-  $region               = 'RegionOne',
-  $protocol             = 'http',
+  $keystone_host  = '127.0.0.1',
+  $admin_user     = 'admin',
+  $admin_tenant   = 'admin',
+  $region         = 'RegionOne',
+  $protocol       = 'http',
 ) {
   file { $name:
     content =>

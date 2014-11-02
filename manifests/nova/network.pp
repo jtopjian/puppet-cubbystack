@@ -16,10 +16,6 @@
 #   Whether or not to install/enable nova-network
 #   Defaults to true
 #
-# === Example Usage
-#
-# Please see the `examples` directory.
-#
 class cubbystack::nova::network (
   $package_ensure   = latest,
   $service_enable   = true,

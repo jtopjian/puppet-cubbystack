@@ -16,10 +16,6 @@
 #   The state of the swift package.
 #   Defaults to latest.
 #
-# === Example Usage
-#
-# Please see the `examples` directory.
-#
 class cubbystack::swift (
   $settings,
   $package_ensure = latest,

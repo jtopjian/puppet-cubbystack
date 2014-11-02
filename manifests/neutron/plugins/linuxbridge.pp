@@ -19,10 +19,6 @@
 #   The path to linuxbridge_conf.ini
 #   Defaults to /etc/neutron/plugins/linuxbridge/linuxbridge_conf.ini
 #
-# === Example Usage
-#
-# Please see the `examples` directory.
-#
 class cubbystack::neutron::plugins::linuxbridge (
   $settings,
   $package_ensure = latest,

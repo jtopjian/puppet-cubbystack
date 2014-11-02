@@ -12,10 +12,6 @@
 #   The status of the nova-objectstore service
 #   Defaults to true
 #
-# === Example Usage
-#
-# Please see the `examples` directory.
-#
 class cubbystack::nova::objectstore (
   $package_ensure = latest,
   $service_enable = true
