@@ -65,6 +65,7 @@ class cubbystack::params {
       $neutron_metadata_service_name   = 'neutron-metadata-agent'
       $neutron_plugin_ovs_package_name = 'neutron-plugin-openvswitch-agent'
       $neutron_plugin_ovs_service_name = 'neutron-plugin-openvswitch-agent'
+      $neutron_plugin_ml2_package_name = 'neutron-plugin-ml2'
       $neutron_plugin_linuxbridge_package_name = 'neutron-plugin-linuxbridge-agent'
       $neutron_plugin_linuxbridge_service_name = 'neutron-plugin-linuxbridge-agent'
 
