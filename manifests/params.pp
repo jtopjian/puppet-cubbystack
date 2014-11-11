@@ -97,6 +97,17 @@ class cubbystack::params {
       $swift_account_replicator_service_name   = 'swift-account-replicator'
       $swift3                                  = 'swift-plugin-s3'
 
+      # Heat
+      $heat_common_package_name         = 'heat-common'
+      $heat_api_package_name            = 'heat-api'
+      $heat_api_service_name            = 'heat-api'
+      $heat_api_cfn_package_name        = 'heat-api-cfn'
+      $heat_api_cfn_service_name        = 'heat-api-cfn'
+      $heat_api_cloudwatch_package_name = 'heat-api-cloudwatch'
+      $heat_api_cloudwatch_service_name = 'heat-api-cloudwatch'
+      $heat_engine_package_name         = 'heat-engine'
+      $heat_engine_service_name         = 'heat-engine'
+
       # debian specific nova config
       $root_helper              = 'sudo nova-rootwrap'
       $lock_path                = '/var/lock/nova'
