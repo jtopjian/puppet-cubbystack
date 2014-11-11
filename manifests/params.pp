@@ -108,6 +108,15 @@ class cubbystack::params {
       $heat_engine_package_name         = 'heat-engine'
       $heat_engine_service_name         = 'heat-engine'
 
+      # Trove
+      $trove_common_package_name      = 'trove-common'
+      $trove_api_package_name         = 'trove-api'
+      $trove_api_service_name         = 'trove-api'
+      $trove_taskmanager_package_name = 'trove-taskmanager'
+      $trove_taskmanager_service_name = 'trove-taskmanager'
+      $trove_conductor_package_name   = false
+      $trove_conductor_service_name   = 'trove-conductor'
+
       # debian specific nova config
       $root_helper              = 'sudo nova-rootwrap'
       $lock_path                = '/var/lock/nova'
