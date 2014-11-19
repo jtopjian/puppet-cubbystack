@@ -71,8 +71,8 @@ class cubbystack::params {
 
 
       # Horizon
-      $horizon_apache_user           = 'www-data'
-      $horizon_apache_group          = 'www-data'
+      $horizon_apache_user           = 'horizon'
+      $horizon_apache_group          = 'horizon'
       $horizon_config_file           = '/etc/openstack-dashboard/local_settings.py'
 
       # Swift
