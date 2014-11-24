@@ -32,7 +32,7 @@ class cubbystack::nova::compute::libvirt (
   cubbystack::functions::generic_service { 'libvirt':
     package_name   => $::cubbystack::params::libvirt_package_name,
     service_name   => $::cubbystack::params::libvirt_service_name,
-    package_ensure => latest,
+    package_ensure => $package_ensure,
     tags           => ['openstack', 'libvirt'],
   }
 
