@@ -48,10 +48,8 @@ define cubbystack::functions::create_openrc (
   if $keystone_api_version == 'v3' {
     $identity_api_version = '3'
   } else {
-    $identity_api_vesion = '2'
+    $identity_api_version = '2'
   }
-
-
 
   file { $name:
     owner   => $owner,
