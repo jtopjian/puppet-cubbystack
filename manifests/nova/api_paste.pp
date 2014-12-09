@@ -1,6 +1,6 @@
-# == Class: cubbystack::nova::keystone
+# == Class: cubbystack::nova::api_paste
 #
-# Configures keystone authentication for nova
+# Configures api_paste authentication for nova
 #
 # === Parameters
 #
@@ -12,11 +12,7 @@
 #   Whether or not to purge all settings in api-paste.ini
 #   Defaults to false
 #
-# === Example Usage
-#
-# Please see the `examples` directory.
-#
-class cubbystack::nova::keystone (
+class cubbystack::nova::api_paste (
   $settings,
   $config_file = '/etc/nova/api-paste.ini',
 ) {
