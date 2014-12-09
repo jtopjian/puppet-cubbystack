@@ -1,6 +1,6 @@
-# == Class: cubbystack::cinder::keystone
+# == Class: cubbystack::cinder::api_paste
 #
-# Configures keystone authentication for cinder
+# Configures api_paste authentication for cinder
 #
 # === Parameters
 #
@@ -11,7 +11,7 @@
 #   The path to api-paste.ini
 #   Defaults to /etc/cinder/api-paste.ini
 #
-class cubbystack::cinder::keystone (
+class cubbystack::cinder::api_paste (
   $settings,
   $config_file = '/etc/cinder/api-paste.ini',
 ) {
