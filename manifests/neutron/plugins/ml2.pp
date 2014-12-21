@@ -54,8 +54,8 @@ class cubbystack::neutron::plugins::ml2 (
   }
 
   package { 'neutron-plugin-ml2':
-    name   => $::cubbystack::params::neutron_plugin_ml2_package_name,
     ensure => $package_ensure,
+    name   => $::cubbystack::params::neutron_plugin_ml2_package_name,
     tag    => $tags,
   }
 

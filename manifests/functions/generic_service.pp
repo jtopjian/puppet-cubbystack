@@ -32,32 +32,32 @@ define cubbystack::functions::generic_service (
   $package_ensure = present,
 ) {
 
-  if ($service_enable) {
+  if $service_enable {
     $service_ensure = 'running'
   } else {
     $service_ensure = 'stopped'
   }
 
-  if ($package_name) {
+  if $package_name {
     package { $title:
-      name   => $package_name,
       ensure => $package_ensure,
+      name   => $package_name,
       tag    => $tags,
     }
   }
 
-  if ($service_name) {
+  if $service_name {
 
-    if ($package_name) {
+    if $package_name {
       Package[$package_name] -> Service[$service_name]
       Package[$package_name] ~> Service[$service_name]
     }
 
     service { $title:
-      name    => $service_name,
-      ensure  => $service_ensure,
-      enable  => $enable,
-      tag     => $tags,
+      ensure => $service_ensure,
+      name   => $service_name,
+      enable => $service_enable,
+      tag    => $tags,
     }
 
   }

@@ -45,8 +45,8 @@ class cubbystack::nova (
 
   # nova-common package
   package { 'nova-common':
+    ensure => $package_ensure,
     name   => $::cubbystack::params::nova_common_package_name,
-    ensure => present,
     tag    => $tags,
   }
 

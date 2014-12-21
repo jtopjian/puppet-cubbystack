@@ -34,8 +34,8 @@ class cubbystack::swift (
 
   # Install the swift package
   package { 'swift':
-    name   => $::cubbystack::params::swift_package_name,
     ensure => $package_ensure,
+    name   => $::cubbystack::params::swift_package_name,
     tag    => $tags,
   }
 

@@ -92,13 +92,13 @@ class cubbystack::keystone (
   }
 
   # Catalog configuration
-  if ($settings['catalog/driver'] == 'keystone.catalog.backends.templated.TemplatedCatalog') {
+  if $settings['catalog/driver'] == 'keystone.catalog.backends.templated.TemplatedCatalog' {
     class { '::cubbystack::keystone::templated_catalog': }
   }
 
   ## Keystone database sync
   # Run a db_sync if the package is installed or upgraded
-  if ($service_enable) {
+  if $service_enable {
     exec { 'keystone-manage db_sync':
       path        => '/usr/bin',
       refreshonly => true,

@@ -45,8 +45,8 @@ class cubbystack::cinder (
 
   # cinder-common package
   package { 'cinder-common':
+    ensure => $package_ensure,
     name   => $::cubbystack::params::cinder_common_package_name,
-    ensure => present,
     tag    => $tags,
   }
 

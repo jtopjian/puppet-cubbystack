@@ -34,7 +34,7 @@ class cubbystack::nova::network (
     mode => '0644',
   }
 
-  if ($install_service) {
+  if $install_service {
     cubbystack::functions::generic_service { 'nova-network':
       service_enable => $service_enable,
       package_ensure => $package_ensure,
