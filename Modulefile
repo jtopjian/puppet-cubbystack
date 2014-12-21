@@ -1,5 +1,5 @@
 name 'jtopjian-cubbystack'
-version '0.9.2'
+version '1.0.0'
 source 'https://github.com/jtopjian/puppet-cubbystack'
 author 'Joe Topjian'
 license 'Apache License 2.0'
