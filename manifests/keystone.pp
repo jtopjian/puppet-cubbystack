@@ -44,7 +44,6 @@ class cubbystack::keystone (
   Exec['keystone-manage db_sync'] -> Service['keystone']
 
   # Other ordering
-  Service['keystone'] -> Cubbystack::Functions::Create_keystone_user<||>
   Cubbystack::Functions::Create_keystone_endpoint<||> -> Service['keystone']
   Cubbystack::Functions::Create_keystone_endpoint<||> ~> Service['keystone']
 
