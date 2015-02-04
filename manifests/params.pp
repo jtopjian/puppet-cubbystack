@@ -75,6 +75,8 @@ class cubbystack::params {
       # Swift
       $swift_package_name                      = 'swift'
       $swift_client_package_name               = 'python-swiftclient'
+      $swift_expirer_package_name              = 'swift-object-expirer'
+      $swift_expirer_service_name              = 'swift-object-expirer'
       $swift_proxy_package_name                = 'swift-proxy'
       $swift_proxy_service_name                = 'swift-proxy'
       $swift_object_package_name               = 'swift-object'
