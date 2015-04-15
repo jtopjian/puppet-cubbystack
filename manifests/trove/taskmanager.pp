@@ -6,7 +6,7 @@
 #
 # [*package_ensure*]
 #   The status of the trove-taskmanager package
-#   Defaults to latest
+#   Defaults to present
 #
 # [*service_enable*]
 #   The status of the trove-taskmanager service
@@ -21,7 +21,7 @@
 #
 class cubbystack::trove::taskmanager (
   $settings,
-  $package_ensure = latest,
+  $package_ensure = present,
   $service_enable = true,
   $config_file    = '/etc/trove/trove-taskmanager.conf',
 ) {

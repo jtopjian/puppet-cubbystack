@@ -18,7 +18,7 @@
 #   Defaults to the params file
 #
 class cubbystack::horizon (
-  $package_ensure = latest,
+  $package_ensure = present,
   $config_file    = 'puppet:///modules/cubbystack/horizon/local_settings.py',
   $web_user       = $::cubbystack::params::horizon_apache_user,
   $web_group      = $::cubbystack::params::horizon_apache_group

@@ -9,7 +9,7 @@
 #
 # [*package_ensure*]
 #   The status of the trove-common package
-#   Defaults to latest
+#   Defaults to present
 #
 # [*config_file*]
 #   The path to trove.conf
@@ -17,7 +17,7 @@
 #
 class cubbystack::trove (
   $settings,
-  $package_ensure = latest,
+  $package_ensure = present,
   $config_file    = '/etc/trove/trove.conf',
 ) {
 

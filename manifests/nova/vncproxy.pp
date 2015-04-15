@@ -6,14 +6,14 @@
 #
 # [*package_ensure*]
 #   The status of the nova-vncproxy package
-#   Defaults to latest
+#   Defaults to present
 #
 # [*service_enable*]
 #   The status of the nova-vncproxy service
 #   Defaults to true
 #
 class cubbystack::nova::vncproxy (
-  $package_ensure = latest,
+  $package_ensure = present,
   $service_enable = true
 ) {
 

@@ -6,14 +6,14 @@
 #
 # [*package_ensure*]
 #   The status of the nova-compute package
-#   Defaults to latest
+#   Defaults to present
 #
 # [*service_enable*]
 #   The status of the nova-compute service
 #   Defaults to true
 #
 class cubbystack::nova::compute (
-  $package_ensure = latest,
+  $package_ensure = present,
   $service_enable = true
 ) {
 

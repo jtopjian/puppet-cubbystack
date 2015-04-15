@@ -6,14 +6,14 @@
 #
 # [*package_ensure*]
 #   The status of the cinder-api package
-#   Defaults to latest
+#   Defaults to present
 #
 # [*service_enable*]
 #   The status of the cinder-api service
 #   Defaults to true
 #
 class cubbystack::cinder::api (
-  $package_ensure = latest,
+  $package_ensure = present,
   $service_enable = true
 ) {
 

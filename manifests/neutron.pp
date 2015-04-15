@@ -13,11 +13,11 @@
 #
 # [*package_ensure*]
 #   The status of the neutron-common package
-#   Defaults to latest
+#   Defaults to present
 #
 class cubbystack::neutron (
   $settings,
-  $package_ensure = latest,
+  $package_ensure = present,
   $config_file    = '/etc/neutron/neutron.conf',
 ) {
 

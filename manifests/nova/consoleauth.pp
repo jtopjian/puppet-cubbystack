@@ -6,14 +6,14 @@
 #
 # [*package_ensure*]
 #   The status of the nova-consoleauth package
-#   Defaults to latest
+#   Defaults to present
 #
 # [*service_enable*]
 #   The status of the nova-consoleauth service
 #   Defaults to true
 #
 class cubbystack::nova::consoleauth (
-  $package_ensure = latest,
+  $package_ensure = present,
   $service_enable = true
 ) {
 

@@ -6,14 +6,14 @@
 #
 # [*package_ensure*]
 #   The status of the neutron-server package
-#   Defaults to latest
+#   Defaults to present
 #
 # [*service_enable*]
 #   The status of the neutron-server service
 #   Defaults to true
 #
 class cubbystack::neutron::server (
-  $package_ensure = latest,
+  $package_ensure = present,
   $service_enable = true
 ) {
 

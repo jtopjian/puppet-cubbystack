@@ -9,7 +9,7 @@
 #
 # [*package_ensure*]
 #   The status of the nova-common package
-#   Defaults to latest
+#   Defaults to present
 #
 # [*config_file*]
 #   The path to nova.conf
@@ -17,7 +17,7 @@
 #
 class cubbystack::nova (
   $settings,
-  $package_ensure = latest,
+  $package_ensure = present,
   $config_file    = '/etc/nova/nova.conf',
 ) {
 

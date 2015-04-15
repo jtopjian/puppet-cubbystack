@@ -13,11 +13,11 @@
 #
 # [*package_ensure*]
 #   The status of the cinder-common package
-#   Defaults to latest
+#   Defaults to present
 #
 class cubbystack::cinder (
   $settings,
-  $package_ensure = latest,
+  $package_ensure = present,
   $config_file    = '/etc/cinder/cinder.conf',
 ) {
 
