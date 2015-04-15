@@ -6,14 +6,14 @@
 #
 # [*package_ensure*]
 #   The status of the heat-api package
-#   Defaults to latest
+#   Defaults to present
 #
 # [*service_enable*]
 #   The status of the heat-api service
 #   Defaults to true
 #
 class cubbystack::heat::api (
-  $package_ensure = latest,
+  $package_ensure = present,
   $service_enable = true
 ) {
 

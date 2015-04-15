@@ -6,10 +6,10 @@
 #
 # [*package_ensure*]
 #   The status of the glance-common package
-#   Defaults to latest
+#   Defaults to present
 #
 class cubbystack::glance (
-  $package_ensure = latest
+  $package_ensure = present
 ) {
 
   include ::cubbystack::params

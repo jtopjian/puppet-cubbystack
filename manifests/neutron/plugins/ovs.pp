@@ -6,7 +6,7 @@
 #
 # [*package_ensure*]
 #   The status of the neutron-plugin-ovs package
-#   Defaults to latest
+#   Defaults to present
 #
 # [*service_enable*]
 #   The status of the neutron-plugin-ovs service
@@ -21,7 +21,7 @@
 #
 class cubbystack::neutron::plugins::ovs (
   $settings,
-  $package_ensure = latest,
+  $package_ensure = present,
   $service_enable = true,
   $config_file    = '/etc/neutron/plugins/openvswitch/ovs_neutron_plugin.ini',
 ) {

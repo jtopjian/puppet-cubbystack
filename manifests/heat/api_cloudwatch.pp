@@ -6,14 +6,14 @@
 #
 # [*package_ensure*]
 #   The status of the heat-api_cloudwatch package
-#   Defaults to latest
+#   Defaults to present
 #
 # [*service_enable*]
 #   The status of the heat-api_cloudwatch service
 #   Defaults to true
 #
 class cubbystack::heat::api_cloudwatch (
-  $package_ensure = latest,
+  $package_ensure = present,
   $service_enable = true
 ) {
 

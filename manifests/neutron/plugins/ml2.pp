@@ -6,7 +6,7 @@
 #
 # [*package_ensure*]
 #   The status of the neutron-plugin-ml2 package
-#   Defaults to latest
+#   Defaults to present
 #
 # [*settings*]
 #   A hash of key => value settings to go in ml2_conf.ini
@@ -17,7 +17,7 @@
 #
 class cubbystack::neutron::plugins::ml2 (
   $settings,
-  $package_ensure = latest,
+  $package_ensure = present,
   $config_file    = '/etc/neutron/plugins/ml2/ml2_conf.ini',
 ) {
 

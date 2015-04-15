@@ -6,14 +6,14 @@
 #
 # [*package_ensure*]
 #   The status of the neutron-plugin-linuxbridge package
-#   Defaults to latest
+#   Defaults to present
 #
 # [*service_enable*]
 #   The status of the neutron-plugin-linuxbridge service
 #   Defaults to true
 #
 class cubbystack::neutron::plugins::linuxbridge (
-  $package_ensure = latest,
+  $package_ensure = present,
   $service_enable = true,
 ) {
 

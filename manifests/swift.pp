@@ -14,11 +14,11 @@
 #
 # [*package_ensure*]
 #   The state of the swift package.
-#   Defaults to latest.
+#   Defaults to present.
 #
 class cubbystack::swift (
   $settings,
-  $package_ensure = latest,
+  $package_ensure = present,
   $config_file    = '/etc/swift/swift.conf',
   $purge_config   = true,
 ) {

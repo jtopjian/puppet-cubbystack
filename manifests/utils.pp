@@ -1,5 +1,5 @@
 class cubbystack::utils (
-  $package_ensure = 'latest'
+  $package_ensure = present
 ) {
 
   include cubbystack::params

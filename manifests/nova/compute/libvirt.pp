@@ -6,14 +6,14 @@
 #
 # [*package_ensure*]
 #   The status of the nova-api package
-#   Defaults to latest
+#   Defaults to present
 #
 # [*libvirt_type*]
 #   The libvirt category to use
 #   Defaults to kvm
 #
 class cubbystack::nova::compute::libvirt (
-  $package_ensure = latest,
+  $package_ensure = present,
   $libvirt_type   = 'kvm'
 ) {
 

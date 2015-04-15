@@ -9,7 +9,7 @@
 #
 # [*package_ensure*]
 #   The status of the heat-common package
-#   Defaults to latest
+#   Defaults to present
 #
 # [*config_file*]
 #   The path to heat.conf
@@ -17,7 +17,7 @@
 #
 class cubbystack::heat (
   $settings,
-  $package_ensure = latest,
+  $package_ensure = present,
   $config_file    = '/etc/heat/heat.conf',
 ) {
 

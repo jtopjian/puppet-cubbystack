@@ -6,14 +6,14 @@
 #
 # [*package_ensure*]
 #   The status of the cinder-volume package
-#   Defaults to latest
+#   Defaults to present
 #
 # [*service_enable*]
 #   The status of the cinder-volume service
 #   Defaults to true
 #
 class cubbystack::cinder::volume (
-  $package_ensure = latest,
+  $package_ensure = present,
   $service_enable = true
 ) {
 

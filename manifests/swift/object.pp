@@ -9,7 +9,7 @@
 #
 # [*package_ensure*]
 #   The status of the swift-object package
-#   Defaults to latest
+#   Defaults to present
 #
 # [*service_enable*]
 #   The status of the swift-object service.
@@ -21,7 +21,7 @@
 #
 class cubbystack::swift::object (
   $settings,
-  $package_ensure = latest,
+  $package_ensure = present,
   $service_enable = true,
   $config_file    = '/etc/swift/object-server.conf',
 ) {

@@ -6,7 +6,7 @@
 #
 # [*package_ensure*]
 #   The status of the neutron-l3 package
-#   Defaults to latest
+#   Defaults to present
 #
 # [*service_enable*]
 #   The status of the neutron-l3 service
@@ -21,7 +21,7 @@
 #
 class cubbystack::neutron::l3 (
   $settings,
-  $package_ensure = latest,
+  $package_ensure = present,
   $service_enable = true,
   $config_file    = '/etc/neutron/l3_agent.ini',
 ) {

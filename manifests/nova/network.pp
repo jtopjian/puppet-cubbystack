@@ -6,7 +6,7 @@
 #
 # [*package_ensure*]
 #   The status of the nova-network package
-#   Defaults to latest
+#   Defaults to present
 #
 # [*service_enable*]
 #   The status of the nova-network service
@@ -17,9 +17,9 @@
 #   Defaults to true
 #
 class cubbystack::nova::network (
-  $package_ensure   = latest,
-  $service_enable   = true,
-  $install_service  = true,
+  $package_ensure  = present,
+  $service_enable  = true,
+  $install_service = true,
 ) {
 
   include ::cubbystack::nova
