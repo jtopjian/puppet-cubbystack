@@ -11,7 +11,7 @@ class cubbystack::repo (
   }
 
   case $release {
-    'kilo', 'icehouse', 'havana', 'grizzly': {
+    'kilo', 'juno', 'icehouse', 'havana', 'grizzly': {
       if $::osfamily == 'RedHat' {
         class { 'cubbystack::repo::redhat': release => $release }
       } elsif $::operatingsystem == 'Ubuntu' {
