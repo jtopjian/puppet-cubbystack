@@ -12,22 +12,9 @@
 #   The status of the neutron-plugin-linuxbridge service
 #   Defaults to true
 #
-# [*settings*]
-#   A hash of key => value settings to go in linuxbridge_conf.ini
-#
-# [*config_file*]
-#   The path to linuxbridge_conf.ini
-#   Defaults to /etc/neutron/plugins/linuxbridge/linuxbridge_conf.ini
-#
-# === Example Usage
-#
-# Please see the `examples` directory.
-#
 class cubbystack::neutron::plugins::linuxbridge (
-  $settings,
   $package_ensure = latest,
   $service_enable = true,
-  $config_file    = '/etc/neutron/plugins/linuxbridge/linuxbridge_conf.ini',
 ) {
 
   include ::cubbystack::params
@@ -35,33 +22,15 @@ class cubbystack::neutron::plugins::linuxbridge (
   ## Meta settings and globals
   $tags = ['openstack', 'neutron', 'neutron-plugin-linuxbridge']
 
-  # Make sure Neutron Open vSwitch is installed before any configuration begins
-  # Make sure Neutron Open vSwitch is configured before the service starts
-  Package['neutron-plugin-linuxbridge'] -> Cubbystack_config<| tag == 'neutron-plugin-linuxbridge' |>
-  Cubbystack_config<| tag == 'neutron-plugin-linuxbridge' |> -> Service['neutron-plugin-linuxbridge']
-
-  # Restart neutron-plugin-linuxbridge after any config changes
-  Cubbystack_config<| tag == 'neutron-plugin-linuxbridge' |> ~> Service['neutron-plugin-linuxbridge']
-
-  File {
+  file { '/etc/init/neutron-plugin-linuxbridge-agent.conf':
     ensure  => present,
-    owner   => 'neutron',
-    group   => 'neutron',
-    mode    => '0640',
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0644',
+    source  => 'puppet:///modules/cubbystack/neutron/neutron-plugin-linuxbridge-agent.conf',
     tag     => $tags,
-    notify  => Service['neutron-plugin-linuxbridge'],
-    require => Package['neutron-plugin-linuxbridge'],
-  }
-
-  ## Neutron Open vSwitch configuration
-  file { $config_file: }
-
-  # Configure the Open vSwitch service
-  $settings.each |$setting, $value| {
-    cubbystack_config { "${config_file}: ${setting}":
-      value => $value,
-      tag   => $tags,
-    }
+    notify  => Service[$::cubbystack::params::neutron_plugin_linuxbridge_service_name],
+    require => Package[$::cubbystack::params::neutron_plugin_linuxbridge_package_name],
   }
 
   cubbystack::functions::generic_service { 'neutron-plugin-linuxbridge':

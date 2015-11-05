@@ -12,10 +12,6 @@
 #   The status of the nova-scheduler service
 #   Defaults to true
 #
-# === Example Usage
-#
-# Please see the `examples` directory.
-#
 class cubbystack::nova::scheduler (
   $package_ensure = latest,
   $service_enable = true

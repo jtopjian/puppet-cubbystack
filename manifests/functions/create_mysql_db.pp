@@ -24,16 +24,12 @@
 #   An array of hosts to allow additional access
 #   Defaults to undef
 #
-# === Example Usage
-#
-# Please see the `examples` directory.
-#
 define cubbystack::functions::create_mysql_db (
   $password,
   $user,
   $host          = '127.0.0.1',
-  $charset       = 'latin1',
-  $collate       = 'latin1_swedish_ci',
+  $charset       = 'utf8',
+  $collate       = 'utf8_general_ci',
   $allowed_hosts = undef,
 ) {
 
@@ -46,7 +42,7 @@ define cubbystack::functions::create_mysql_db (
     tag      => ['openstack', 'mysql', $name],
   }
 
-  if ($allowed_hosts) {
+  if $allowed_hosts {
     $allowed_hosts.each |$allowed_host| {
       cubbystack::functions::mysql_host_access { "${name} ${allowed_host}:":
         user         => $user,

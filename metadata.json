@@ -1,0 +1,20 @@
+{
+  "name": "jtopjian-cubbystack",
+  "version": "1.0.1",
+  "author": "Joe Topjian",
+  "license": "Apache-2.0",
+  "summary": "Framework for creating custom OpenStack deployments",
+  "source": "https://github.com/jtopjian/puppet-cubbystack",
+  "project_page": "https://github.com/jtopjian/puppet-cubbystack",
+  "issues_url": "https://github.com/jtopjian/puppet-cubbystack/issues",
+  "tags": ["openstack", "cinder", "glance", "nova", "keystone", "swift", "heat", "trove"],
+  "operatingsystem_support": [
+    {
+    "operatingsystem": "Ubuntu",
+    "operatingsystemrelease": [ "12.04", "10.04" ]
+    }
+   ],
+  "dependencies": [
+    { "name": "puppetlabs/stdlib", "version_requirement": ">=3.2.0" }
+  ]
+}

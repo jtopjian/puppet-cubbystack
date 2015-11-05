@@ -2,10 +2,6 @@
 #
 # Schedules and performs the `glance-manage db_sync` command.
 #
-# === Example Usage
-#
-# Please see the `examples` directory.
-#
 class cubbystack::glance::db_sync {
 
   # Order and notifications

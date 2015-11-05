@@ -31,4 +31,5 @@ class cubbystack::repo::ubuntu (
 
     }
   }
+
 }

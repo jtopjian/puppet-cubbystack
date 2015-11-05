@@ -19,10 +19,6 @@
 #   The path to account-server.conf
 #   Defaults to /etc/swift/account-server.conf
 #
-# === Example Usage
-#
-# Please see the `examples` directory.
-#
 class cubbystack::swift::account (
   $settings,
   $package_ensure = latest,
@@ -47,7 +43,7 @@ class cubbystack::swift::account (
   }
 
   # Package and service config
-  if ($service_enable) {
+  if $service_enable {
     $service_ensure = 'running'
   } else {
     $service_ensure = 'stopped'
@@ -62,9 +58,9 @@ class cubbystack::swift::account (
 
   # Manage the supplemental swift-account-auditor service
   service { 'swift-account-auditor':
-    name   => $::cubbystack::params::swift_account_auditor_service_name,
-    enable => $service_enable,
     ensure => $service_ensure,
+    enable => $service_enable,
+    name   => $::cubbystack::params::swift_account_auditor_service_name,
     tag    => $tags,
   }
 }

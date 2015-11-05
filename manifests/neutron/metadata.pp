@@ -19,10 +19,6 @@
 #   The path to metadata_agent.ini
 #   Defaults to /etc/neutron/metadata_agent.ini
 #
-# === Example Usage
-#
-# Please see the `examples` directory.
-#
 class cubbystack::neutron::metadata (
   $settings,
   $package_ensure = latest,

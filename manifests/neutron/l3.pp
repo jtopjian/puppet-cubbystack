@@ -19,10 +19,6 @@
 #   The path to l3_agent.ini
 #   Defaults to /etc/neutron/l3_agent.ini
 #
-# === Example Usage
-#
-# Please see the `examples` directory.
-#
 class cubbystack::neutron::l3 (
   $settings,
   $package_ensure = latest,
