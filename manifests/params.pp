@@ -88,6 +88,7 @@ class cubbystack::params {
       $swift_container_service_name            = 'swift-container'
       $swift_container_auditor_service_name    = 'swift-container-auditor'
       $swift_container_replicator_service_name = 'swift-container-replicator'
+      $swift_container_sync_service_name       = 'swift-container-sync'
       $swift_container_updater_service_name    = 'swift-container-updater'
       $swift_account_package_name              = 'swift-account'
       $swift_account_service_name              = 'swift-account'
