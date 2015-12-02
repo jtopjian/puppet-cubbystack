@@ -17,10 +17,6 @@
 #   The group that the web service runs as
 #   Defaults to the params file
 #
-# === Example Usage
-#
-# Please see the `examples` directory.
-#
 class cubbystack::horizon (
   $package_ensure = latest,
   $config_file    = 'puppet:///modules/cubbystack/horizon/local_settings.py',
@@ -31,8 +27,8 @@ class cubbystack::horizon (
   include ::cubbystack::params
 
   package { 'horizon':
-    name   => $::cubbystack::params::horizon_package_name,
     ensure => $package_ensure,
+    name   => $::cubbystack::params::horizon_package_name,
   }
 
   if $::cubbystack::params::horizon_package_deps {
@@ -51,6 +47,8 @@ class cubbystack::horizon (
   if $config_file {
     file { $::cubbystack::params::horizon_config_file:
       source => $config_file,
+      source  => $config_file,
+      require => Package['horizon'],
     }
   }
 

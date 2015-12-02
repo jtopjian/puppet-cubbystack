@@ -2,10 +2,6 @@
 #
 # Schedules and performs the `cinder-manage db sync` command.
 #
-# === Example Usage
-#
-# Please see the `examples` directory.
-#
 class cubbystack::cinder::db_sync {
 
   # Order the db sync correctly

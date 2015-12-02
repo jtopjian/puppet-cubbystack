@@ -19,10 +19,6 @@
 #   The path to ovs_agent.ini
 #   Defaults to /etc/neutron/plugins/openvswitch/ovs_neutron_plugin.ini
 #
-# === Example Usage
-#
-# Please see the `examples` directory.
-#
 class cubbystack::neutron::plugins::ovs (
   $settings,
   $package_ensure = latest,

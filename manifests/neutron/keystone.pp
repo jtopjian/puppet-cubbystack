@@ -11,10 +11,6 @@
 #   The path to api-paste.ini
 #   Defaults to /etc/neutron/api-paste.ini
 #
-# === Example Usage
-#
-# Please see the `examples` directory.
-#
 class cubbystack::neutron::keystone (
   $settings,
   $config_file = '/etc/neutron/api-paste.ini',

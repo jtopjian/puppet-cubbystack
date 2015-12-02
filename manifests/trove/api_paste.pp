@@ -1,40 +1,34 @@
-# == Class: cubbystack::nova::keystone
+# == Class: cubbystack::trove::api_paste
 #
-# Configures keystone authentication for nova
+# Configures keystone authentication for trove
 #
 # === Parameters
 #
 # [*config_file*]
-#   The path to nova's api-paste.ini file
-#   Defaults to /etc/nova/api-paste.ini
+#   The path to trove's api-paste.ini file
+#   Defaults to /etc/trove/api-paste.ini
 #
 # [*purge_config*]
 #   Whether or not to purge all settings in api-paste.ini
 #   Defaults to false
 #
-# === Example Usage
-#
-# Please see the `examples` directory.
-#
-class cubbystack::nova::keystone (
+class cubbystack::trove::api_paste (
   $settings,
-  $config_file = '/etc/nova/api-paste.ini',
+  $config_file = '/etc/trove/api-paste.ini',
 ) {
 
   ## Meta settings and globals
-  $tags = ['openstack', 'nova']
+  $tags = ['openstack', 'trove']
 
   # Global file attributes
   File {
     ensure  => present,
-    owner   => 'nova',
-    group   => 'nova',
+    owner   => 'trove',
+    group   => 'trove',
     mode    => '0640',
     tag     => $tags,
-    require => Package['nova-common'],
+    require => Package['trove-api'],
   }
-
-  file { $config_file: }
 
   $settings.each |$setting, $value| {
     cubbystack_config { "${config_file}: ${setting}":

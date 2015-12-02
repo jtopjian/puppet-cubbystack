@@ -16,10 +16,6 @@
 #   The state of the swift package.
 #   Defaults to latest.
 #
-# === Example Usage
-#
-# Please see the `examples` directory.
-#
 class cubbystack::swift (
   $settings,
   $package_ensure = latest,
@@ -38,8 +34,8 @@ class cubbystack::swift (
 
   # Install the swift package
   package { 'swift':
-    name   => $::cubbystack::params::swift_package_name,
     ensure => $package_ensure,
+    name   => $::cubbystack::params::swift_package_name,
     tag    => $tags,
   }
 

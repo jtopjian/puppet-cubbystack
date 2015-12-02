@@ -12,10 +12,6 @@
 #   The status of the cinder-volume service
 #   Defaults to true
 #
-# === Example Usage
-#
-# Please see the `examples` directory.
-#
 class cubbystack::cinder::volume (
   $package_ensure = latest,
   $service_enable = true

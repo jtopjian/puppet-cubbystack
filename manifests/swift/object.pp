@@ -19,10 +19,6 @@
 #   The path to the object-server.conf file
 #   Defaults to /etc/swift/object-server.conf
 #
-# === Example Usage
-#
-# Please see the `examples` directory.
-#
 class cubbystack::swift::object (
   $settings,
   $package_ensure = latest,
@@ -47,7 +43,7 @@ class cubbystack::swift::object (
   }
 
   # Package and service config
-  if ($service_enable) {
+  if $service_enable {
     $service_ensure = 'running'
   } else {
     $service_ensure = 'stopped'
@@ -62,17 +58,17 @@ class cubbystack::swift::object (
 
   # Manage the supplemental auditor service
   service { 'swift-object-auditor':
-    name   => $::cubbystack::params::swift_object_auditor_service_name,
-    enable => $service_enable,
     ensure => $service_ensure,
+    enable => $service_enable,
+    name   => $::cubbystack::params::swift_object_auditor_service_name,
     tag    => $tags,
   }
 
   # Manage the supplemental updater service
   service { 'swift-object-updater':
-    name   => $::cubbystack::params::swift_object_updater_service_name,
-    enable => $service_enable,
     ensure => $service_ensure,
+    enable => $service_enable,
+    name   => $::cubbystack::params::swift_object_updater_service_name,
     tag    => $tags,
   }
 }

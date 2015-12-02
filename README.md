@@ -19,15 +19,15 @@ cubbystack is an OpenStack deployment framework for Puppet.
 ## Introduction
 
 ### History
-cubbystack was created to solve a recurring problem of mine: all of my OpenStack deployments always outgrew the [Puppetlabs OpenStack module](https://forge.puppetlabs.com/puppetlabs/openstack). I began to see that it wasn't just my OpenStack environments, but every production deployment that I came across. The cause varied: it could be something as simple as a single missing option for `nova.conf` or wanting to break Keystone out to its own server.
+cubbystack was created to solve a reoccurring problem of mine: all of my OpenStack deployments always outgrew the [Puppetlabs OpenStack module](https://forge.puppetlabs.com/puppetlabs/openstack). I began to see that it wasn't just my OpenStack environments, but every production deployment that I came across. The cause varied: it could be something as simple as a single missing option for `nova.conf` or wanting to break Keystone out to its own server.
 
-My initial solution was to compose my own OpenStack module using the individual Puppetlabs OpenStack component modules. This solved some of my issues, but not nearly all of them. For example, if the Glance module didn't have a way for me to configure a certain option, I would either have to patch the module or configure the option outside of the module. The result was a haphazard Frankenstein manifest: some parts configuring Glance manually and some using the proper module. Not only that, but I was doing this for *each* component and *differently* for each OpenStack environment of mine.
+My initial solution was to compose my own OpenStack module using the individual Puppetlabs OpenStack component modules. This solved some issues, but not all. For example, if the Glance module didn't have a way for me to configure a certain option, I would either have to patch the module or configure the option outside of the module. The result was a haphazard Frankenstein manifest: some parts configuring Glance manually and some using the proper module. Not only that, but I was doing this for *each* component and *differently* for each OpenStack environment of mine.
 
 ### Philosophy
 
 #### Composition Over Monolithic
 
-The first idea of cubbystack is that there will *never* be a one-size-fits-all OpenStack module. It's simply not possible. One could even argue that the existence of one goes against what makes OpenStack so great: the almost limitless possibilities you have to building an IaaS environment.
+The first idea of cubbystack is that there will *never* be a one-size-fits-all OpenStack module. It's simply not possible. One could even argue that the existence of such a module goes against what makes OpenStack so great: the almost limitless possibilities you have for building an IaaS environment.
 
 cubbystack will assist you in configuring the various OpenStack components, but it will not help you apply them to your environment. For example, cubbystack can install and configure Horizon, but it will not install and configure Apache. That's your responsibility. cubbystack doesn't know or care if you're also running Nagios on the same server as Horizon. Or if you want to use Nginx instead of Apache.
 
@@ -37,7 +37,7 @@ OpenStack can have a lot of dependant components such as KVM, RabbitMQ, MySQL, a
 
 The second idea of cubbystack is that manifest parameters will be kept to a minimum.
 
-OpenStack has [a lot](http://docs.openstack.org/havana/config-reference/content/) of configuration options which are added and dropped between releases. The options that stay between releases can have their default values changed. This volatile activity is great for providing new features to OpenStack but it becomes too much work to translate them into Puppet module parameters. Even the reference tables in the official [guide](http://docs.openstack.org/havana/config-reference/content/) are automatically generated from the OpenStack source code.
+OpenStack has [a lot](http://docs.openstack.org/havana/config-reference/content/) of configuration options which are added and dropped between releases. The options that stay between releases can have their default values changed. This volatile activity is great for providing new features to OpenStack but it becomes too much work to translate them into Puppet module parameters. Even automatically generating a list of valid and applicable options from the OpenStack source code is a very difficult problem.
 
 It would be great if every OpenStack configuration option could have a corresponding Puppet manifest parameter with the correct default value and proper value validation, but I feel that the time and effort involved with doing that is just too much.
 
@@ -60,10 +60,6 @@ There are some caveats to this:
 
 ## Requirements
 
-### puppetlabs-keystone
-
-This module comes with a great suite of providers to assist in creating Keystone users, projects, and roles. As long as these providers are compatible with cubbystack, there's no reason not to use them.
-
 ### Puppet
 
 You need to be using Puppet 3.2 or higher in order to take advantage of the [iteration functionality](http://docs.puppetlabs.com/puppet/3/reference/experiments_lambdas.html):
@@ -81,7 +77,7 @@ See the included Puppetfile for a list of required modules and their known worki
 
 ## Usage
 
-cubbystack has a set of manifests for all core OpenStack components. These can be found in the `manifests` directory. Please read and review these manifests -- there's nothing terribly advanced about them, but if you find yourself unable to understand them, I recommend brushing up on Puppet before trying to use this module in production.
+cubbystack has a set of manifests for all core OpenStack components. These can be found in the `manifests` directory. Please read and review these manifests -- there's nothing terribly advanced about them, but if you find yourself unable to understand them, I recommend reading all of the online documentation at puppetlabs.com before trying to use this module in production.
 
 All components take a `$settings` parameter. This is a hash of `key => value` settings that ultimately turn into the configuration options for the various OpenStack configuration files.
 
@@ -89,7 +85,7 @@ You can use Hiera or Puppet data types to build your hash -- just as long as wha
 
 ### Getting Started
 
-I have built a [reference module](https://github.com/jtopjian/puppet-havana) to be used as both a working example and the basis for custom configurations.
+I have built a [reference module](https://github.com/jtopjian/puppet-icehouse) to be used as both a working example and the basis for custom configurations.
 
 ### Custom Configurations
 
@@ -161,6 +157,14 @@ If you want to remove them, `cubbystack_config` has a syntactic trick: simply pr
 ```puppet
 cubbystack_config { '/etc/nova/nova.conf: DEFAULT/verbose':
   value => '--True',
+}
+```
+
+or just
+
+```puppet
+cubbystack_config { '/etc/nova/nova.conf: DEFAULT/verbose':
+  value => '--',
 }
 ```
 

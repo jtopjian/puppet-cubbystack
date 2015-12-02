@@ -15,10 +15,6 @@
 #   The path to glance-registry.conf
 #   Defaults to /etc/glance/glance-registry.conf
 #
-# === Example Usage
-#
-# Please see the `examples` directory.
-#
 class cubbystack::glance::registry (
   $settings,
   $service_enable = true,
@@ -60,16 +56,16 @@ class cubbystack::glance::registry (
   }
 
   ## Glance Registry service
-  if ($service_enable) {
+  if $service_enable {
     $service_ensure = 'running'
   } else {
     $service_ensure = 'stopped'
   }
 
   service { 'glance-registry':
-    name       => $::cubbystack::params::glance_registry_service_name,
     ensure     => $service_ensure,
     enable     => $service_enable,
+    name       => $::cubbystack::params::glance_registry_service_name,
     hasstatus  => true,
     hasrestart => true,
     tag        => $tags,

@@ -19,10 +19,6 @@
 #   The path to keystone.conf
 #   Defaults to /etc/keystone/keystone.conf.
 #
-# === Example Usage
-#
-# Please see the `examples` directory.
-#
 class cubbystack::keystone (
   $settings,
   $package_ensure = latest,
@@ -48,11 +44,6 @@ class cubbystack::keystone (
   Exec['keystone-manage db_sync'] -> Service['keystone']
 
   # Other ordering
-  Service['keystone'] -> Keystone_tenant<||>
-  Service['keystone'] -> Keystone_user<||>
-  Service['keystone'] -> Keystone_role<||>
-  Service['keystone'] -> Keystone_user_role<||>
-  Service['keystone'] -> Cubbystack::Functions::Create_keystone_user<||>
   Cubbystack::Functions::Create_keystone_endpoint<||> -> Service['keystone']
   Cubbystack::Functions::Create_keystone_endpoint<||> ~> Service['keystone']
 
@@ -102,7 +93,7 @@ class cubbystack::keystone (
 
   ## Keystone database sync
   # Run a db_sync if the package is installed or upgraded
-  if ($service_enable) {
+  if $service_enable {
     exec { 'keystone-manage db_sync':
       path        => '/usr/bin',
       refreshonly => true,

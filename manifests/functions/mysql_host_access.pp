@@ -21,10 +21,6 @@
 #   The database to allow the user access
 #   Required
 #
-# === Example Usage
-#
-# Please see the `examples` directory.
-#
 define cubbystack::functions::mysql_host_access (
   $user,
   $password,
