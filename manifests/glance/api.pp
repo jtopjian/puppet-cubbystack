@@ -15,10 +15,6 @@
 #   The path to glance-api.conf
 #   Defaults to /etc/glance/glance-api.conf
 #
-# === Example Usage
-#
-# Please see the `examples` directory.
-#
 class cubbystack::glance::api (
   $settings,
   $service_enable = true,
@@ -60,16 +56,16 @@ class cubbystack::glance::api (
   }
 
   ## Glance API service
-  if ($service_enable) {
+  if $service_enable {
     $service_ensure = 'running'
   } else {
     $service_ensure = 'stopped'
   }
 
   service { 'glance-api':
-    name       => $::cubbystack::params::glance_api_service_name,
     ensure     => $service_ensure,
     enable     => $service_enable,
+    name       => $::cubbystack::params::glance_api_service_name,
     hasstatus  => true,
     hasrestart => true,
     tag        => $tags,

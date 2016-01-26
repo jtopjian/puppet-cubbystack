@@ -12,10 +12,6 @@
 #   The status of the nova-compute service
 #   Defaults to true
 #
-# === Example Usage
-#
-# Please see the `examples` directory.
-#
 class cubbystack::nova::compute (
   $package_ensure = latest,
   $service_enable = true

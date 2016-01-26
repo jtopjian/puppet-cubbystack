@@ -19,10 +19,6 @@
 #   The path to proxy-server.conf
 #   Defaults to /etc/swift/proxy-server.conf
 #
-# === Example Usage
-#
-# Please see the `examples` directory.
-#
 class cubbystack::swift::proxy (
   $settings,
   $package_ensure = latest,

@@ -16,9 +16,6 @@
 #   Status of the user
 #   Defaults to present
 #
-# === Example Usage
-#
-# Please see the `examples` directory.
 define cubbystack::functions::create_system_user (
   $uid,
   $gid,

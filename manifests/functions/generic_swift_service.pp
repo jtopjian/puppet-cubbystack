@@ -20,10 +20,6 @@
 #   The status of the package
 #   Defaults to present
 #
-# === Example Usage
-#
-# Please see the `examples` directory.
-#
 define cubbystack::functions::generic_swift_service (
   $tags           = undef,
   $service_enable = true,
@@ -32,38 +28,38 @@ define cubbystack::functions::generic_swift_service (
 
   $type = $name
 
-  if ($service_enable) {
+  if $service_enable {
     $service_ensure = 'running'
   } else {
     $service_ensure = 'stopped'
   }
 
   $package_name = getvar("::cubbystack::params::swift_${type}_package_name")
-  if ($package_name) {
+  if $package_name {
     package { "swift-${type}":
-      name   => $package_name,
       ensure => $package_ensure,
+      name   => $package_name,
       tag    => $tags,
     }
   }
 
   $service_name = getvar("::cubbystack::params::swift_${type}_service_name")
-  if ($service_name) {
+  if $service_name {
     service { "swift-${type}":
-      name    => $service_name,
       ensure  => $service_ensure,
-      enable  => $enable,
+      enable  => $service_enable,
+      name    => $service_name,
       tag     => $tags,
       require => Package["swift-${type}"],
     }
   }
 
   $replicator_name = getvar("::cubbystack::params::swift_${type}_replicator_service_name")
-  if ($replicator_name) {
+  if $replicator_name {
     service { "swift-${type}-replicator":
-      name    => $replicator_name,
       ensure  => $service_ensure,
-      enable  => $enable,
+      enable  => $service_enable,
+      name    => $replicator_name,
       tag     => $tags,
       require => Package["swift-${type}"],
     }

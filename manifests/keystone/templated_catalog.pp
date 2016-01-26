@@ -8,10 +8,6 @@
 #   The location of the catalog file
 #   Defaults to '/etc/keystone/default_catalog.templates'
 #
-# === Example Usage
-#
-# Please see the `examples` directory.
-#
 class cubbystack::keystone::templated_catalog (
   $catalog_file = '/etc/keystone/default_catalog.templates'
 ) {

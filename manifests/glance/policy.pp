@@ -11,10 +11,6 @@
 #   The path to policy.json
 #   Defaults to /etc/glance/policy.json
 #
-# === Example Usage
-#
-# Please see the `examples` directory.
-#
 class cubbystack::glance::policy (
   $settings,
   $config_file    = '/etc/glance/policy.json',

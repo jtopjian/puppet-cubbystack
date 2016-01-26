@@ -38,6 +38,7 @@ class cubbystack::params {
       $nova_scheduler_package_name    = 'nova-scheduler'
       $nova_conductor_package_name    = 'nova-conductor'
       $nova_api_metadata_package_name = 'nova-api-metadata'
+      $nova_cells_package_name        = 'nova-cells'
 
       # nova service names
       $nova_api_service_name          = 'nova-api'
@@ -50,6 +51,7 @@ class cubbystack::params {
       $nova_scheduler_service_name    = 'nova-scheduler'
       $nova_conductor_service_name    = 'nova-conductor'
       $nova_api_metadata_service_name = 'nova-api-metadata'
+      $nova_cells_service_name        = 'nova-cells'
 
       # Neutron
       $neutron_common_package_name     = 'neutron-common'
@@ -63,13 +65,14 @@ class cubbystack::params {
       $neutron_metadata_service_name   = 'neutron-metadata-agent'
       $neutron_plugin_ovs_package_name = 'neutron-plugin-openvswitch-agent'
       $neutron_plugin_ovs_service_name = 'neutron-plugin-openvswitch-agent'
+      $neutron_plugin_ml2_package_name = 'neutron-plugin-ml2'
       $neutron_plugin_linuxbridge_package_name = 'neutron-plugin-linuxbridge-agent'
       $neutron_plugin_linuxbridge_service_name = 'neutron-plugin-linuxbridge-agent'
 
 
       # Horizon
-      $horizon_apache_user           = 'www-data'
-      $horizon_apache_group          = 'www-data'
+      $horizon_apache_user           = 'horizon'
+      $horizon_apache_group          = 'horizon'
       $horizon_config_file           = '/etc/openstack-dashboard/local_settings.py'
 
       # Swift
@@ -107,6 +110,15 @@ class cubbystack::params {
       $heat_api_cloudwatch_service_name = 'heat-api-cloudwatch'
       $heat_engine_package_name         = 'heat-engine'
       $heat_engine_service_name         = 'heat-engine'
+
+      # Trove
+      $trove_common_package_name      = 'trove-common'
+      $trove_api_package_name         = 'trove-api'
+      $trove_api_service_name         = 'trove-api'
+      $trove_taskmanager_package_name = 'trove-taskmanager'
+      $trove_taskmanager_service_name = 'trove-taskmanager'
+      $trove_conductor_package_name   = false
+      $trove_conductor_service_name   = 'trove-conductor'
 
       # debian specific nova config
       $root_helper              = 'sudo nova-rootwrap'

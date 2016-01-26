@@ -8,10 +8,6 @@
 #   The status of the glance-common package
 #   Defaults to latest
 #
-# === Example Usage
-#
-# Please see the `examples` directory.
-#
 class cubbystack::glance (
   $package_ensure = latest
 ) {
@@ -33,8 +29,8 @@ class cubbystack::glance (
 
   ## Glance Package installation
   package { 'glance':
-    name   => $::cubbystack::params::glance_package_name,
     ensure => $package_ensure,
+    name   => $::cubbystack::params::glance_package_name,
     tag    => $tags,
   }
 

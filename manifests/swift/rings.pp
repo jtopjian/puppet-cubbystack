@@ -16,10 +16,6 @@
 #   The minimum amount of time until the rings can be rebalanced.
 #   Required.
 #
-# === Example Usage
-#
-# Please see the `examples` directory.
-#
 class cubbystack::swift::rings (
   $part_power,
   $replicas,
