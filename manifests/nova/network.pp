@@ -12,6 +12,10 @@
 #   The status of the nova-network service
 #   Defaults to true
 #
+# [*service_ensure*]
+#   The run status of the nova-network service
+#   Defaults to running
+#
 # [*install_service*]
 #   Whether or not to install/enable nova-network
 #   Defaults to true
@@ -19,6 +23,7 @@
 class cubbystack::nova::network (
   $package_ensure   = latest,
   $service_enable   = true,
+  $service_ensure   = 'running',
   $install_service  = true,
 ) {
 
@@ -37,6 +42,7 @@ class cubbystack::nova::network (
   if $install_service {
     cubbystack::functions::generic_service { 'nova-network':
       service_enable => $service_enable,
+      service_ensure => $service_ensure,
       package_ensure => $package_ensure,
       package_name   => $::cubbystack::params::nova_network_package_name,
       service_name   => $::cubbystack::params::nova_network_service_name,

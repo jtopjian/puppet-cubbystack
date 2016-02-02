@@ -12,6 +12,10 @@
 #   The status of the neutron-plugin-ovs service
 #   Defaults to true
 #
+# [*service_ensure*]
+#   The run status of the neutron-plugin-ovs service
+#   Defaults to running
+#
 # [*settings*]
 #   A hash of key => value settings to go in ovs_neutron_plugin.ini
 #
@@ -23,6 +27,7 @@ class cubbystack::neutron::plugins::ovs (
   $settings,
   $package_ensure = latest,
   $service_enable = true,
+  $service_ensure = 'running',
   $config_file    = '/etc/neutron/plugins/openvswitch/ovs_neutron_plugin.ini',
 ) {
 
@@ -70,6 +75,7 @@ class cubbystack::neutron::plugins::ovs (
 
   cubbystack::functions::generic_service { 'neutron-plugin-ovs':
     service_enable => $service_enable,
+    service_ensure => $service_ensure,
     package_ensure => $package_ensure,
     package_name   => $::cubbystack::params::neutron_plugin_ovs_package_name,
     service_name   => $::cubbystack::params::neutron_plugin_ovs_service_name,

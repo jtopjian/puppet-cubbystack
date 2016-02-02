@@ -12,9 +12,14 @@
 #   The status of the nova-vncproxy service
 #   Defaults to true
 #
+# [*service_ensure*]
+#   The run status of the nova-vncproxy service
+#   Defaults to running
+#
 class cubbystack::nova::vncproxy (
   $package_ensure = latest,
-  $service_enable = true
+  $service_enable = true,
+  $service_ensure = 'running'
 ) {
 
   include ::cubbystack::params
@@ -28,6 +33,7 @@ class cubbystack::nova::vncproxy (
 
   cubbystack::functions::generic_service { 'nova-vncproxy':
     service_enable => $service_enable,
+    service_ensure => $service_ensure,
     package_ensure => $package_ensure,
     package_name   => $::cubbystack::params::nova_vncproxy_package_name,
     service_name   => $::cubbystack::params::nova_vncproxy_service_name,

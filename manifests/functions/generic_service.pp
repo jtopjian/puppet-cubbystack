@@ -51,7 +51,7 @@ define cubbystack::functions::generic_service (
     service { $title:
       ensure        => $service_ensure,
       name          => $service_name,
-      enable        => $service_ensure,
+      enable        => $service_enable,
       tag           => $tags,
     }
 

@@ -15,6 +15,10 @@
 #   The status of the keystone service
 #   Defaults to true
 #
+# [*service_ensure*]
+#   The run status of the keystone service
+#   Defaults to running
+#
 # [*config_file*]
 #   The path to keystone.conf
 #   Defaults to /etc/keystone/keystone.conf.
@@ -23,6 +27,7 @@ class cubbystack::keystone (
   $settings,
   $package_ensure = latest,
   $service_enable = true,
+  $service_ensure = 'running',
   $config_file    = '/etc/keystone/keystone.conf',
 ) {
 
@@ -63,6 +68,7 @@ class cubbystack::keystone (
   cubbystack::functions::generic_service { 'keystone':
     package_ensure => $package_ensure,
     service_enable => $service_enable,
+    service_ensure => $service_ensure,
     package_name   => $::cubbystack::params::keystone_package_name,
     service_name   => $::cubbystack::params::keystone_service_name,
     tags           => $tags,
