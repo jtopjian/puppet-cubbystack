@@ -8,18 +8,20 @@
 #   The status of the designate-agent service
 #   Defaults to true
 #
-# === Example Usage
-#
-# Please see the `examples` directory.
+# [*service_ensure*]
+#   The run status of the designate-agent service
+#   Defaults to running
 #
 class cubbystack::designate::agent (
-  $service_enable   = true,
+  $service_enable = true,
+  $service_ensure = 'running',
 ) {
 
   include ::cubbystack::designate
 
   cubbystack::functions::generic_service { 'designate-agent':
     service_enable => $service_enable,
+    service_ensure => $service_ensure,
     service_name   => $::cubbystack::params::designate_agent_service_name,
     tags           => $::cubbystack::designate::tags,
   }

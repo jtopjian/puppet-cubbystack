@@ -11,10 +11,6 @@
 #   The path to policy.json
 #   Defaults to /etc/designate/policy.json
 #
-# === Example Usage
-#
-# Please see the `examples` directory.
-#
 class cubbystack::designate::policy (
   $settings,
   $config_file    = '/etc/designate/policy.json',

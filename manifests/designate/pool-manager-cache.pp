@@ -3,10 +3,6 @@
 # Schedules and performs the `designate-manage powerdns sync <pool-target>` command.
 # Assumes only one pool will exist and the default pool uses PowerDNS
 #
-# === Example Usage
-#
-# Please see the `examples` directory.
-#
 class cubbystack::designate::pool-manager-cache {
 
   # Order and notifications
