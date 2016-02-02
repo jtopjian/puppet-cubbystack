@@ -29,14 +29,9 @@ define cubbystack::functions::generic_service (
   $service_name   = false,
   $tags           = undef,
   $service_enable = true,
+  $service_ensure = 'running',
   $package_ensure = present,
 ) {
-
-  if $service_enable {
-    $service_ensure = 'running'
-  } else {
-    $service_ensure = 'stopped'
-  }
 
   if $package_name {
     package { $title:
@@ -54,10 +49,10 @@ define cubbystack::functions::generic_service (
     }
 
     service { $title:
-      ensure => $service_ensure,
-      name   => $service_name,
-      enable => $service_enable,
-      tag    => $tags,
+      ensure        => $service_ensure,
+      name          => $service_name,
+      enable        => $service_ensure,
+      tag           => $tags,
     }
 
   }
