@@ -120,6 +120,20 @@ class cubbystack::params {
       $trove_conductor_package_name   = false
       $trove_conductor_service_name   = 'trove-conductor'
 
+      # Designate
+      $designate_common_package_name       = 'designate'
+      $designate_agent_service_name        = 'designate-agent'
+      $designate_api_service_name          = 'designate-api'
+      $designate_central_service_name      = 'designate-central'
+      $designate_mdns_package_name         = 'designate-mdns'
+      $designate_mdns_service_name         = 'designate-mdns'
+      $designate_pool_manager_package_name = 'designate-pool-manager'
+      $designate_pool_manager_service_name = 'designate-pool-manager'
+      $designate_zone_manager_package_name = 'designate-zone-manager'
+      $designate_zone_manager_service_name = 'designate-zone-manager'
+
+      $designate_default_pool_id           = 'd0620731-2b52-4b9b-b645-69fddda8164a'
+
       # debian specific nova config
       $root_helper              = 'sudo nova-rootwrap'
       $lock_path                = '/var/lock/nova'
