@@ -132,8 +132,6 @@ class cubbystack::params {
       $designate_zone_manager_package_name = 'designate-zone-manager'
       $designate_zone_manager_service_name = 'designate-zone-manager'
 
-      $designate_default_pool_id           = 'd0620731-2b52-4b9b-b645-69fddda8164a'
-
       # debian specific nova config
       $root_helper              = 'sudo nova-rootwrap'
       $lock_path                = '/var/lock/nova'
