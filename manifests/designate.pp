@@ -7,9 +7,16 @@
 # [*settings*]
 #   A hash of key => value settings to go in designate.conf
 #
+# [*yaml_settings*]
+#   A hash of key => value settings to go in pools.yaml
+#
 # [*config_file*]
 #   The path to designate.conf
 #   Defaults to /etc/designate/designate.conf
+#
+# [*yaml_config_file*]
+#   The path to pools.yaml
+#   Defaults to /etc/designate/pools.yaml
 #
 # [*package_ensure*]
 #   The status of the designate-common package
@@ -21,8 +28,8 @@
 #
 class cubbystack::designate (
   $settings,
-  $package_ensure = latest,
-  $config_file    = '/etc/designate/designate.conf',
+  $package_ensure   = latest,
+  $config_file      = '/etc/designate/designate.conf',
 ) {
 
   include ::cubbystack::params
@@ -70,5 +77,4 @@ class cubbystack::designate (
       tag   => $tags,
     }
   }
-
 }

@@ -1,7 +1,6 @@
 # == Class: cubbystack::designate::pool-manager-cache
 #
-# Schedules and performs the `designate-manage powerdns sync <pool-target>` command.
-# Assumes only one pool will exist and the default pool uses PowerDNS
+# If required this will sync the cache of the pool-manager. This is only required if using the sqlachemy backend
 #
 class cubbystack::designate::pool-manager-cache {
 
