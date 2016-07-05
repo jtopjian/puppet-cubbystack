@@ -1,15 +1,15 @@
 # == Class: cubbystack::designate::pool
 #
-# Configures the pool.json file
+# Configures the pools.yaml file
 #
 # === Parameters
 #
 # [*settings*]
-#   A hash of key => value settings to go in pool.json
+#   A hash of key => value settings to go in pools.yaml
 #
 # [*config_file*]
-#   The path to pool.json
-#   Defaults to /etc/designate/pool.json
+#   The path to pools.yaml
+#   Defaults to /etc/designate/pools.yaml
 #
 class cubbystack::designate::pool (
   $settings,
@@ -20,9 +20,8 @@ class cubbystack::designate::pool (
   ## Meta settings and globals
   $tags = ['openstack', 'designate', 'designate-pool']
 
-  # Make sure Glance is installed before any configuration happens
-  # Make sure Glance Registry is configured before the service starts
   Package['designate'] -> Cubbystack_config<| tag == 'designate-pool' |>
+  Exec['Pool Reload']  -> Service<| tag == 'designate' |>
 
   File {
     ensure  => present,
