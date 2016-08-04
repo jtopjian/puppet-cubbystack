@@ -129,6 +129,8 @@ class cubbystack::params {
       $designate_mdns_service_name         = 'designate-mdns'
       $designate_pool_manager_package_name = 'designate-pool-manager'
       $designate_pool_manager_service_name = 'designate-pool-manager'
+      $designate_sink_package_name         = 'designate-sink'
+      $designate_sink_service_name         = 'designate-sink'
       $designate_zone_manager_package_name = 'designate-zone-manager'
       $designate_zone_manager_service_name = 'designate-zone-manager'
 
