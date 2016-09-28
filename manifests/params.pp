@@ -117,6 +117,15 @@ class cubbystack::params {
       $trove_conductor_package_name   = false
       $trove_conductor_service_name   = 'trove-conductor'
 
+      # Murano
+      $murano_common_package_name = 'murano-common'
+      $murano_api_package_name    = 'murano-api'
+      $murano_api_service_name    = 'murano-api'
+      $murano_engine_package_name = 'murano-engine'
+      $murano_engine_service_name = 'murano-engine'
+      $murano_cfapi_package_name  = 'murano-cfapi'
+      $murano_cfapi_service_name  = 'murano-cfapi'
+
       # debian specific nova config
       $root_helper              = 'sudo nova-rootwrap'
       $lock_path                = '/var/lock/nova'
