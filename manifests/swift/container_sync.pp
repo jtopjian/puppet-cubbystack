@@ -21,11 +21,13 @@
 #   Defaults to /etc/swift/container-sync-realms.conf
 #
 class cubbystack::swift::container_sync (
-  $settings,
-  $manage_service = false,
-  $package_ensure = latest,
-  $service_enable = true,
-  $config_file    = '/etc/swift/container-sync-realms.conf',
+  $realm_settings,
+  $client_settings    = undef,
+  $manage_service     = false,
+  $package_ensure     = latest,
+  $service_enable     = true,
+  $realm_config_file  = '/etc/swift/container-sync-realms.conf',
+  $client_config_file = '/etc/swift/container-sync-client.conf',
 ) {
 
   include ::cubbystack::params
@@ -38,8 +40,15 @@ class cubbystack::swift::container_sync (
   Cubbystack_config<| tag == 'swift-container-sync' |>  ~> Service<| tag == 'swift-container-sync' |>
 
   # container settings
-  $settings.each |$setting, $value| {
-    cubbystack_config { "${config_file}: ${setting}":
+  $realm_settings.each |$setting, $value| {
+    cubbystack_config { "${realm_config_file}: ${setting}":
+      value => $value,
+      tag   => $tags,
+    }
+  }
+
+  $client_settings.each |$setting, $value| {
+    cubbystack_config { "${client_config_file}: ${setting}":
       value => $value,
       tag   => $tags,
     }
