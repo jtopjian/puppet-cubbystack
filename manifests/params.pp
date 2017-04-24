@@ -66,9 +66,19 @@ class cubbystack::params {
       $neutron_plugin_ovs_package_name = 'neutron-plugin-openvswitch-agent'
       $neutron_plugin_ovs_service_name = 'neutron-plugin-openvswitch-agent'
       $neutron_plugin_ml2_package_name = 'neutron-plugin-ml2'
-      $neutron_plugin_linuxbridge_package_name = 'neutron-plugin-linuxbridge-agent'
-      $neutron_plugin_linuxbridge_service_name = 'neutron-plugin-linuxbridge-agent'
+      #$neutron_plugin_linuxbridge_package_name = 'neutron-plugin-linuxbridge-agent'
+      #$neutron_plugin_linuxbridge_service_name = 'neutron-plugin-linuxbridge-agent'
 
+      case $::lsbdistcodename {
+        'xenial': {
+          $neutron_plugin_linuxbridge_package_name = 'neutron-linuxbridge-agent'
+          $neutron_plugin_linuxbridge_service_name = 'neutron-linuxbridge-agent'
+        }
+        default: {
+          $neutron_plugin_linuxbridge_package_name = 'neutron-plugin-linuxbridge-agent'
+          $neutron_plugin_linuxbridge_service_name = 'neutron-plugin-linuxbridge-agent'
+        }
+      }
 
       # Horizon
       $horizon_apache_user           = 'horizon'
