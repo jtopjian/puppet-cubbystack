@@ -29,10 +29,18 @@ class cubbystack::nova::compute::libvirt (
     tags           => $::cubbystack::nova::tags,
   }
 
+  # Hack
+  if $::lsbdistcodename == "xenial" {
+    $service_ensure = "fpuppet"
+  } else {
+    $service_ensure = "running"
+  }
+
   cubbystack::functions::generic_service { 'libvirt':
     package_name   => $::cubbystack::params::libvirt_package_name,
     service_name   => $::cubbystack::params::libvirt_service_name,
     package_ensure => $package_ensure,
+    service_ensure => $service_ensure,
     tags           => ['openstack', 'libvirt'],
   }
 

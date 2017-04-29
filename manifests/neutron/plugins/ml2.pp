@@ -42,10 +42,10 @@ class cubbystack::neutron::plugins::ml2 (
     require => Package['neutron-plugin-ml2'],
   }
 
-  ## Neutron Open vSwitch configuration
+  ## Neutron ml2 configuration
   file { $config_file: }
 
-  # Configure the Open vSwitch service
+  # Configure the ml2 configuration file
   $settings.each |$setting, $value| {
     cubbystack_config { "${config_file}: ${setting}":
       value => $value,

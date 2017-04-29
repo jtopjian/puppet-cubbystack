@@ -33,6 +33,13 @@ define cubbystack::functions::generic_service (
   $package_ensure = present,
 ) {
 
+  # Hack
+  if $service_ensure == "fpuppet" {
+    $real_service_ensure = undef
+  } else {
+    $real_service_ensure = $service_ensure
+  }
+
   if $package_name {
     package { $title:
       ensure => $package_ensure,
@@ -49,7 +56,7 @@ define cubbystack::functions::generic_service (
     }
 
     service { $title:
-      ensure        => $service_ensure,
+      ensure        => $real_service_ensure,
       name          => $service_name,
       enable        => $service_enable,
       tag           => $tags,

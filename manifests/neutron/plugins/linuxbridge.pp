@@ -19,7 +19,9 @@
 class cubbystack::neutron::plugins::linuxbridge (
   $package_ensure = latest,
   $service_enable = true,
-  $service_ensure = 'running'
+  $service_ensure = 'running',
+  $config_file    = undef,
+  $settings       = undef,
 ) {
 
   include ::cubbystack::params
@@ -27,6 +29,32 @@ class cubbystack::neutron::plugins::linuxbridge (
   ## Meta settings and globals
   $tags = ['openstack', 'neutron', 'neutron-plugin-linuxbridge']
 
+  # Make sure Neutron Open vSwitch is installed before any configuration begins
+  # Make sure Neutron Open vSwitch is configured before the service starts
+  Package['neutron-plugin-linuxbridge'] -> Cubbystack_config<| tag == 'neutron' |>
+
+  File {
+    ensure  => present,
+    owner   => 'neutron',
+    group   => 'neutron',
+    mode    => '0640',
+    tag     => $tags,
+    require => Package['neutron-plugin-ml2'],
+  }
+
+  ## Neutron linuxbridge configuration
+  if $config_file != undef {
+    file { $config_file: }
+
+    $settings.each |$setting, $value| {
+      cubbystack_config { "${config_file}: ${setting}":
+        value => $value,
+        tag   => $tags,
+      }
+    }
+  }
+
+  # This is a hack
   file { '/etc/init/neutron-plugin-linuxbridge-agent.conf':
     ensure  => present,
     owner   => 'root',

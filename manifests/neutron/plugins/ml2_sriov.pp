@@ -1,18 +1,18 @@
-# == Class: cubbystack::neutron::plugins::ml2
+# == Class: cubbystack::neutron::plugins::ml2_sriov
 #
-# Configures the neutron-plugin-ml2
+# Configures the neutron-sriov-agent
 #
 # === Parameters
 #
 # [*package_ensure*]
-#   The status of the neutron-plugin-ml2 package
+#   The status of the neutron-sriov-agent package
 #   Defaults to latest
 #
 # [*settings*]
-#   A hash of key => value settings to go in ml2_conf.ini
+#   A hash of key => value settings to go in ml2_conf_sriov.ini
 #
 # [*config_file*]
-#   The path to ml2_conf.ini
+#   The path to ml2_conf_sriov.ini
 #   Defaults to /etc/neutron/plugins/ml2/ml2_conf_sriov.ini
 #
 class cubbystack::neutron::plugins::ml2_sriov (
@@ -24,14 +24,14 @@ class cubbystack::neutron::plugins::ml2_sriov (
   include ::cubbystack::params
 
   ## Meta settings and globals
-  $tags = ['openstack', 'neutron', 'neutron-plugin-ml2']
+  $tags = ['openstack', 'neutron', 'neutron-plugin-sriov']
 
   # Make sure Neutron Open vSwitch is installed before any configuration begins
   # Make sure Neutron Open vSwitch is configured before the service starts
-  Package['neutron-plugin-ml2'] -> Cubbystack_config<| tag == 'neutron' |>
+  Package['neutron-plugin-sriov'] -> Cubbystack_config<| tag == 'neutron' |>
 
   # Restart neutron-plugin-ml2 after any config changes
-  Cubbystack_config<| tag == 'neutron-plugin-ml2' |> ~> Service<| tag == 'neutron' |>
+  Cubbystack_config<| tag == 'neutron-plugin-sriov' |> ~> Service<| tag == 'neutron' |>
 
   File {
     ensure  => present,
@@ -39,10 +39,10 @@ class cubbystack::neutron::plugins::ml2_sriov (
     group   => 'neutron',
     mode    => '0640',
     tag     => $tags,
-    require => Package['neutron-plugin-ml2'],
+    require => Package['neutron-plugin-sriov'],
   }
 
-  ## Neutron Open vSwitch configuration
+  ## Neutron sriov configuration
   file { $config_file: }
 
   # Configure the Open vSwitch service
@@ -53,10 +53,13 @@ class cubbystack::neutron::plugins::ml2_sriov (
     }
   }
 
-  package { 'neutron-plugin-ml2':
-    ensure => $package_ensure,
-    name   => $::cubbystack::params::neutron_plugin_ml2_package_name,
-    tag    => $tags,
+  cubbystack::functions::generic_service { 'neutron-plugin-sriov':
+    service_enable => $service_enable,
+    service_ensure => $service_ensure,
+    package_ensure => $package_ensure,
+    package_name   => $::cubbystack::params::neutron_plugin_sriov_package_name,
+    service_name   => $::cubbystack::params::neutron_plugin_sriov_service_name,
+    tags           => $tags,
   }
 
 }

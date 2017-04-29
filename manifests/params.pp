@@ -73,10 +73,14 @@ class cubbystack::params {
         'xenial': {
           $neutron_plugin_linuxbridge_package_name = 'neutron-linuxbridge-agent'
           $neutron_plugin_linuxbridge_service_name = 'neutron-linuxbridge-agent'
+          $neutron_plugin_sriov_package_name       = 'neutron-sriov-agent'
+          $neutron_plugin_sriov_service_name       = 'neutron-sriov-agent'
         }
         default: {
           $neutron_plugin_linuxbridge_package_name = 'neutron-plugin-linuxbridge-agent'
           $neutron_plugin_linuxbridge_service_name = 'neutron-plugin-linuxbridge-agent'
+          $neutron_plugin_sriov_package_name       = 'neutron-plugin-sriov-agent'
+          $neutron_plugin_sriov_service_name       = 'neutron-plugin-sriov-agent'
         }
       }
 
