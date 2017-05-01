@@ -87,7 +87,7 @@ class cubbystack::keystone (
   }
 
   # Catalog configuration
-  if $settings['catalog/driver'] == 'keystone.catalog.backends.templated.TemplatedCatalog' {
+  if $settings['catalog/driver'] == 'keystone.catalog.backends.templated.TemplatedCatalog' or $settings['catalog/driver'] == 'keystone.catalog.backends.templated.Catalog' {
     class { '::cubbystack::keystone::templated_catalog': }
   }
 
