@@ -18,7 +18,7 @@
 class cubbystack::neutron::plugins::ml2_sriov (
   $settings,
   $package_ensure = latest,
-  $config_file    = '/etc/neutron/plugins/ml2/ml2_conf_sriov.ini',
+  $config_file    = '/etc/neutron/plugins/ml2/sriov_agent.ini',
 ) {
 
   include ::cubbystack::params

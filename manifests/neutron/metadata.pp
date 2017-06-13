@@ -27,7 +27,7 @@ class cubbystack::neutron::metadata (
   $settings,
   $package_ensure = latest,
   $service_enable = true,
-  $sevice_ensure  = 'running',
+  $service_ensure = 'running',
   $config_file    = '/etc/neutron/metadata_agent.ini',
 ) {
 
