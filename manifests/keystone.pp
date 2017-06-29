@@ -44,11 +44,11 @@ class cubbystack::keystone (
   Exec['keystone-manage db_sync'] -> Service['keystone']
 
   # Other ordering
-  Service['keystone'] -> Keystone_tenant<||>
-  Service['keystone'] -> Keystone_user<||>
-  Service['keystone'] -> Keystone_role<||>
-  Service['keystone'] -> Keystone_user_role<||>
-  Service['keystone'] -> Cubbystack::Functions::Create_keystone_user<||>
+  #Service['keystone'] -> Keystone_tenant<||>
+  #Service['keystone'] -> Keystone_user<||>
+  #Service['keystone'] -> Keystone_role<||>
+  #Service['keystone'] -> Keystone_user_role<||>
+  #Service['keystone'] -> Cubbystack::Functions::Create_keystone_user<||>
   Cubbystack::Functions::Create_keystone_endpoint<||> -> Service['keystone']
   Cubbystack::Functions::Create_keystone_endpoint<||> ~> Service['keystone']
 
