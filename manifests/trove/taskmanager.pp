@@ -12,6 +12,10 @@
 #   The status of the trove-taskmanager service
 #   Defaults to true
 #
+# [*service_ensure*]
+#   The run status of the trove-taskmanager service
+#   Defaults to running
+#
 # [*settings*]
 #   A hash of key => value settings to go in trove-taskmanager.conf
 #
@@ -23,6 +27,7 @@ class cubbystack::trove::taskmanager (
   $settings,
   $package_ensure = present,
   $service_enable = true,
+  $service_ensure = 'running',
   $config_file    = '/etc/trove/trove-taskmanager.conf',
 ) {
 
@@ -62,6 +67,7 @@ class cubbystack::trove::taskmanager (
 
   cubbystack::functions::generic_service { 'trove-taskmanager':
     service_enable => $service_enable,
+    service_ensure => $service_ensure,
     package_ensure => $package_ensure,
     package_name   => $::cubbystack::params::trove_taskmanager_package_name,
     service_name   => $::cubbystack::params::trove_taskmanager_service_name,

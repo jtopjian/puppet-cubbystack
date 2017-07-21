@@ -45,8 +45,8 @@ class cubbystack::heat (
 
   # heat-common package
   package { 'heat-common':
-    name   => $::cubbystack::params::heat_common_package_name,
     ensure => present,
+    name   => $::cubbystack::params::heat_common_package_name,
     tag    => $tags,
   }
 

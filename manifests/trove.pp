@@ -45,8 +45,8 @@ class cubbystack::trove (
 
   # trove-common package
   package { 'trove-common':
-    name   => $::cubbystack::params::trove_common_package_name,
     ensure => present,
+    name   => $::cubbystack::params::trove_common_package_name,
     tag    => $tags,
   }
 

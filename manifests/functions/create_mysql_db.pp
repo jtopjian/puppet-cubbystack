@@ -42,7 +42,7 @@ define cubbystack::functions::create_mysql_db (
     tag      => ['openstack', 'mysql', $name],
   }
 
-  if ($allowed_hosts) {
+  if $allowed_hosts {
     $allowed_hosts.each |$allowed_host| {
       cubbystack::functions::mysql_host_access { "${name} ${allowed_host}:":
         user         => $user,

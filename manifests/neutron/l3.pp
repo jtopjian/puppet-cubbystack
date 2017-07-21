@@ -12,6 +12,10 @@
 #   The status of the neutron-l3 service
 #   Defaults to true
 #
+# [*service_ensure*]
+#   The run status of the neutron-l3 service
+#   Defaults to running
+#
 # [*settings*]
 #   A hash of key => value settings to go in l3_agent.ini
 #
@@ -23,6 +27,7 @@ class cubbystack::neutron::l3 (
   $settings,
   $package_ensure = present,
   $service_enable = true,
+  $service_ensure = 'running',
   $config_file    = '/etc/neutron/l3_agent.ini',
 ) {
 
@@ -62,6 +67,7 @@ class cubbystack::neutron::l3 (
 
   cubbystack::functions::generic_service { 'neutron-l3':
     service_enable => $service_enable,
+    service_ensure => $service_ensure,
     package_ensure => $package_ensure,
     package_name   => $::cubbystack::params::neutron_l3_package_name,
     service_name   => $::cubbystack::params::neutron_l3_service_name,

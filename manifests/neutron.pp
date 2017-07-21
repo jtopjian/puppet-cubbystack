@@ -45,8 +45,8 @@ class cubbystack::neutron (
 
   # neutron-common package
   package { 'neutron-common':
+    ensure => $package_ensure,
     name   => $::cubbystack::params::neutron_common_package_name,
-    ensure => present,
     tag    => $tags,
   }
 

@@ -13,9 +13,8 @@
 #
 class cubbystack::glance::policy (
   $settings,
-  $config_file = '/etc/glance/policy.json',
+  $config_file    = '/etc/glance/policy.json',
 ) {
-
   include ::cubbystack::params
 
   ## Meta settings and globals

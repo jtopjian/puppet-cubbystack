@@ -63,12 +63,28 @@ class cubbystack::params {
       $neutron_l3_service_name         = 'neutron-l3-agent'
       $neutron_metadata_package_name   = 'neutron-metadata-agent'
       $neutron_metadata_service_name   = 'neutron-metadata-agent'
+      $neutron_lbaas_package_name      = 'neutron-lbaas-agent'
+      $neutron_lbaas_service_name      = 'neutron-lbaas-agent'
       $neutron_plugin_ovs_package_name = 'neutron-plugin-openvswitch-agent'
       $neutron_plugin_ovs_service_name = 'neutron-plugin-openvswitch-agent'
       $neutron_plugin_ml2_package_name = 'neutron-plugin-ml2'
-      $neutron_plugin_linuxbridge_package_name = 'neutron-plugin-linuxbridge-agent'
-      $neutron_plugin_linuxbridge_service_name = 'neutron-plugin-linuxbridge-agent'
+      #$neutron_plugin_linuxbridge_package_name = 'neutron-plugin-linuxbridge-agent'
+      #$neutron_plugin_linuxbridge_service_name = 'neutron-plugin-linuxbridge-agent'
 
+      case $::lsbdistcodename {
+        'xenial': {
+          $neutron_plugin_linuxbridge_package_name = 'neutron-linuxbridge-agent'
+          $neutron_plugin_linuxbridge_service_name = 'neutron-linuxbridge-agent'
+          $neutron_plugin_sriov_package_name       = 'neutron-sriov-agent'
+          $neutron_plugin_sriov_service_name       = 'neutron-sriov-agent'
+        }
+        default: {
+          $neutron_plugin_linuxbridge_package_name = 'neutron-plugin-linuxbridge-agent'
+          $neutron_plugin_linuxbridge_service_name = 'neutron-plugin-linuxbridge-agent'
+          $neutron_plugin_sriov_package_name       = 'neutron-plugin-sriov-agent'
+          $neutron_plugin_sriov_service_name       = 'neutron-plugin-sriov-agent'
+        }
+      }
 
       # Horizon
       $horizon_apache_user           = 'horizon'
@@ -78,6 +94,8 @@ class cubbystack::params {
       # Swift
       $swift_package_name                      = 'swift'
       $swift_client_package_name               = 'python-swiftclient'
+      $swift_expirer_package_name              = 'swift-object-expirer'
+      $swift_expirer_service_name              = 'swift-object-expirer'
       $swift_proxy_package_name                = 'swift-proxy'
       $swift_proxy_service_name                = 'swift-proxy'
       $swift_object_package_name               = 'swift-object'
@@ -89,6 +107,7 @@ class cubbystack::params {
       $swift_container_service_name            = 'swift-container'
       $swift_container_auditor_service_name    = 'swift-container-auditor'
       $swift_container_replicator_service_name = 'swift-container-replicator'
+      $swift_container_sync_service_name       = 'swift-container-sync'
       $swift_container_updater_service_name    = 'swift-container-updater'
       $swift_account_package_name              = 'swift-account'
       $swift_account_service_name              = 'swift-account'
@@ -125,6 +144,20 @@ class cubbystack::params {
       $murano_engine_service_name = 'murano-engine'
       $murano_cfapi_package_name  = 'murano-cfapi'
       $murano_cfapi_service_name  = 'murano-cfapi'
+
+      # Designate
+      $designate_common_package_name       = 'designate'
+      $designate_agent_service_name        = 'designate-agent'
+      $designate_api_service_name          = 'designate-api'
+      $designate_central_service_name      = 'designate-central'
+      $designate_mdns_package_name         = 'designate-mdns'
+      $designate_mdns_service_name         = 'designate-mdns'
+      $designate_pool_manager_package_name = 'designate-pool-manager'
+      $designate_pool_manager_service_name = 'designate-pool-manager'
+      $designate_sink_package_name         = 'designate-sink'
+      $designate_sink_service_name         = 'designate-sink'
+      $designate_zone_manager_package_name = 'designate-zone-manager'
+      $designate_zone_manager_service_name = 'designate-zone-manager'
 
       # debian specific nova config
       $root_helper              = 'sudo nova-rootwrap'

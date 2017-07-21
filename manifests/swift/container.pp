@@ -43,7 +43,7 @@ class cubbystack::swift::container (
   }
 
   # Package and service config
-  if ($service_enable) {
+  if $service_enable {
     $service_ensure = 'running'
   } else {
     $service_ensure = 'stopped'
@@ -58,17 +58,17 @@ class cubbystack::swift::container (
 
   # Manage the supplemental auditor service
   service { 'swift-container-auditor':
-    name   => $::cubbystack::params::swift_container_auditor_service_name,
-    enable => $service_enable,
     ensure => $service_ensure,
+    enable => $service_enable,
+    name   => $::cubbystack::params::swift_container_auditor_service_name,
     tag    => $tags,
   }
 
   # Manage the supplemental updater service
   service { 'swift-container-updater':
-    name   => $::cubbystack::params::swift_container_updater_service_name,
-    enable => $service_enable,
     ensure => $service_ensure,
+    enable => $service_enable,
+    name   => $::cubbystack::params::swift_container_updater_service_name,
     tag    => $tags,
   }
 }

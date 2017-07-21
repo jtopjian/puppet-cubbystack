@@ -1,0 +1,28 @@
+# Ports are hardcoded but easy enough to modify the template and hiera to accomodate.
+# Don't forget trailing dots on ns records
+---
+- name: <%= @settings['name'] %>
+  description: <%= @settings['description'] %>
+  attributes: <%= @settings['attributes'] %>
+  ns_records:
+<% @settings['ns_records'].each do |record| -%>
+    - hostname: <%= record['hostname'] %>
+      priority: <%= record['priority'] %>
+<% end -%>
+  nameservers:
+<% @settings['nameservers'].each do |server| -%>
+    - host: <%= server['hostname'] %>
+      port: 53
+<% end -%>
+  targets:
+<% @settings['targets'].each do |target| -%>
+    - type: <%= target['type'] %>
+      description: <%= target['description'] %>
+      masters:
+        - host: <%= target['master-host'] %>
+          port: 5354
+      options:
+        host: <%= target['host'] %>
+        port: 53
+        connection: 'mysql+pymysql://pdns:<%= target['password'] -%>@<%= target['sqlhost'] -%>:<%= target['sqlport'] -%>/pdns?charset=utf8'
+<% end -%>

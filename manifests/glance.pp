@@ -29,8 +29,8 @@ class cubbystack::glance (
 
   ## Glance Package installation
   package { 'glance':
-    name   => $::cubbystack::params::glance_package_name,
     ensure => $package_ensure,
+    name   => $::cubbystack::params::glance_package_name,
     tag    => $tags,
   }
 

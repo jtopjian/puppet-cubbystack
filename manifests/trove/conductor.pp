@@ -56,16 +56,16 @@ class cubbystack::trove::conductor (
   }
 
   ## Trove Conductor service
-  if ($service_enable) {
+  if $service_enable {
     $service_ensure = 'running'
   } else {
     $service_ensure = 'stopped'
   }
 
   service { 'trove-conductor':
-    name       => $::cubbystack::params::trove_conductor_service_name,
     ensure     => $service_ensure,
     enable     => $service_enable,
+    name       => $::cubbystack::params::trove_conductor_service_name,
     hasstatus  => true,
     hasrestart => true,
     tag        => $tags,

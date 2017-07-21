@@ -27,8 +27,8 @@ class cubbystack::horizon (
   include ::cubbystack::params
 
   package { 'horizon':
-    name   => $::cubbystack::params::horizon_package_name,
     ensure => $package_ensure,
+    name   => $::cubbystack::params::horizon_package_name,
   }
 
   if $::cubbystack::params::horizon_package_deps {
@@ -46,7 +46,8 @@ class cubbystack::horizon (
 
   if $config_file {
     file { $::cubbystack::params::horizon_config_file:
-      source => $config_file,
+      source  => $config_file,
+      require => Package['horizon'],
     }
   }
 
