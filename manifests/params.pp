@@ -6,10 +6,6 @@ class cubbystack::params {
       # Utils / Misc
       $openstack_utils = false
 
-      # Keystone
-      $keystone_package_name   = 'keystone'
-      $keystone_service_name   = 'keystone'
-
       # Glance
       $glance_package_name          = 'glance'
       $glance_api_service_name      = 'glance-api'
@@ -77,12 +73,16 @@ class cubbystack::params {
           $neutron_plugin_linuxbridge_service_name = 'neutron-linuxbridge-agent'
           $neutron_plugin_sriov_package_name       = 'neutron-sriov-agent'
           $neutron_plugin_sriov_service_name       = 'neutron-sriov-agent'
+          $keystone_package_name                   = 'keystone'
+          $keystone_service_name                   = 'apache2'
         }
         default: {
           $neutron_plugin_linuxbridge_package_name = 'neutron-plugin-linuxbridge-agent'
           $neutron_plugin_linuxbridge_service_name = 'neutron-plugin-linuxbridge-agent'
           $neutron_plugin_sriov_package_name       = 'neutron-plugin-sriov-agent'
           $neutron_plugin_sriov_service_name       = 'neutron-plugin-sriov-agent'
+          $keystone_package_name                   = 'keystone'
+          $keystone_service_name                   = 'keystone'
         }
       }
 
@@ -171,7 +171,14 @@ class cubbystack::params {
           $horizon_package_deps          = false
         }
         default: {
-          $service_provider              = 'upstart'
+          case $::lsbdistcodename {
+            'trusty': {
+                $service_provider = 'upstart'
+            }
+            default: {
+                $service_provider = 'systemd'
+            }
+          }
           $nova_consoleauth_package_name = 'nova-consoleauth'
           $horizon_package_name          = 'openstack-dashboard'
           $horizon_package_deps          = ['python-django', 'python-compressor', 'python-appconf', 'python-cloudfiles', 'python-tz', 'node-less']
