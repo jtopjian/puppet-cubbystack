@@ -55,16 +55,16 @@ class cubbystack::neutron::plugins::linuxbridge (
   }
 
   # This is a hack
-  file { '/etc/init/neutron-plugin-linuxbridge-agent.conf':
-    ensure  => present,
-    owner   => 'root',
-    group   => 'root',
-    mode    => '0644',
-    source  => 'puppet:///modules/cubbystack/neutron/neutron-plugin-linuxbridge-agent.conf',
-    tag     => $tags,
-    notify  => Service[$::cubbystack::params::neutron_plugin_linuxbridge_service_name],
-    require => Package[$::cubbystack::params::neutron_plugin_linuxbridge_package_name],
-  }
+  #file { '/etc/init/neutron-plugin-linuxbridge-agent.conf':
+  #  ensure  => present,
+  #  owner   => 'root',
+  #  group   => 'root',
+  #  mode    => '0644',
+  #  source  => 'puppet:///modules/cubbystack/neutron/neutron-plugin-linuxbridge-agent.conf',
+  #  tag     => $tags,
+  #  notify  => Service[$::cubbystack::params::neutron_plugin_linuxbridge_service_name],
+  #  require => Package[$::cubbystack::params::neutron_plugin_linuxbridge_package_name],
+  #}
 
   cubbystack::functions::generic_service { 'neutron-plugin-linuxbridge':
     service_enable => $service_enable,

@@ -25,14 +25,10 @@
 #
 class cubbystack::neutron::lbaas (
   $settings,
-  $neutron_settings,
-  $services_settings,
-  $package_ensure       = latest,
-  $service_enable       = true,
-  $service_ensure       = 'running',
-  $config_file          = '/etc/neutron/lbaas_agent.ini',
-  $neutron_config_file  = '/etc/neutron/neutron_lbaas.conf',
-  $services_config_file = '/etc/neutron/services_lbaas.conf'
+  $package_ensure = latest,
+  $service_enable = true,
+  $service_ensure = 'running',
+  $config_file    = '/etc/neutron/lbaas_agent.ini',
 ) {
 
   include ::cubbystack::params
@@ -69,22 +65,6 @@ class cubbystack::neutron::lbaas (
   # Configure the LBaaS agent
   $settings.each |$setting, $value| {
     cubbystack_config { "${config_file}: ${setting}":
-      value => $value,
-      tag   => $tags,
-    }
-  }
-
-  # Configure the LBaaS Neutron settings
-  $neutron_settings.each |$setting, $value| {
-    cubbystack_config { "${neutron_config_file}: ${setting}":
-      value => $value,
-      tag   => $tags,
-    }
-  }
-
-  # Configure the LBaaS Services settings
-  $services_settings.each |$setting, $value| {
-    cubbystack_config { "${services_config_file}: ${setting}":
       value => $value,
       tag   => $tags,
     }

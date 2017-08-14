@@ -59,26 +59,24 @@ class cubbystack::params {
       $neutron_l3_service_name         = 'neutron-l3-agent'
       $neutron_metadata_package_name   = 'neutron-metadata-agent'
       $neutron_metadata_service_name   = 'neutron-metadata-agent'
-      $neutron_lbaas_package_name      = 'neutron-lbaas-agent'
-      $neutron_lbaas_service_name      = 'neutron-lbaas-agent'
+      $neutron_lbaas_package_name      = 'neutron-lbaasv2-agent'
+      $neutron_lbaas_service_name      = 'neutron-lbaasv2-agent'
       $neutron_plugin_ovs_package_name = 'neutron-plugin-openvswitch-agent'
       $neutron_plugin_ovs_service_name = 'neutron-plugin-openvswitch-agent'
+      $neutron_ovs_agent_package_name  = 'neutron-openvswitch-agent'
+      $neutron_ovs_agent_service_name  = 'neutron-openvswitch-agent'
       $neutron_plugin_ml2_package_name = 'neutron-plugin-ml2'
-      #$neutron_plugin_linuxbridge_package_name = 'neutron-plugin-linuxbridge-agent'
-      #$neutron_plugin_linuxbridge_service_name = 'neutron-plugin-linuxbridge-agent'
+      $neutron_plugin_linuxbridge_package_name = 'neutron-linuxbridge-agent'
+      $neutron_plugin_linuxbridge_service_name = 'neutron-linuxbridge-agent'
 
       case $::lsbdistcodename {
         'xenial': {
-          $neutron_plugin_linuxbridge_package_name = 'neutron-linuxbridge-agent'
-          $neutron_plugin_linuxbridge_service_name = 'neutron-linuxbridge-agent'
           $neutron_plugin_sriov_package_name       = 'neutron-sriov-agent'
           $neutron_plugin_sriov_service_name       = 'neutron-sriov-agent'
           $keystone_package_name                   = 'keystone'
           $keystone_service_name                   = 'apache2'
         }
         default: {
-          $neutron_plugin_linuxbridge_package_name = 'neutron-plugin-linuxbridge-agent'
-          $neutron_plugin_linuxbridge_service_name = 'neutron-plugin-linuxbridge-agent'
           $neutron_plugin_sriov_package_name       = 'neutron-plugin-sriov-agent'
           $neutron_plugin_sriov_service_name       = 'neutron-plugin-sriov-agent'
           $keystone_package_name                   = 'keystone'
