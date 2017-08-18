@@ -18,7 +18,7 @@
 #
 class cubbystack::trove::api (
   $package_ensure = present,
-  $service_enable = true
+  $service_enable = true,
   $service_ensure = 'running',
 ) {
 
