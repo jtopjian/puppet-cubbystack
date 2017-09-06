@@ -74,8 +74,8 @@ class cubbystack::params {
           $neutron_plugin_sriov_package_name       = 'neutron-sriov-agent'
           $neutron_plugin_sriov_service_name       = 'neutron-sriov-agent'
           $keystone_package_name                   = 'keystone'
-          $keystone_service_name                   = 'keystone'
-          #$keystone_service_name                   = 'apache2'
+          #$keystone_service_name                   = 'keystone'
+          $keystone_service_name                   = 'apache2'
         }
         default: {
           $neutron_plugin_linuxbridge_package_name = 'neutron-plugin-linuxbridge-agent'
