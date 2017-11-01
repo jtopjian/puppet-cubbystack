@@ -12,7 +12,7 @@ class cubbystack::repo (
   #}
 
   $hiera_release = hiera('cubbystack::repo::release')
-  notify { "Actual: $release vs Expected: $hiera_release": }
+  #notify { "Actual: $release vs Expected: $hiera_release": }
   if $::osfamily == 'RedHat' {
     class { 'cubbystack::repo::redhat': release => $release }
   } elsif $::operatingsystem == 'Ubuntu' {
