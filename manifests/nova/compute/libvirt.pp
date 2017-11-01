@@ -30,11 +30,11 @@ class cubbystack::nova::compute::libvirt (
   }
 
   # Hack
-  #  if $::lsbdistcodename == "xenial" {
-  #  $service_ensure = "fpuppet"
-  #} else {
-  #  $service_ensure = "running"
-  #}
+   if $::lsbdistcodename == "xenial" {
+    $service_ensure = "fpuppet"
+   } else {
+     $service_ensure = "running"
+   }
 
   cubbystack::functions::generic_service { 'libvirt':
     package_name   => $::cubbystack::params::libvirt_package_name,
