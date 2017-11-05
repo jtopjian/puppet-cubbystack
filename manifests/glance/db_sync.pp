@@ -5,7 +5,7 @@
 class cubbystack::glance::db_sync {
 
   # Order and notifications
-  Package<| tag == 'glance' |>           ~> Exec['glance-manage db_sync']
+  Package['glance']                      ~> Exec['glance-manage db_sync']
   Cubbystack_config<| tag == 'glance' |> -> Exec['glance-manage db_sync']
   Exec['glance-manage db_sync']          -> Service<| tag == 'glance' |>
 
