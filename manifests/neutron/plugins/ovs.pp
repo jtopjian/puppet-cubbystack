@@ -26,7 +26,7 @@ class cubbystack::neutron::plugins::ovs (
   include ::cubbystack::params
 
   ## Meta settings and globals
-  $tags = ['openstack', 'neutron', 'neutron-plugin-ovs']
+  $tags = ['cubbystack_openstack', 'cubbystack_neutron', 'neutron-plugin-ovs']
 
   cubbystack::functions::generic_service { 'neutron-plugin-ovs':
     service_enable => $service_enable,

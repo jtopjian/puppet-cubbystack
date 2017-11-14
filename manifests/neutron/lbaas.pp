@@ -38,12 +38,12 @@ class cubbystack::neutron::lbaas (
   include ::cubbystack::params
 
   ## Meta settings and globals
-  $tags = ['openstack', 'neutron', 'neutron-lbaas']
+  $tags = ['cubbystack_openstack', 'cubbystack_neutron', 'neutron-lbaas']
 
   # Make sure Neutron Metadata is installed before any configuration begins
   # Make sure Neutron Metadata is configured before the service starts
-  Package<| tag == 'neutron' |> -> Cubbystack_config<| tag == 'neutron-lbaas' |>
-  Package<| tag == 'neutron' |> -> File<| tag == 'neutron-lbaas' |>
+  Package<| tag == 'cubbystack_neutron' |> -> Cubbystack_config<| tag == 'neutron-lbaas' |>
+  Package<| tag == 'cubbystack_neutron' |> -> File<| tag == 'neutron-lbaas' |>
   Cubbystack_config<| tag == 'neutron-lbaas' |> -> Service['neutron-lbaas']
 
   # Restart neutron-lbaas after any config changes
@@ -52,7 +52,7 @@ class cubbystack::neutron::lbaas (
   # Order the db sync correctly
   Package<| tag == 'neutron-lbaas' |>                     ~> Exec['neutron-db-manage --service lbaas upgrade heads']
   Cubbystack_config<| tag == 'neutron-lbaas' |>           -> Exec['neutron-db-manage --service lbaas upgrade heads']
-  Exec['neutron-db-manage --service lbaas upgrade heads'] ~> Service<| tag == 'neutron' |>
+  Exec['neutron-db-manage --service lbaas upgrade heads'] ~> Service<| tag == 'cubbystack_neutron' |>
 
   File {
     ensure => present,

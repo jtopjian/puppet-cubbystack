@@ -16,7 +16,7 @@ class cubbystack::glance (
 
   ## Meta settings and globals
   # Default tags
-  $tags = ['openstack', 'glance']
+  $tags = ['cubbystack_openstack', 'cubbystack_glance']
 
   File {
     ensure  => present,

@@ -24,14 +24,14 @@ class cubbystack::nova (
   include ::cubbystack::params
 
   ## Meta settings and globals
-  $tags = ['openstack', 'nova']
+  $tags = ['cubbystackopenstack', 'cubbystack_nova']
 
   # Make sure nova is installed before configuration begins
-  Package<| tag == 'nova' |> -> Cubbystack_config<| tag == 'nova' |>
-  Cubbystack_config<| tag == 'nova' |> -> Service<| tag == 'nova' |>
+  Package<| tag == 'cubbystack_nova' |> -> Cubbystack_config<| tag == 'cubbystack_nova' |>
+  Cubbystack_config<| tag == 'cubbystack_nova' |> -> Service<| tag == 'cubbystack_nova' |>
 
   # Restart nova services whenever nova.conf has been changed
-  Cubbystack_config<| tag == 'nova' |> ~> Service<| tag == 'nova' |>
+  Cubbystack_config<| tag == 'cubbystack_nova' |> ~> Service<| tag == 'cubbystack_nova' |>
 
   # Global file attributes
   File {

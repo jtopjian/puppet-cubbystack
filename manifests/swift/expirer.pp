@@ -33,7 +33,7 @@ class cubbystack::swift::expirer (
   include ::cubbystack::params
 
   ## Meta settings and globals
-  $tags = ['openstack', 'swift', 'swift-object-expirer']
+  $tags = ['cubbystack_openstack', 'cubbystack_swift', 'swift-object-expirer']
 
   # Restart swift if the configuration changes
   Cubbystack_config<| tag == 'swift-object-expirer' |> ~> Service<| tag == 'swift-object-expirer' |>

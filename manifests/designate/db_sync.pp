@@ -9,9 +9,9 @@
 class cubbystack::designate::db_sync {
 
   # Order and notifications
-  Package<| tag == 'designate' |>           ~> Exec['designate-manage database sync']
-  Cubbystack_config<| tag == 'designate' |> -> Exec['designate-manage database sync']
-  Exec['designate-manage database sync']          -> Service<| tag == 'designate' |>
+  Package<| tag == 'cubbystack_designate' |> ~> Exec['designate-manage database sync']
+  Cubbystack_config<| tag == 'cubbystack_designate' |> -> Exec['designate-manage database sync']
+  Exec['designate-manage database sync'] -> Service<| tag == 'cubbystack_designate' |>
 
   exec { 'designate-manage database sync':
     path        => '/usr/bin',

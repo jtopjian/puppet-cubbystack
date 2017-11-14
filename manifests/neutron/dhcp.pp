@@ -34,12 +34,12 @@ class cubbystack::neutron::dhcp (
   include ::cubbystack::params
 
   ## Meta settings and globals
-  $tags = ['openstack', 'neutron', 'neutron-dhcp']
+  $tags = ['cubbystack_openstack', 'cubbystack_neutron', 'neutron-dhcp']
 
   # Make sure Neutron DHCP is installed before any configuration begins
   # Make sure Neutron DHCP is configured before the service starts
-  Package<| tag =='neutron' |> -> Cubbystack_config<| tag == 'neutron-dhcp' |>
-  Package<| tag =='neutron' |> -> File<| tag == 'neutron-dhcp' |>
+  Package<| tag == 'cubbystack_neutron' |> -> Cubbystack_config<| tag == 'neutron-dhcp' |>
+  Package<| tag == 'cubbystack_neutron' |> -> File<| tag == 'neutron-dhcp' |>
   Cubbystack_config<| tag == 'neutron-dhcp' |> -> Service['neutron-dhcp']
 
   # Restart neutron-dhcp after any config changes

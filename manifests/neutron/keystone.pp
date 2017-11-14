@@ -17,7 +17,7 @@ class cubbystack::neutron::keystone (
 ) {
 
   ## Meta settings and globals
-  $tags = ['openstack', 'neutron']
+  $tags = ['cubbystack_openstack', 'cubbystack_neutron']
 
   # Global file attributes
   File {

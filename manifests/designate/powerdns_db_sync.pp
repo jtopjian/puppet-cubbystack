@@ -10,9 +10,9 @@ class cubbystack::designate::powerdns_db_sync(
   include ::cubbystack::designate
 
   # Order and notifications
-  Package<| tag == 'designate' |>           ~> Exec['designate-manage powerdns sync']
-  Cubbystack_config<| tag == 'designate' |> -> Exec['designate-manage powerdns sync']
-  Exec['designate-manage powerdns sync']          -> Service<| tag == 'designate' |>
+  Package<| tag == 'cubbystack_designate' |> ~> Exec['designate-manage powerdns sync']
+  Cubbystack_config<| tag == 'cubbystack_designate' |> -> Exec['designate-manage powerdns sync']
+  Exec['designate-manage powerdns sync'] -> Service<| tag == 'cubbystack_designate' |>
 
   exec { 'designate-manage powerdns sync':
     command     => "designate-manage powerdns sync ${designate_pdns_target_id}",

@@ -1,4 +1,4 @@
-# == Class: cubbystack::designate::zone-manager
+# == Class: cubbystack::designate::zone_manager
 #
 # Configures the designate-zone-manager package and service
 #
@@ -16,7 +16,7 @@
 #   The run status of the designate-zone-manager service
 #   Defaults to running
 #
-class cubbystack::designate::zone-manager (
+class cubbystack::designate::zone_manager (
   $package_ensure = latest,
   $service_enable = true,
   $service_ensure = 'running',
