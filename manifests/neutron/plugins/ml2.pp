@@ -24,14 +24,14 @@ class cubbystack::neutron::plugins::ml2 (
   include ::cubbystack::params
 
   ## Meta settings and globals
-  $tags = ['openstack', 'neutron', 'neutron-plugin-ml2']
+  $tags = ['cubbystack_openstack', 'cubbystack_neutron', 'neutron-plugin-ml2']
 
   # Make sure Neutron Open vSwitch is installed before any configuration begins
   # Make sure Neutron Open vSwitch is configured before the service starts
-  Package['neutron-plugin-ml2'] -> Cubbystack_config<| tag == 'neutron' |>
+  Package['neutron-plugin-ml2'] -> Cubbystack_config<| tag == 'cubbystack_neutron' |>
 
   # Restart neutron-plugin-ml2 after any config changes
-  Cubbystack_config<| tag == 'neutron-plugin-ml2' |> ~> Service<| tag == 'neutron' |>
+  Cubbystack_config<| tag == 'neutron-plugin-ml2' |> ~> Service<| tag == 'cubbystack_neutron' |>
 
   File {
     ensure  => present,

@@ -17,7 +17,7 @@ class cubbystack::cinder::api_paste (
 ) {
 
   ## Meta settings and globals
-  $tags = ['openstack', 'cinder']
+  $tags = ['cubbystack', 'cubbystack_openstack', 'cubbystack_cinder']
 
   # Global file attributes
   File {

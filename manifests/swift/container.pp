@@ -29,7 +29,7 @@ class cubbystack::swift::container (
   include ::cubbystack::params
 
   ## Meta settings and globals
-  $tags = ['openstack', 'swift', 'swift-container']
+  $tags = ['cubbystack_openstack', 'cubbystack_swift', 'swift-container']
 
   # Restart container-server if the configuration changes
   Cubbystack_config<| tag == 'swift-container' |>  ~> Service<| tag == 'swift-container' |>

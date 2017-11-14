@@ -18,14 +18,14 @@ class cubbystack::designate::policy (
   include ::cubbystack::params
 
   ## Meta settings and globals
-  $tags = ['openstack', 'designate', 'designate-policy']
+  $tags = ['cubbystack_openstack', 'cubbystack_designate']
 
-  # Make sure Glance is installed before any configuration happens
-  # Make sure Glance Registry is configured before the service starts
-  Package['designate'] -> Cubbystack_config<| tag == 'designate-policy' |>
+  # Make sure Designate is installed before any configuration happens
+  # Make sure Designate Registry is configured before the service starts
+  Package['designate'] -> Cubbystack_config<| tag == 'cubbystack_designate' |>
 
   # Restart designate after any config changes
-  Cubbystack_config<| tag == 'designate-policy' |> ~> Service['designate-api']
+  Cubbystack_config<| tag == 'cubbystack_designate' |> ~> Service['designate-api']
 
   File {
     ensure  => present,

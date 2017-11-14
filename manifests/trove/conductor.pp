@@ -24,7 +24,7 @@ class cubbystack::trove::conductor (
   include ::cubbystack::params
 
   ## Meta settings and globals
-  $tags = ['openstack', 'trove', 'trove-conductor']
+  $tags = ['cubbystack_openstack', 'cubbystack_trove', 'trove-conductor']
 
   # Make sure Trove is installed before any configuration happens
   # Make sure Trove Conductor is configured before the service starts

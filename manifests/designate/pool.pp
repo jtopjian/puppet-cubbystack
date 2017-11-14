@@ -18,10 +18,10 @@ class cubbystack::designate::pool (
   include ::cubbystack::params
 
   ## Meta settings and globals
-  $tags = ['openstack', 'designate', 'designate-pool']
+  $tags = ['cubbystack_openstack', 'cubbystack_designate']
 
-  Package['designate'] -> Cubbystack_config<| tag == 'designate-pool' |>
-  Exec['Pool Reload']  -> Service<| tag == 'designate' |>
+  Package['designate'] -> Cubbystack_config<| tag == 'cubbystack_designate' |>
+  Exec['Pool Reload']  -> Service<| tag == 'cubbystack_designate' |>
 
   File {
     ensure  => present,

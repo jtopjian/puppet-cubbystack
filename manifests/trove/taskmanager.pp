@@ -34,12 +34,12 @@ class cubbystack::trove::taskmanager (
   include ::cubbystack::params
 
   ## Meta settings and globals
-  $tags = ['openstack', 'trove', 'trove-taskmanager']
+  $tags = ['cubbystack_openstack', 'cubbystack_trove', 'trove-taskmanager']
 
   # Make sure Trove Taskmanager is installed before any configuration begins
   # Make sure Trove Taskmanager is configured before the service starts
-  Package<| tag == 'trove' |> -> Cubbystack_config<| tag == 'trove-taskmanager' |>
-  Package<| tag == 'trove' |> -> File<| tag == 'trove-taskmanager' |>
+  Package<| tag == 'cubbystack_trove' |> -> Cubbystack_config<| tag == 'trove-taskmanager' |>
+  Package<| tag == 'cubbystack_trove' |> -> File<| tag == 'trove-taskmanager' |>
   Cubbystack_config<| tag == 'trove-taskmanager' |> -> Service['trove-taskmanager']
 
   # Restart trove-taskmanager after any config changes

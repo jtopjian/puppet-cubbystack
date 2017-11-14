@@ -18,7 +18,7 @@ class cubbystack::trove::api_paste (
 ) {
 
   ## Meta settings and globals
-  $tags = ['openstack', 'trove']
+  $tags = ['cubbystack_openstack', 'cubbystack_trove']
 
   # Global file attributes
   File {

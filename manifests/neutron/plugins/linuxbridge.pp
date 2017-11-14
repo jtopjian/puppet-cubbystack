@@ -27,11 +27,11 @@ class cubbystack::neutron::plugins::linuxbridge (
   include ::cubbystack::params
 
   ## Meta settings and globals
-  $tags = ['openstack', 'neutron', 'neutron-plugin-linuxbridge']
+  $tags = ['cubbystack_openstack', 'cubbystack_neutron', 'neutron-plugin-linuxbridge']
 
   # Make sure Neutron Open vSwitch is installed before any configuration begins
   # Make sure Neutron Open vSwitch is configured before the service starts
-  Package['neutron-plugin-linuxbridge'] -> Cubbystack_config<| tag == 'neutron' |>
+  Package['neutron-plugin-linuxbridge'] -> Cubbystack_config<| tag == 'cubbystack_neutron' |>
 
   File {
     ensure  => present,

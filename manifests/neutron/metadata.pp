@@ -34,12 +34,12 @@ class cubbystack::neutron::metadata (
   include ::cubbystack::params
 
   ## Meta settings and globals
-  $tags = ['openstack', 'neutron', 'neutron-metadata']
+  $tags = ['cubbystack_openstack', 'cubbystack_neutron', 'neutron-metadata']
 
   # Make sure Neutron Metadata is installed before any configuration begins
   # Make sure Neutron Metadata is configured before the service starts
-  Package<| tag == 'neutron' |> -> Cubbystack_config<| tag == 'neutron-metadata' |>
-  Package<| tag == 'neutron' |> -> File<| tag == 'neutron-metadata' |>
+  Package<| tag == 'cubbystack_neutron' |> -> Cubbystack_config<| tag == 'neutron-metadata' |>
+  Package<| tag == 'cubbystack_neutron' |> -> File<| tag == 'neutron-metadata' |>
   Cubbystack_config<| tag == 'neutron-metadata' |> -> Service['neutron-metadata']
 
   # Restart neutron-metadata after any config changes

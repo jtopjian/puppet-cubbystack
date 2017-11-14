@@ -24,14 +24,14 @@ class cubbystack::cinder (
   include ::cubbystack::params
 
   ## Meta settings and globals
-  $tags = ['openstack', 'cinder']
+  $tags = ['cubbystack_openstack', 'cubbystack_cinder']
 
   # Make sure cinder is installed before configuration begins
-  Package<| tag == 'cinder' |> -> Cubbystack_config<| tag == 'cinder' |>
-  Cubbystack_config<| tag == 'cinder' |> -> Service<| tag == 'cinder' |>
+  Package<| tag == 'cubbystack_cinder' |> -> Cubbystack_config<| tag == 'cubbystack_cinder' |>
+  Cubbystack_config<| tag == 'cubbystack_cinder' |> -> Service<| tag == 'cubbystack_cinder' |>
 
   # Restart cinder services whenever cinder.conf has been changed
-  Cubbystack_config<| tag == 'cinder' |> ~> Service<| tag == 'cinder' |>
+  Cubbystack_config<| tag == 'cubbystack_cinder' |> ~> Service<| tag == 'cubbystack_cinder' |>
 
   # Global file attributes
   File {

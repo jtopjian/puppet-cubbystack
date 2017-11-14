@@ -35,14 +35,14 @@ class cubbystack::designate (
   include ::cubbystack::params
 
   ## Meta settings and globals
-  $tags = ['openstack', 'designate']
+  $tags = ['openstack', 'cubbystack_designate']
 
   # Make sure designate is installed before configuration begins
-  Package<| tag == 'designate' |> -> Cubbystack_config<| tag == 'designate' |>
-  Cubbystack_config<| tag == 'designate' |> -> Service<| tag == 'designate' |>
+  Package<| tag == 'cubbystack_designate' |>           -> Cubbystack_config<| tag == 'cubbystack_designate' |>
+  Cubbystack_config<| tag == 'cubbystack_designate' |> -> Service<| tag == 'cubbystack_designate' |>
 
   # Restart designate services whenever designate.conf has been changed
-  Cubbystack_config<| tag == 'designate' |> ~> Service<| tag == 'designate' |>
+  Cubbystack_config<| tag == 'cubbystack_designate' |> ~> Service<| tag == 'cubbystack_designate' |>
 
   # Global file attributes
   File {

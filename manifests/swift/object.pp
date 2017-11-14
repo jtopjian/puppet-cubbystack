@@ -29,7 +29,7 @@ class cubbystack::swift::object (
   include ::cubbystack::params
 
   ## Meta settings and globals
-  $tags = ['openstack', 'swift', 'swift-object']
+  $tags = ['cubbystack_openstack', 'cubbystack_swift', 'swift-object']
 
   # Restart swift if the configuration changes
   Cubbystack_config<| tag == 'swift-object' |> ~> Service<| tag == 'swift-object' |>

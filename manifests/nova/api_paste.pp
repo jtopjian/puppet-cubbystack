@@ -18,7 +18,7 @@ class cubbystack::nova::api_paste (
 ) {
 
   ## Meta settings and globals
-  $tags = ['openstack', 'nova']
+  $tags = ['cubbystack_openstack', 'cubbystack_nova']
 
   # Global file attributes
   File {

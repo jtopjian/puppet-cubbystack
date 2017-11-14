@@ -5,9 +5,9 @@
 class cubbystack::trove::db_sync {
 
   # Order the db_sync correctly
-  Package<| tag == 'trove' |>           ~> Exec['trove-manage db_sync']
-  Cubbystack_config<| tag == 'trove' |> -> Exec['trove-manage db_sync']
-  Exec['trove-manage db_sync']          ~> Service<| tag == 'trove' |>
+  Package<| tag == 'cubbystack_trove' |> ~> Exec['trove-manage db_sync']
+  Cubbystack_config<| tag == 'cubbystack_trove' |> -> Exec['trove-manage db_sync']
+  Exec['trove-manage db_sync'] ~> Service<| tag == 'cubbystack_trove' |>
 
   # Configure the trove database
   exec { 'trove-manage db_sync':

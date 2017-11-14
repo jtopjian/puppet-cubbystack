@@ -34,18 +34,18 @@ class cubbystack::keystone (
   include ::cubbystack::params
 
   ## Meta settings and globals
-  $tags = ['keystone', 'openstack']
+  $tags = ['cubbystack_keystone', 'cubbystack_openstack']
 
   # Make sure keystone.conf exists before any configuration happens
-  Package['keystone'] -> Cubbystack_config<| tag == 'keystone' |>
+  Package['keystone'] -> Cubbystack_config<| tag == 'cubbystack_keystone' |>
 
   # Also, any changes to keystone.conf should restart the keystone service
-  Cubbystack_config<| tag == 'keystone' |> ~> Service['keystone']
-  Exec['keystone-manage db_sync']          ~> Service['keystone']
+  Cubbystack_config<| tag == 'cubbystack_keystone' |> ~> Service['cubbystack_keystone']
+  Exec['keystone-manage db_sync'] ~> Service['cubbystack_keystone']
 
   # Order the db sync correctly
   Package['keystone'] ~> Exec['keystone-manage db_sync']
-  Cubbystack_config<| tag == 'keystone' |> -> Exec['keystone-manage db_sync']
+  Cubbystack_config<| tag == 'cubbystack_keystone' |> -> Exec['keystone-manage db_sync']
   Exec['keystone-manage db_sync'] -> Service['keystone']
 
   # Other ordering

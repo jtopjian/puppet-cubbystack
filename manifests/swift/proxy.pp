@@ -29,7 +29,7 @@ class cubbystack::swift::proxy (
   include ::cubbystack::params
 
   # Meta settings and globals
-  $tags = ['openstack', 'swift', 'swift-proxy']
+  $tags = ['cubbystack_openstack', 'cubbystack_swift', 'swift-proxy']
 
   # Restart proxy-server if the configuration changes
   Cubbystack_config<| tag == 'swift-proxy' |> ~> Service<| tag == 'swift-proxy' |>

@@ -24,14 +24,14 @@ class cubbystack::neutron (
   include ::cubbystack::params
 
   ## Meta settings and globals
-  $tags = ['openstack', 'neutron']
+  $tags = ['cubbystack_openstack', 'cubbystack_neutron']
 
   # Make sure neutron is installed before configuration begins
-  Package<| tag == 'neutron' |> -> Cubbystack_config<| tag == 'neutron' |>
-  Cubbystack_config<| tag == 'neutron' |> -> Service<| tag == 'neutron' |>
+  Package<| tag == 'cubbystack_neutron' |> -> Cubbystack_config<| tag == 'cubbystack_neutron' |>
+  Cubbystack_config<| tag == 'cubbystack_neutron' |> -> Service<| tag == 'cubbystack_neutron' |>
 
   # Restart neutron services whenever neutron.conf has been changed
-  Cubbystack_config<| tag == 'neutron' |> ~> Service<| tag == 'neutron' |>
+  Cubbystack_config<| tag == 'cubbystack_neutron' |> ~> Service<| tag == 'cubbystack_neutron' |>
 
   # Global file attributes
   File {

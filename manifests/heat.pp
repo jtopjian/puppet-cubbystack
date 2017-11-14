@@ -24,14 +24,14 @@ class cubbystack::heat (
   include ::cubbystack::params
 
   ## Meta settings and globals
-  $tags = ['openstack', 'heat']
+  $tags = ['cubbystack_openstack', 'cubbystack_heat']
 
   # Make sure heat is installed before configuration begins
-  Package<| tag == 'heat' |> -> Cubbystack_config<| tag == 'heat' |>
-  Cubbystack_config<| tag == 'heat' |> -> Service<| tag == 'heat' |>
+  Package<| tag == 'cubbystack_heat' |> -> Cubbystack_config<| tag == 'cubbystack_heat' |>
+  Cubbystack_config<| tag == 'cubbystack_heat' |> -> Service<| tag == 'cubbystack_heat' |>
 
   # Restart heat services whenever heat.conf has been changed
-  Cubbystack_config<| tag == 'heat' |> ~> Service<| tag == 'heat' |>
+  Cubbystack_config<| tag == 'cubbystack_heat' |> ~> Service<| tag == 'cubbystack_heat' |>
 
   # Global file attributes
   File {

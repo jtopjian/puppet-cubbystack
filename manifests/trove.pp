@@ -24,14 +24,14 @@ class cubbystack::trove (
   include ::cubbystack::params
 
   ## Meta settings and globals
-  $tags = ['openstack', 'trove']
+  $tags = ['cubbystack_openstack', 'cubbystack_trove']
 
   # Make sure trove is installed before configuration begins
-  Package<| tag == 'trove' |> -> Cubbystack_config<| tag == 'trove' |>
-  Cubbystack_config<| tag == 'trove' |> -> Service<| tag == 'trove' |>
+  Package<| tag == 'cubbystack_trove' |> -> Cubbystack_config<| tag == 'cubbystack_trove' |>
+  Cubbystack_config<| tag == 'cubbystack_trove' |> -> Service<| tag == 'cubbystack_trove' |>
 
   # Restart trove services whenever trove.conf has been changed
-  Cubbystack_config<| tag == 'trove' |> ~> Service<| tag == 'trove' |>
+  Cubbystack_config<| tag == 'cubbystack_trove' |> ~> Service<| tag == 'cubbystack_trove' |>
 
   # Global file attributes
   File {

@@ -5,9 +5,9 @@
 class cubbystack::neutron::db_sync {
 
   # Order the db sync correctly
-  Package<| tag == 'neutron' |>           ~> Exec['neutron-db-manage upgrade heads']
-  Cubbystack_config<| tag == 'neutron' |> -> Exec['neutron-db-manage upgrade heads']
-  Exec['neutron-db-manage upgrade heads'] ~> Service<| tag == 'neutron' |>
+  Package<| tag == 'cubbystack_neutron' |> ~> Exec['neutron-db-manage upgrade heads']
+  Cubbystack_config<| tag == 'cubbystack_neutron' |> -> Exec['neutron-db-manage upgrade heads']
+  Exec['neutron-db-manage upgrade heads'] ~> Service<| tag == 'cubbystack_neutron' |>
 
   # Configure the neutron database
   exec { 'neutron-db-manage upgrade heads':

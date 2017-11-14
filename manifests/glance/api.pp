@@ -24,15 +24,15 @@ class cubbystack::glance::api (
   include ::cubbystack::params
 
   ## Meta settings and globals
-  $tags = ['openstack', 'glance', 'glance-api']
+  $tags = ['cubbystack_openstack', 'cubbystack_glance']
 
   # Make sure Glance is installed before any configuration happens
   # Make sure Glance API is configured before the service starts
-  Package['glance'] -> Cubbystack_config<| tag == 'glance-api' |>
-  Cubbystack_config<| tag == 'glance-api' |> -> Service['glance-api']
+  Package['glance'] -> Cubbystack_config<| tag == 'cubbystack_glance' |>
+  Cubbystack_config<| tag == 'cubbystack_glance' |> -> Service['glance-api']
 
   # Restart glance after any config changes
-  Cubbystack_config<| tag == 'glance-api' |> ~> Service['glance-api']
+  Cubbystack_config<| tag == 'cubbystack_glance' |> ~> Service['glance-api']
 
   File {
     ensure  => present,
