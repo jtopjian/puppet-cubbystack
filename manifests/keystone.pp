@@ -40,8 +40,8 @@ class cubbystack::keystone (
   Package['keystone'] -> Cubbystack_config<| tag == 'cubbystack_keystone' |>
 
   # Also, any changes to keystone.conf should restart the keystone service
-  Cubbystack_config<| tag == 'cubbystack_keystone' |> ~> Service['cubbystack_keystone']
-  Exec['keystone-manage db_sync'] ~> Service['cubbystack_keystone']
+  Cubbystack_config<| tag == 'cubbystack_keystone' |> ~> Service['keystone']
+  Exec['keystone-manage db_sync'] ~> Service['keystone']
 
   # Order the db sync correctly
   Package['keystone'] ~> Exec['keystone-manage db_sync']
