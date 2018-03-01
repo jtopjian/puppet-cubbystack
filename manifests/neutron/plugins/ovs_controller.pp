@@ -1,4 +1,4 @@
-# == Class: cubbystack::neutron::plugins::ovs_provider
+# == Class: cubbystack::neutron::plugins::ovs_controller
 #
 # Configures the neutron-openvswitch-agent
 #
@@ -16,10 +16,8 @@
 #   Defaults to /etc/neutron/plugins/ml2/openvswitch_agent.ini
 #
 # NEIL #
-# Notes from https://docs.openstack.org/mitaka/networking-guide/deploy-ovs-provider.html
-# This creates OVS in a provider-network only scenario. OVS is deployed only to compute nodes.
 #
-class cubbystack::neutron::plugins::ovs_provider (
+class cubbystack::neutron::plugins::ovs_controller (
   $settings,
   $package_ensure = latest,
   $config_file    = '/etc/neutron/plugins/ml2/openvswitch_agent.ini',
