@@ -134,6 +134,22 @@ class cubbystack::params {
       $trove_conductor_package_name   = false
       $trove_conductor_service_name   = 'trove-conductor'
 
+      # Murano
+      $murano_common_package_name = 'murano-common'
+      $murano_api_package_name    = 'murano-api'
+      $murano_api_service_name    = 'murano-api'
+      $murano_engine_package_name = 'murano-engine'
+      $murano_engine_service_name = 'murano-engine'
+      $murano_cfapi_package_name  = 'murano-cfapi'
+      $murano_cfapi_service_name  = 'murano-cfapi'
+
+      # Sahara
+      $sahara_common_package_name = 'sahara-common'
+      $sahara_api_package_name    = 'sahara-api'
+      $sahara_api_service_name    = 'sahara-api'
+      $sahara_engine_package_name = 'sahara-engine'
+      $sahara_engine_service_name = 'sahara-engine'
+
       # Designate
       $designate_common_package_name       = 'designate'
       $designate_agent_service_name        = 'designate-agent'
