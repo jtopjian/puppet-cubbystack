@@ -21,7 +21,7 @@ class cubbystack::sahara (
   $config_file    = '/etc/sahara/sahara.conf',
 ) {
 
-  include ::cubbystack::params
+  contain ::cubbystack::params
 
   ## Meta settings and globals
   $tags = ['cubbystack_openstack', 'cubbystack_sahara']

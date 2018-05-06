@@ -17,7 +17,7 @@ class cubbystack::sahara::api (
   $service_enable = true,
 ) {
 
-  include ::cubbystack::sahara
+  contain ::cubbystack::sahara
 
   cubbystack::functions::generic_service { 'sahara-api':
     service_enable => $service_enable,

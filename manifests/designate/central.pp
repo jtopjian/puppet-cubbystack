@@ -18,7 +18,7 @@ class cubbystack::designate::central (
   $service_ensure = 'running',
 ) {
 
-  include ::cubbystack::designate
+  contain ::cubbystack::designate
 
   cubbystack::functions::generic_service { 'designate-central':
     service_enable    => $service_enable,

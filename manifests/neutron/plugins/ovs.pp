@@ -23,7 +23,7 @@ class cubbystack::neutron::plugins::ovs (
   $service_ensure = 'running',
 ) {
 
-  include ::cubbystack::params
+  contain ::cubbystack::params
 
   ## Meta settings and globals
   $tags = ['cubbystack_openstack', 'cubbystack_neutron', 'neutron-plugin-ovs']

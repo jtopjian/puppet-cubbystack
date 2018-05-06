@@ -22,7 +22,7 @@ class cubbystack::nova::api (
   $service_ensure = 'running',
 ) {
 
-  include ::cubbystack::nova
+  contain ::cubbystack::nova
 
   cubbystack::functions::generic_service { 'nova-api':
     service_enable => $service_enable,

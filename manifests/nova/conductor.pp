@@ -22,7 +22,7 @@ class cubbystack::nova::conductor (
   $service_ensure = 'running'
 ) {
 
-  include ::cubbystack::nova
+  contain ::cubbystack::nova
 
   cubbystack::functions::generic_service { 'nova-conductor':
     service_enable => $service_enable,

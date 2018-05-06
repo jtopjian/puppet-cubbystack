@@ -1,15 +1,7 @@
 # Humbly based on the openstack module
 class cubbystack::repo (
-  $release = 'kilo'
+  $release = 'queens'
 ) {
-
-  anchor { 'cubbystack::repo::start': }
-  anchor { 'cubbystack::repo::end': }
-
-  Class {
-    require => Anchor['cubbystack::repo::start'],
-    before  => Anchor['cubbystack::repo::end']
-  }
 
   if $::osfamily == 'RedHat' {
     class { 'cubbystack::repo::redhat': release => $release }

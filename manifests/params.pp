@@ -6,6 +6,13 @@ class cubbystack::params {
       # Utils / Misc
       $openstack_utils = false
 
+      # Keystone
+      $keystone_package_name              = 'keystone'
+      $keystone_service_name              = 'keystone'
+      $keystone_wsgi_script_dir           = '/usr/lib/cgi-bin/keystone'
+      $keystone_wsgi_admin_script_source  = '/usr/bin/keystone-wsgi-admin'
+      $keystone_wsgi_public_script_source = '/usr/bin/keystone-wsgi-public'
+
       # Glance
       $glance_package_name          = 'glance'
       $glance_api_service_name      = 'glance-api'
@@ -73,14 +80,10 @@ class cubbystack::params {
         'xenial': {
           $neutron_plugin_sriov_package_name       = 'neutron-sriov-agent'
           $neutron_plugin_sriov_service_name       = 'neutron-sriov-agent'
-          $keystone_package_name                   = 'keystone'
-          $keystone_service_name                   = 'apache2'
         }
         default: {
           $neutron_plugin_sriov_package_name       = 'neutron-plugin-sriov-agent'
           $neutron_plugin_sriov_service_name       = 'neutron-plugin-sriov-agent'
-          $keystone_package_name                   = 'keystone'
-          $keystone_service_name                   = 'keystone'
         }
       }
 

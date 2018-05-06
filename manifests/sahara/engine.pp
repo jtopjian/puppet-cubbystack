@@ -17,7 +17,7 @@ class cubbystack::sahara::engine (
   $service_enable = true,
 ) {
 
-  include ::cubbystack::sahara
+  contain ::cubbystack::sahara
 
   cubbystack::functions::generic_service { 'sahara-engine':
     service_enable => $service_enable,

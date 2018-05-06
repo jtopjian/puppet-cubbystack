@@ -15,7 +15,7 @@ class cubbystack::designate::policy (
   $settings,
   $config_file    = '/etc/designate/policy.json',
 ) {
-  include ::cubbystack::params
+  contain ::cubbystack::params
 
   ## Meta settings and globals
   $tags = ['cubbystack_openstack', 'cubbystack_designate']

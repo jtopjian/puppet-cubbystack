@@ -22,7 +22,7 @@ class cubbystack::designate::pool-manager (
   $service_ensure = 'running',
 ) {
 
-  include ::cubbystack::designate
+  contain ::cubbystack::designate
 
   cubbystack::functions::generic_service { 'designate-pool-manager':
     service_enable => $service_enable,

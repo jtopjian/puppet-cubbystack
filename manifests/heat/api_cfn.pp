@@ -22,7 +22,7 @@ class cubbystack::heat::api_cfn (
   $service_ensure = 'running'
 ) {
 
-  include ::cubbystack::heat
+  contain ::cubbystack::heat
 
   cubbystack::functions::generic_service { 'heat-api_cfn':
     service_enable => $service_enable,

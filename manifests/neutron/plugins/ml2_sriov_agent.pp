@@ -21,7 +21,7 @@ class cubbystack::neutron::plugins::ml2_sriov_agent (
   $config_file    = '/etc/neutron/plugins/ml2/sriov_agent.ini',
 ) {
 
-  include ::cubbystack::params
+  contain ::cubbystack::params
 
   ## Meta settings and globals
   $tags = ['openstack', 'neutron', 'neutron-plugin-sriov']

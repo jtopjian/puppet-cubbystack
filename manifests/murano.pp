@@ -21,7 +21,7 @@ class cubbystack::murano (
   $config_file    = '/etc/murano/murano.conf',
 ) {
 
-  include ::cubbystack::params
+  contain ::cubbystack::params
 
   ## Meta settings and globals
   $tags = ['cubbystack-openstack', 'cubbystack-murano']

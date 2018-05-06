@@ -27,7 +27,7 @@ class cubbystack::nova::network (
   $install_service  = true,
 ) {
 
-  include ::cubbystack::nova
+  contain ::cubbystack::nova
 
   # TODO: Move to firewall config
   sysctl::value { 'net.ipv4.ip_forward':

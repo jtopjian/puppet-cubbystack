@@ -22,7 +22,7 @@ class cubbystack::designate::mdns (
   $service_ensure  = 'running',
 ) {
 
-  include ::cubbystack::designate
+  contain ::cubbystack::designate
 
   cubbystack::functions::generic_service { 'designate-mdns':
     service_enable => $service_enable,

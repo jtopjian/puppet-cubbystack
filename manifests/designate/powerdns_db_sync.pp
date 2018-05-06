@@ -7,7 +7,7 @@ class cubbystack::designate::powerdns_db_sync(
  $designate_pdns_target_id = '215bb6c6-a8cd-40e9-bb55-d8f3bafdc689',
 ){
 
-  include ::cubbystack::designate
+  contain ::cubbystack::designate
 
   # Order and notifications
   Package<| tag == 'cubbystack_designate' |> ~> Exec['designate-manage powerdns sync']

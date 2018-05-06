@@ -22,7 +22,7 @@ class cubbystack::designate::api (
   $service_ensure  = 'running',
 ) {
 
-  include ::cubbystack::designate
+  contain ::cubbystack::designate
 
   cubbystack::functions::generic_service { 'designate-api':
     service_enable => $service_enable,

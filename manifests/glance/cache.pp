@@ -20,7 +20,7 @@ class cubbystack::glance::cache (
   $config_file = '/etc/glance/glance-cache.conf',
 ) {
 
-  include ::cubbystack::params
+  contain ::cubbystack::params
 
   ## Meta settings and globals
   $tags = ['cubbystack_openstack', 'cubbystack_glance']

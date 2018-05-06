@@ -21,7 +21,7 @@ class cubbystack::neutron (
   $config_file    = '/etc/neutron/neutron.conf',
 ) {
 
-  include ::cubbystack::params
+  contain ::cubbystack::params
 
   ## Meta settings and globals
   $tags = ['cubbystack_openstack', 'cubbystack_neutron']

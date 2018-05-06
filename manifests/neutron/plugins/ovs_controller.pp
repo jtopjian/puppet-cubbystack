@@ -23,7 +23,7 @@ class cubbystack::neutron::plugins::ovs_controller (
   $config_file    = '/etc/neutron/plugins/ml2/openvswitch_agent.ini',
 ) {
 
-  include ::cubbystack::params
+  contain ::cubbystack::params
 
   ## Meta settings and globals
   $tags = ['openstack', 'neutron', 'neutron-openvswitch-agent']

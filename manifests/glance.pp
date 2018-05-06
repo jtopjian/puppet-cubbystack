@@ -12,7 +12,7 @@ class cubbystack::glance (
   $package_ensure = present
 ) {
 
-  include ::cubbystack::params
+  contain ::cubbystack::params
 
   ## Meta settings and globals
   # Default tags

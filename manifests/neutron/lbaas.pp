@@ -31,7 +31,7 @@ class cubbystack::neutron::lbaas (
   $config_file    = '/etc/neutron/lbaas_agent.ini',
 ) {
 
-  include ::cubbystack::params
+  contain ::cubbystack::params
 
   ## Meta settings and globals
   $tags = ['cubbystack_openstack', 'cubbystack_neutron', 'neutron-lbaas']

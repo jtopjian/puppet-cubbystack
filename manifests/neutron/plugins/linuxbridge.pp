@@ -24,7 +24,7 @@ class cubbystack::neutron::plugins::linuxbridge (
   $settings       = undef,
 ) {
 
-  include ::cubbystack::params
+  contain ::cubbystack::params
 
   ## Meta settings and globals
   $tags = ['cubbystack_openstack', 'cubbystack_neutron', 'neutron-plugin-linuxbridge']

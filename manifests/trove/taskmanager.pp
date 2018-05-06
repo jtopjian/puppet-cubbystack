@@ -31,7 +31,7 @@ class cubbystack::trove::taskmanager (
   $config_file    = '/etc/trove/trove-taskmanager.conf',
 ) {
 
-  include ::cubbystack::params
+  contain ::cubbystack::params
 
   ## Meta settings and globals
   $tags = ['cubbystack_openstack', 'cubbystack_trove', 'trove-taskmanager']

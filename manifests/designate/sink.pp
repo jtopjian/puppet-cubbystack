@@ -22,7 +22,7 @@ class cubbystack::designate::sink (
   $service_ensure  = 'running',
 ) {
 
-  include ::cubbystack::designate
+  contain ::cubbystack::designate
 
   cubbystack::functions::generic_service { 'designate-sink':
     service_enable => $service_enable,

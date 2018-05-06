@@ -21,7 +21,7 @@ class cubbystack::cinder (
   $config_file    = '/etc/cinder/cinder.conf',
 ) {
 
-  include ::cubbystack::params
+  contain ::cubbystack::params
 
   ## Meta settings and globals
   $tags = ['cubbystack_openstack', 'cubbystack_cinder']

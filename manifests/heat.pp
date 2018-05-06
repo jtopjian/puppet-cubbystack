@@ -21,7 +21,7 @@ class cubbystack::heat (
   $config_file    = '/etc/heat/heat.conf',
 ) {
 
-  include ::cubbystack::params
+  contain ::cubbystack::params
 
   ## Meta settings and globals
   $tags = ['cubbystack_openstack', 'cubbystack_heat']

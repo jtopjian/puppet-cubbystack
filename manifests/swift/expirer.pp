@@ -30,7 +30,7 @@ class cubbystack::swift::expirer (
   $config_file    = '/etc/swift/object-expirer.conf',
 ) {
 
-  include ::cubbystack::params
+  contain ::cubbystack::params
 
   ## Meta settings and globals
   $tags = ['cubbystack_openstack', 'cubbystack_swift', 'swift-object-expirer']

@@ -32,7 +32,7 @@ class cubbystack::designate (
   $config_file      = '/etc/designate/designate.conf',
 ) {
 
-  include ::cubbystack::params
+  contain ::cubbystack::params
 
   ## Meta settings and globals
   $tags = ['openstack', 'cubbystack_designate']

@@ -26,7 +26,7 @@ class cubbystack::swift::object (
   $config_file    = '/etc/swift/object-server.conf',
 ) {
 
-  include ::cubbystack::params
+  contain ::cubbystack::params
 
   ## Meta settings and globals
   $tags = ['cubbystack_openstack', 'cubbystack_swift', 'swift-object']

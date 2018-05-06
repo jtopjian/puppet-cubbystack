@@ -18,7 +18,7 @@ class cubbystack::designate::agent (
   $service_ensure = 'running',
 ) {
 
-  include ::cubbystack::designate
+  contain ::cubbystack::designate
 
   cubbystack::functions::generic_service { 'designate-agent':
     service_enable    => $service_enable,

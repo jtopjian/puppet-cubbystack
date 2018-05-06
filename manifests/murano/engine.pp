@@ -18,7 +18,7 @@ class cubbystack::murano::engine (
   $service_ensure = 'running',
 ) {
 
-  include ::cubbystack::murano
+  contain ::cubbystack::murano
 
   cubbystack::functions::generic_service { 'murano-engine':
     service_enable => $service_enable,

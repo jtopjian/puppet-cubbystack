@@ -21,7 +21,7 @@ class cubbystack::nova (
   $config_file    = '/etc/nova/nova.conf',
 ) {
 
-  include ::cubbystack::params
+  contain ::cubbystack::params
 
   ## Meta settings and globals
   $tags = ['cubbystackopenstack', 'cubbystack_nova']

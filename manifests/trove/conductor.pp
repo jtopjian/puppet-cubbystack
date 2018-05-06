@@ -21,7 +21,7 @@ class cubbystack::trove::conductor (
   $config_file    = '/etc/trove/trove-conductor.conf',
 ) {
 
-  include ::cubbystack::params
+  contain ::cubbystack::params
 
   ## Meta settings and globals
   $tags = ['cubbystack_openstack', 'cubbystack_trove', 'trove-conductor']
