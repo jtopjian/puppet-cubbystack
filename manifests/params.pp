@@ -4,7 +4,8 @@ class cubbystack::params {
     'Debian': {
 
       # Utils / Misc
-      $openstack_utils = false
+      $openstack_utils     = false
+      $apache_service_name = 'apache2'
 
       # Keystone
       $keystone_package_name              = 'keystone'
@@ -205,7 +206,8 @@ class cubbystack::params {
     'RedHat': {
 
       # Utils / Misc
-      $openstack_utils = ['openstack-utils', 'openstack-selinux']
+      $openstack_utils     = ['openstack-utils', 'openstack-selinux']
+      $apache_service_name = 'httpd'
 
       # Keystone
       $keystone_package_name = 'openstack-keystone'

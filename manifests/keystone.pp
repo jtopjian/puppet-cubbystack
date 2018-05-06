@@ -31,7 +31,6 @@ class cubbystack::keystone (
   $config_file    = '/etc/keystone/keystone.conf',
 ) {
 
-  contain ::apache
   contain ::cubbystack::params
 
   ## Meta settings and globals
@@ -41,17 +40,17 @@ class cubbystack::keystone (
   Package['keystone'] -> Cubbystack_config<| tag == 'cubbystack_keystone' |>
 
   # Also, any changes to keystone.conf should restart the keystone service
-  Cubbystack_config<| tag == 'cubbystack_keystone' |> ~> Service['apache2']
-  Exec['keystone-manage db_sync'] ~> Service['apache2']
+  Cubbystack_config<| tag == 'cubbystack_keystone' |> ~> Exec['keystone-apache']
+  Exec['keystone-manage db_sync'] ~> Exec['keystone-apache']
 
   # Order the db sync correctly
   Package['keystone'] ~> Exec['keystone-manage db_sync']
   Cubbystack_config<| tag == 'cubbystack_keystone' |> -> Exec['keystone-manage db_sync']
-  Exec['keystone-manage db_sync'] -> Service['apache2']
+  Exec['keystone-manage db_sync'] -> Exec['keystone-apache']
 
   # Other ordering
-  Cubbystack::Functions::Create_keystone_endpoint<||> -> Service['apache2']
-  Cubbystack::Functions::Create_keystone_endpoint<||> ~> Service['apache2']
+  Cubbystack::Functions::Create_keystone_endpoint<||> -> Exec['keystone-apache']
+  Cubbystack::Functions::Create_keystone_endpoint<||> ~> Exec['keystone-apache']
 
   # Global file attributes
   File {
@@ -98,9 +97,17 @@ class cubbystack::keystone (
   ## Keystone database sync
   # Run a db_sync if the package is installed or upgraded
   exec { 'keystone-manage db_sync':
-    path        => '/usr/bin',
+    path        => ['/usr/bin'],
     refreshonly => true,
     logoutput   => 'on_failure',
   }
 
+  ## Keystone apache2 service management
+  $apache_service_name = $::cubbystack::params::apache_service_name
+  exec { 'keystone-apache':
+    path        => ['/bin', '/usr/sbin'],
+    command     => "service ${apache_service_name} restart",
+    refreshonly => true,
+    logoutput   => 'on_failure',
+  }
 }
