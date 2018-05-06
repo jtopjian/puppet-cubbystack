@@ -13,20 +13,19 @@
 #
 class cubbystack::glance::policy (
   $settings,
-  $config_file = '/etc/glance/policy.json',
+  $config_file    = '/etc/glance/policy.json',
 ) {
-
   include ::cubbystack::params
 
   ## Meta settings and globals
-  $tags = ['openstack', 'glance', 'glance-policy']
+  $tags = ['cubbystack_openstack', 'cubbystack_glance']
 
   # Make sure Glance is installed before any configuration happens
   # Make sure Glance Registry is configured before the service starts
-  Package['glance'] -> Cubbystack_config<| tag == 'glance-policy' |>
+  Package['glance'] -> Cubbystack_config<| tag == 'cubbystack_glance' |>
 
   # Restart glance after any config changes
-  Cubbystack_config<| tag == 'glance-policy' |> ~> Service['glance-api']
+  Cubbystack_config<| tag == 'cubbystack_glance' |> ~> Service['glance-api']
 
   File {
     ensure  => present,

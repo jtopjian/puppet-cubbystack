@@ -23,10 +23,10 @@ class cubbystack::glance::cache (
   include ::cubbystack::params
 
   ## Meta settings and globals
-  $tags = ['openstack', 'glance', 'glance-cache']
+  $tags = ['cubbystack_openstack', 'cubbystack_glance']
 
   # Make sure Glance is installed before any configuration happens
-  Package['glance'] -> Cubbystack_config<| tag == 'glance-cache' |>
+  Package['glance'] -> Cubbystack_config<| tag == 'cubbystack_glance' |>
 
   File {
     ensure  => present,

@@ -21,7 +21,7 @@ class cubbystack::nova::compute::libvirt (
   include ::cubbystack::nova
 
   $package_name = "${::cubbystack::params::nova_compute_package_name}-${libvirt_type}"
-  Package[$package_name] ~> Service<| tag == 'nova' |>
+  Package[$package_name] ~> Service<| tag == 'cubbystack_nova' |>
 
   cubbystack::functions::generic_service { $package_name:
     package_ensure => $package_ensure,
@@ -29,10 +29,18 @@ class cubbystack::nova::compute::libvirt (
     tags           => $::cubbystack::nova::tags,
   }
 
+  # Hack
+  if $::lsbdistcodename == "xenial" {
+    $service_ensure = "fpuppet"
+  } else {
+    $service_ensure = "running"
+  }
+
   cubbystack::functions::generic_service { 'libvirt':
     package_name   => $::cubbystack::params::libvirt_package_name,
     service_name   => $::cubbystack::params::libvirt_service_name,
     package_ensure => $package_ensure,
+    service_ensure => $service_ensure,
     tags           => ['openstack', 'libvirt'],
   }
 

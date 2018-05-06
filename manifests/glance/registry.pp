@@ -24,15 +24,15 @@ class cubbystack::glance::registry (
   include ::cubbystack::params
 
   ## Meta settings and globals
-  $tags = ['openstack', 'glance', 'glance-registry']
+  $tags = ['cubbystack_openstack', 'cubbystack_glance']
 
   # Make sure Glance is installed before any configuration happens
   # Make sure Glance Registry is configured before the service starts
-  Package['glance'] -> Cubbystack_config<| tag == 'glance-registry' |>
-  Cubbystack_config<| tag == 'glance-registry' |> -> Service['glance-registry']
+  Package['glance'] -> Cubbystack_config<| tag == 'cubbystack_glance' |>
+  Cubbystack_config<| tag == 'cubbystack_glance' |> -> Service['glance-registry']
 
   # Restart glance after any config changes
-  Cubbystack_config<| tag == 'glance-registry' |> ~> Service['glance-registry']
+  Cubbystack_config<| tag == 'cubbystack_glance' |> ~> Service['glance-registry']
 
   File {
     ensure  => present,

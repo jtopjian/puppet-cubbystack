@@ -13,23 +13,22 @@
 #
 class cubbystack::neutron::fwaas (
   $settings,
-  $package_ensure = latest,
-  $service_enable = true,
+  $package_ensure = present,
   $config_file    = '/etc/neutron/fwaas_driver.ini',
 ) {
 
   include ::cubbystack::params
 
   ## Meta settings and globals
-  $tags = ['openstack', 'neutron', 'neutron-fwaas']
+  $tags = ['cubbystack_openstack', 'cubbystack_neutron', 'neutron-fwaas']
 
-  # Make sure Neutron L3 is installed before any configuration begins
-  # Make sure Neutron L3 is configured before the service starts
-  Package<| tag == 'neutron' |> -> Cubbystack_config<| tag == 'neutron-fwaas' |>
-  Package<| tag == 'neutron' |> -> File<| tag == 'neutron-fwaas' |>
+  # Make sure Neutron FWaaS is installed before any configuration begins
+  # Make sure Neutron FWaaS is configured before the service starts
+  Package<| tag == 'cubbystack_neutron' |> -> Cubbystack_config<| tag == 'neutron-fwaas' |>
+  Package<| tag == 'cubbystack_neutron' |> -> File<| tag == 'neutron-fwaas' |>
 
   # Restart neutron-fwaas after any config changes
-  Cubbystack_config<| tag == 'neutron-fwaas' |> ~> Service<| tag == 'neutron' |>
+  Cubbystack_config<| tag == 'neutron-fwaas' |> ~> Service<| tag == 'cubbystack_neutron' |>
 
   File {
     ensure => present,
@@ -39,10 +38,10 @@ class cubbystack::neutron::fwaas (
     tag    => $tags,
   }
 
-  ## Neutron L3 configuration
+  ## Neutron FWaaS configuration
   file { $config_file: }
 
-  # Configure the L3 service
+  # Configure the FWaaS service
   $settings.each |$setting, $value| {
     cubbystack_config { "${config_file}: ${setting}":
       value => $value,

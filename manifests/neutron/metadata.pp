@@ -12,6 +12,10 @@
 #   The status of the neutron-metadata service
 #   Defaults to true
 #
+# [*service_ensure*]
+#   The run status of the neutron-metadata service
+#   Defaults to running
+#
 # [*settings*]
 #   A hash of key => value settings to go in metadata_agent.ini
 #
@@ -23,18 +27,19 @@ class cubbystack::neutron::metadata (
   $settings,
   $package_ensure = present,
   $service_enable = true,
+  $service_ensure = 'running',
   $config_file    = '/etc/neutron/metadata_agent.ini',
 ) {
 
   include ::cubbystack::params
 
   ## Meta settings and globals
-  $tags = ['openstack', 'neutron', 'neutron-metadata']
+  $tags = ['cubbystack_openstack', 'cubbystack_neutron', 'neutron-metadata']
 
   # Make sure Neutron Metadata is installed before any configuration begins
   # Make sure Neutron Metadata is configured before the service starts
-  Package<| tag == 'neutron' |> -> Cubbystack_config<| tag == 'neutron-metadata' |>
-  Package<| tag == 'neutron' |> -> File<| tag == 'neutron-metadata' |>
+  Package<| tag == 'cubbystack_neutron' |> -> Cubbystack_config<| tag == 'neutron-metadata' |>
+  Package<| tag == 'cubbystack_neutron' |> -> File<| tag == 'neutron-metadata' |>
   Cubbystack_config<| tag == 'neutron-metadata' |> -> Service['neutron-metadata']
 
   # Restart neutron-metadata after any config changes
@@ -62,6 +67,7 @@ class cubbystack::neutron::metadata (
 
   cubbystack::functions::generic_service { 'neutron-metadata':
     service_enable => $service_enable,
+    service_ensure => $service_ensure,
     package_ensure => $package_ensure,
     package_name   => $::cubbystack::params::neutron_metadata_package_name,
     service_name   => $::cubbystack::params::neutron_metadata_service_name,

@@ -6,10 +6,6 @@ class cubbystack::params {
       # Utils / Misc
       $openstack_utils = false
 
-      # Keystone
-      $keystone_package_name   = 'keystone'
-      $keystone_service_name   = 'keystone'
-
       # Glance
       $glance_package_name          = 'glance'
       $glance_api_service_name      = 'glance-api'
@@ -63,12 +59,30 @@ class cubbystack::params {
       $neutron_l3_service_name         = 'neutron-l3-agent'
       $neutron_metadata_package_name   = 'neutron-metadata-agent'
       $neutron_metadata_service_name   = 'neutron-metadata-agent'
+      $neutron_lbaas_package_name      = 'neutron-lbaasv2-agent'
+      $neutron_lbaas_service_name      = 'neutron-lbaasv2-agent'
       $neutron_plugin_ovs_package_name = 'neutron-plugin-openvswitch-agent'
       $neutron_plugin_ovs_service_name = 'neutron-plugin-openvswitch-agent'
+      $neutron_ovs_agent_package_name  = 'neutron-openvswitch-agent'
+      $neutron_ovs_agent_service_name  = 'neutron-openvswitch-agent'
       $neutron_plugin_ml2_package_name = 'neutron-plugin-ml2'
-      $neutron_plugin_linuxbridge_package_name = 'neutron-plugin-linuxbridge-agent'
-      $neutron_plugin_linuxbridge_service_name = 'neutron-plugin-linuxbridge-agent'
+      $neutron_plugin_linuxbridge_package_name = 'neutron-linuxbridge-agent'
+      $neutron_plugin_linuxbridge_service_name = 'neutron-linuxbridge-agent'
 
+      case $::lsbdistcodename {
+        'xenial': {
+          $neutron_plugin_sriov_package_name       = 'neutron-sriov-agent'
+          $neutron_plugin_sriov_service_name       = 'neutron-sriov-agent'
+          $keystone_package_name                   = 'keystone'
+          $keystone_service_name                   = 'apache2'
+        }
+        default: {
+          $neutron_plugin_sriov_package_name       = 'neutron-plugin-sriov-agent'
+          $neutron_plugin_sriov_service_name       = 'neutron-plugin-sriov-agent'
+          $keystone_package_name                   = 'keystone'
+          $keystone_service_name                   = 'keystone'
+        }
+      }
 
       # Horizon
       $horizon_apache_user           = 'horizon'
@@ -78,6 +92,8 @@ class cubbystack::params {
       # Swift
       $swift_package_name                      = 'swift'
       $swift_client_package_name               = 'python-swiftclient'
+      $swift_expirer_package_name              = 'swift-object-expirer'
+      $swift_expirer_service_name              = 'swift-object-expirer'
       $swift_proxy_package_name                = 'swift-proxy'
       $swift_proxy_service_name                = 'swift-proxy'
       $swift_object_package_name               = 'swift-object'
@@ -89,6 +105,7 @@ class cubbystack::params {
       $swift_container_service_name            = 'swift-container'
       $swift_container_auditor_service_name    = 'swift-container-auditor'
       $swift_container_replicator_service_name = 'swift-container-replicator'
+      $swift_container_sync_service_name       = 'swift-container-sync'
       $swift_container_updater_service_name    = 'swift-container-updater'
       $swift_account_package_name              = 'swift-account'
       $swift_account_service_name              = 'swift-account'
@@ -126,10 +143,31 @@ class cubbystack::params {
       $murano_cfapi_package_name  = 'murano-cfapi'
       $murano_cfapi_service_name  = 'murano-cfapi'
 
+      # Sahara
+      $sahara_common_package_name = 'sahara-common'
+      $sahara_api_package_name    = 'sahara-api'
+      $sahara_api_service_name    = 'sahara-api'
+      $sahara_engine_package_name = 'sahara-engine'
+      $sahara_engine_service_name = 'sahara-engine'
+
+      # Designate
+      $designate_common_package_name       = 'designate'
+      $designate_agent_service_name        = 'designate-agent'
+      $designate_api_service_name          = 'designate-api'
+      $designate_central_service_name      = 'designate-central'
+      $designate_mdns_package_name         = 'designate-mdns'
+      $designate_mdns_service_name         = 'designate-mdns'
+      $designate_pool_manager_package_name = 'designate-pool-manager'
+      $designate_pool_manager_service_name = 'designate-pool-manager'
+      $designate_sink_package_name         = 'designate-sink'
+      $designate_sink_service_name         = 'designate-sink'
+      $designate_zone_manager_package_name = 'designate-zone-manager'
+      $designate_zone_manager_service_name = 'designate-zone-manager'
+
       # debian specific nova config
       $root_helper              = 'sudo nova-rootwrap'
       $lock_path                = '/var/lock/nova'
-      $nova_db_charset          = 'latin1'
+      $nova_db_charset          = 'utf8'
 
       # Misc
       $libvirt_package_name     = 'libvirt-bin'
@@ -147,7 +185,14 @@ class cubbystack::params {
           $horizon_package_deps          = false
         }
         default: {
-          $service_provider              = 'upstart'
+          case $::lsbdistcodename {
+            'trusty': {
+                $service_provider = 'upstart'
+            }
+            default: {
+                $service_provider = 'systemd'
+            }
+          }
           $nova_consoleauth_package_name = 'nova-consoleauth'
           $horizon_package_name          = 'openstack-dashboard'
           $horizon_package_deps          = ['python-django', 'python-compressor', 'python-appconf', 'python-cloudfiles', 'python-tz', 'node-less']

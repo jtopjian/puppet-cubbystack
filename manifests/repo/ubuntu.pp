@@ -1,9 +1,9 @@
 class cubbystack::repo::ubuntu (
-  $release = 'juno',
+  $release = 'kilo',
   $repo    = 'updates'
 ) {
 
-  include apt::update
+  contain apt::update
 
   if ! ($::lsbdistcodename == "trusty" and $release == "icehouse") and ! ($::lsbdistcodename == "xenial" and $release == "mitaka") {
     apt::source { 'ubuntu-cloud-archive':

@@ -26,11 +26,11 @@ class cubbystack::swift (
   include ::cubbystack::params
 
   # Meta and globals
-  $tags = 'swift'
+  $tags = 'cubbystack_swift'
 
   # Make sure swift.conf exists before any configuration happens
-  Package<| tag == 'swift' |> -> Cubbystack_config<| tag == 'swift' |>
-  Cubbystack_config<| tag == 'swift' |> -> Service<| tag == 'swift' |>
+  Package<| tag == 'cubbystack_swift' |> -> Cubbystack_config<| tag == 'cubbystack_swift' |>
+  Cubbystack_config<| tag == 'cubbystack_swift' |> -> Service<| tag == 'cubbystack_swift' |>
 
   # Install the swift package
   package { 'swift':

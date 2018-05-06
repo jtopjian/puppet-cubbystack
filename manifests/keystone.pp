@@ -15,6 +15,10 @@
 #   The status of the keystone service
 #   Defaults to true
 #
+# [*service_ensure*]
+#   The run status of the keystone service
+#   Defaults to running
+#
 # [*config_file*]
 #   The path to keystone.conf
 #   Defaults to /etc/keystone/keystone.conf.
@@ -23,24 +27,25 @@ class cubbystack::keystone (
   $settings,
   $package_ensure = present,
   $service_enable = true,
+  $service_ensure = 'running',
   $config_file    = '/etc/keystone/keystone.conf',
 ) {
 
   include ::cubbystack::params
 
   ## Meta settings and globals
-  $tags = ['keystone', 'openstack']
+  $tags = ['cubbystack_keystone', 'cubbystack_openstack']
 
   # Make sure keystone.conf exists before any configuration happens
-  Package['keystone'] -> Cubbystack_config<| tag == 'keystone' |>
+  Package['keystone'] -> Cubbystack_config<| tag == 'cubbystack_keystone' |>
 
   # Also, any changes to keystone.conf should restart the keystone service
-  Cubbystack_config<| tag == 'keystone' |> ~> Service['keystone']
-  Exec['keystone-manage db_sync']          ~> Service['keystone']
+  Cubbystack_config<| tag == 'cubbystack_keystone' |> ~> Service['keystone']
+  Exec['keystone-manage db_sync'] ~> Service['keystone']
 
   # Order the db sync correctly
   Package['keystone'] ~> Exec['keystone-manage db_sync']
-  Cubbystack_config<| tag == 'keystone' |> -> Exec['keystone-manage db_sync']
+  Cubbystack_config<| tag == 'cubbystack_keystone' |> -> Exec['keystone-manage db_sync']
   Exec['keystone-manage db_sync'] -> Service['keystone']
 
   # Other ordering
@@ -63,6 +68,7 @@ class cubbystack::keystone (
   cubbystack::functions::generic_service { 'keystone':
     package_ensure => $package_ensure,
     service_enable => $service_enable,
+    service_ensure => $service_ensure,
     package_name   => $::cubbystack::params::keystone_package_name,
     service_name   => $::cubbystack::params::keystone_service_name,
     tags           => $tags,
@@ -87,7 +93,7 @@ class cubbystack::keystone (
   }
 
   # Catalog configuration
-  if $settings['catalog/driver'] == 'keystone.catalog.backends.templated.TemplatedCatalog' or $settings['catalog/driver'] == 'keystone.catalog.backends.templated.Catalog' {
+  if $settings['catalog/driver'] == 'keystone.catalog.backends.templated.Catalog' or $settings['catalog/driver'] == "templated" {
     class { '::cubbystack::keystone::templated_catalog': }
   }
 

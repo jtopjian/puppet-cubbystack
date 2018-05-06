@@ -29,13 +29,15 @@ define cubbystack::functions::generic_service (
   $service_name   = false,
   $tags           = undef,
   $service_enable = true,
+  $service_ensure = 'running',
   $package_ensure = present,
 ) {
 
-  if $service_enable {
-    $service_ensure = 'running'
+  # Hack
+  if $service_ensure == "fpuppet" {
+    $real_service_ensure = undef
   } else {
-    $service_ensure = 'stopped'
+    $real_service_ensure = $service_ensure
   }
 
   if $package_name {
@@ -54,10 +56,10 @@ define cubbystack::functions::generic_service (
     }
 
     service { $title:
-      ensure => $service_ensure,
-      name   => $service_name,
-      enable => $service_enable,
-      tag    => $tags,
+      ensure        => $real_service_ensure,
+      name          => $service_name,
+      enable        => $service_enable,
+      tag           => $tags,
     }
 
   }

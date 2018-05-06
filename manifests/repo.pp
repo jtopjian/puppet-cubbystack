@@ -1,6 +1,6 @@
 # Humbly based on the openstack module
 class cubbystack::repo (
-  $release = 'juno'
+  $release = 'kilo'
 ) {
 
   anchor { 'cubbystack::repo::start': }

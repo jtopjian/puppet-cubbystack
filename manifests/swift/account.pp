@@ -29,7 +29,7 @@ class cubbystack::swift::account (
   include ::cubbystack::params
 
   ## Meta settings and globals
-  $tags = ['openstack', 'swift', 'swift-account']
+  $tags = ['cubbystack_openstack', 'cubbystack_swift', 'swift-account']
 
   # Restart account-server if the configuration changes
   Cubbystack_config<| tag == 'swift-account' |> ~> Service<| tag == 'swift-account' |>
