@@ -20,7 +20,7 @@ class cubbystack::neutron::plugins::linuxbridge (
   $package_ensure = present,
   $service_enable = true,
   $service_ensure = 'running',
-  $config_file    = undef,
+  $config_file    = '/etc/neutron/plugins/ml2/linuxbridge_agent.ini',
   $settings       = undef,
 ) {
 
@@ -43,14 +43,12 @@ class cubbystack::neutron::plugins::linuxbridge (
   }
 
   ## Neutron linuxbridge configuration
-  if $config_file != undef {
-    file { $config_file: }
+  file { $config_file: }
 
-    $settings.each |$setting, $value| {
-      cubbystack_config { "${config_file}: ${setting}":
-        value => $value,
-        tag   => $tags,
-      }
+  $settings.each |$setting, $value| {
+    cubbystack_config { "${config_file}: ${setting}":
+      value => $value,
+      tag   => $tags,
     }
   }
 
