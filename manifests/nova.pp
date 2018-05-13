@@ -32,7 +32,7 @@ class cubbystack::nova (
 
   # Restart nova services whenever nova.conf has been changed
   Cubbystack_config<| tag == 'cubbystack_nova' |> ~> Service<| tag == 'cubbystack_nova' |>
-  Cubbystack_config<| tag == 'cubbystack_nova' |> ~> Exec<| tag == 'cubbystack-nova-placement-apache' |>
+  Cubbystack_config<| tag == 'cubbystack_nova' |> ~> Exec<| tag == 'cubbystack_nova_placement_apache' |>
 
   # Global file attributes
   File {

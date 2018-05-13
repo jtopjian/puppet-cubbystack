@@ -26,6 +26,6 @@ class cubbystack::nova::placement (
     command     => "service ${apache_service_name} restart",
     refreshonly => true,
     logoutput   => 'on_failure',
-    tag         => 'cubbystack-nova-placement-apache',
+    tag         => 'cubbystack_nova_placement_apache',
   }
 }

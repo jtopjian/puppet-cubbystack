@@ -29,9 +29,11 @@ class cubbystack::cinder (
   # Make sure cinder is installed before configuration begins
   Package<| tag == 'cubbystack_cinder' |> -> Cubbystack_config<| tag == 'cubbystack_cinder' |>
   Cubbystack_config<| tag == 'cubbystack_cinder' |> -> Service<| tag == 'cubbystack_cinder' |>
+  Cubbystack_config<| tag == 'cubbystack_cinder' |> -> Exec<| tag == 'cubbystack_cinder_api_apache' |>
 
   # Restart cinder services whenever cinder.conf has been changed
   Cubbystack_config<| tag == 'cubbystack_cinder' |> ~> Service<| tag == 'cubbystack_cinder' |>
+  Cubbystack_config<| tag == 'cubbystack_cinder' |> ~> Exec<| tag == 'cubbystack_cinder_api_apache' |>
 
   # Global file attributes
   File {

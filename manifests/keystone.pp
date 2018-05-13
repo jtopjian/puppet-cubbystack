@@ -109,5 +109,6 @@ class cubbystack::keystone (
     command     => "service ${apache_service_name} restart",
     refreshonly => true,
     logoutput   => 'on_failure',
+    tag         => 'cubbystack_keystone_apache',
   }
 }
