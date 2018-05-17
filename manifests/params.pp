@@ -170,6 +170,11 @@ class cubbystack::params {
       $designate_zone_manager_package_name = 'designate-zone-manager'
       $designate_zone_manager_service_name = 'designate-zone-manager'
 
+      # Zaqar
+      $zaqar_common_package_name = 'zaqar-common'
+      $zaqar_api_package_name    = 'zaqar-server'
+      $zaqar_api_service_name    = 'zaqar-server'
+
       # debian specific nova config
       $root_helper              = 'sudo nova-rootwrap'
       $lock_path                = '/var/lock/nova'
