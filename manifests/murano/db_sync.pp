@@ -5,11 +5,11 @@
 class cubbystack::murano::db_sync {
 
   # Order and notifications
-  Package<| tag == 'cubbystack_murano' |>           ~> Exec['murano-db-sync']
-  Cubbystack_config<| tag == 'cubbystack_murano' |> -> Exec['murano-db-sync']
-  Exec['murano-db-sync']                            -> Service<| tag == 'cubbystack_murano' |>
+  Package<| tag == 'cubbystack_murano' |>           ~> Exec['murano db sync']
+  Cubbystack_config<| tag == 'cubbystack_murano' |> -> Exec['murano db sync']
+  Exec['murano db sync']                            -> Service<| tag == 'cubbystack_murano' |>
 
-  exec { 'murano-db-sync':
+  exec { 'murano db sync':
     path        => '/usr/bin',
     command     => 'murano-db-manage --config-file /etc/murano/murano.conf upgrade',
     refreshonly => true,

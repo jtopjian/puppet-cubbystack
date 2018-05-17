@@ -5,11 +5,11 @@
 class cubbystack::sahara::db_sync {
 
   # Order and notifications
-  Package<| tag == 'cubbystack_sahara' |>           ~> Exec['sahara-db-sync']
-  Cubbystack_config<| tag == 'cubbystack_sahara' |> -> Exec['sahara-db-sync']
-  Exec['sahara-db-sync']                            -> Service<| tag == 'cubbystack_sahara' |>
+  Package<| tag == 'cubbystack_sahara' |>           ~> Exec['sahara db sync']
+  Cubbystack_config<| tag == 'cubbystack_sahara' |> -> Exec['sahara db sync']
+  Exec['sahara db sync']                            -> Service<| tag == 'cubbystack_sahara' |>
 
-  exec { 'sahara-db-sync':
+  exec { 'sahara db sync':
     path        => '/usr/bin',
     command     => 'sahara-db-manage --config-file /etc/sahara/sahara.conf upgrade',
     refreshonly => true,

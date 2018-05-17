@@ -49,8 +49,8 @@ class cubbystack::keystone (
   Exec['keystone-manage db_sync'] -> Exec['keystone-apache']
 
   # Other ordering
-  Cubbystack::Functions::Create_keystone_endpoint<||> -> Exec['keystone-apache']
-  Cubbystack::Functions::Create_keystone_endpoint<||> ~> Exec['keystone-apache']
+  Class['cubbystack::keystone::templated_catalog'] -> Exec<| tag == 'cubbystack_keystone_apache' |>
+  Class['cubbystack::keystone::templated_catalog'] ~> Exec<| tag == 'cubbystack_keystone_apache' |>
 
   # Global file attributes
   File {

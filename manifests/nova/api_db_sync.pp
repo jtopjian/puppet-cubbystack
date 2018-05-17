@@ -1,17 +1,18 @@
 # == Class: cubbystack::nova::api_db_sync
 #
-# Schedules and performs the `nova-manage api_db sync` command.
+# Schedules and performs the `nova api_db sync` command.
 #
 class cubbystack::nova::api_db_sync {
 
   # Order the db sync correctly
-  Package<| tag == 'cubbystack_nova' |> ~> Exec['nova-manage api_db sync']
-  Cubbystack_config<| tag == 'cubbystack_nova' |> -> Exec['nova-manage api_db sync']
-  Exec['nova-manage api_db sync'] ~> Service<| tag == 'cubbystack_nova' |>
+  Package<| tag == 'cubbystack_nova' |>           ~> Exec['nova api_db sync']
+  Cubbystack_config<| tag == 'cubbystack_nova' |> -> Exec['nova api_db sync']
+  Exec['nova api_db sync']                        ~> Service<| tag == 'cubbystack_nova' |>
 
   # Configure the nova api database
-  exec { 'nova-manage api_db sync':
+  exec { 'nova api_db sync':
     path        => '/usr/bin',
+    command     => 'nova-manage api_db sync',
     refreshonly => true,
     logoutput   => 'on_failure',
     notify      => Exec['nova-manage cell_v2 map_cell0'],
@@ -25,10 +26,10 @@ class cubbystack::nova::api_db_sync {
   }
 
   exec { 'nova-manage cell_v2 create_cell --name=cell1':
-    path        => '/usr/bin',
+    path        => ['/bin', '/usr/bin'],
     refreshonly => true,
     logoutput   => 'on_failure',
-    notify      => Exec['nova-manage db sync'],
+    notify      => Exec['nova db sync'],
     unless      => "nova-manage cell_v2 list_cells | grep -q cell1",
   }
 

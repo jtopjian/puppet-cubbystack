@@ -24,7 +24,7 @@ class cubbystack::nova (
   contain ::cubbystack::params
 
   ## Meta settings and globals
-  $tags = ['cubbystackopenstack', 'cubbystack_nova']
+  $tags = ['cubbystack_openstack', 'cubbystack_nova']
 
   # Make sure nova is installed before configuration begins
   Package<| tag == 'cubbystack_nova' |> -> Cubbystack_config<| tag == 'cubbystack_nova' |>
