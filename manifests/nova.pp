@@ -5,7 +5,7 @@
 # === Parameters
 #
 # [*settings*]
-#   A hash of key => value settings to go in cinder.conf
+#   A hash of key => value settings to go in nova.conf
 #
 # [*package_ensure*]
 #   The status of the nova-common package
