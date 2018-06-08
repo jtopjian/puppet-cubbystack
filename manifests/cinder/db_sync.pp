@@ -12,7 +12,7 @@ class cubbystack::cinder::db_sync {
   # Configure the cinder database
   exec { 'cinder db sync':
     path        => '/usr/bin',
-    comamnd     => 'cinder-manage db sync',
+    command     => 'cinder-manage db sync',
     refreshonly => true,
     logoutput   => 'on_failure',
   }

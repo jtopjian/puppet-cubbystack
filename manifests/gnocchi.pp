@@ -23,6 +23,8 @@ class cubbystack::gnocchi (
 
   contain ::cubbystack::params
 
+  $apache_service_name = $::cubbystack::params::apache_service_name
+
   ## Meta settings and globals
   $tags = ['cubbystack_openstack', 'cubbystack_gnocchi']
 
@@ -32,7 +34,7 @@ class cubbystack::gnocchi (
 
   # Restart gnocchi services whenever gnocchi.conf has been changed
   Cubbystack_config<| tag == 'cubbystack_gnocchi' |> ~> Service<| tag == 'cubbystack_gnocchi' |>
-  Cubbystack_config<| tag == 'cubbystack_gnocchi' |> ~> Service['apache2']
+  Cubbystack_config<| tag == 'cubbystack_gnocchi' |> ~> Service[$apache_service_name]
 
   # Global file attributes
   File {

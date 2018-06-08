@@ -175,6 +175,12 @@ class cubbystack::params {
       $zaqar_api_package_name    = 'zaqar-server'
       $zaqar_api_service_name    = 'zaqar-server'
 
+      # Barbican
+      $barbican_common_package_name   = 'barbican-common'
+      $barbican_api_package_name      = 'barbican-api'
+      $barbican_worker_package_name   = 'barbican-worker'
+      $barbican_listener_package_name = 'barbican-keystone-listener'
+
       # debian specific nova config
       $root_helper              = 'sudo nova-rootwrap'
       $lock_path                = '/var/lock/nova'

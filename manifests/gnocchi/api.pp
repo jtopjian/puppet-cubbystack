@@ -18,6 +18,7 @@ class cubbystack::gnocchi::api (
 ) {
 
   contain ::cubbystack::gnocchi
+  $apache_service_name = $::cubbystack::params::apache_service_name
 
   file { '/etc/apache2/sites-enabled/10-gnocchi-api.conf':
     ensure => present,
@@ -25,7 +26,7 @@ class cubbystack::gnocchi::api (
     group  => 'root',
     mode   => '0640',
     source => 'puppet:///modules/cubbystack/gnocchi/gnocchi-api.conf',
-    notify => Service['apache2'],
+    notify => Service[$apache_service_name],
     tag    => $::cubbystack::gnocchi::tags,
   }
 }
