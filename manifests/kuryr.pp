@@ -7,9 +7,9 @@
 # [*settings*]
 #   A hash of key => value settings to go in kuryr.conf
 #
-# [*package_ensure*]
-#   The status of the kuryr package
-#   Defaults to present
+# [*version*]
+#   The version of kuryr to install
+#   Defaults to master
 #
 # [*config_file*]
 #   The path to kuryr.conf
@@ -17,7 +17,7 @@
 #
 class cubbystack::kuryr (
   $settings,
-  $package_ensure = present,
+  $version        = 'master',
   $service_ensure = 'running',
   $service_enable = true,
   $config_file    = '/etc/kuryr/kuryr.conf',
@@ -52,6 +52,7 @@ class cubbystack::kuryr (
   vcsrepo { '/srv/kuryr':
     ensure   => present,
     provider => git,
+    revision => $version,
     owner    => 'kuryr',
     group    => 'kuryr',
     source   => 'https://github.com/openstack/kuryr-libnetwork/',
