@@ -7,18 +7,13 @@
 # [*settings*]
 #   A hash of key => value settings to go in zun.conf
 #
-# [*package_ensure*]
-#   The status of the zun package
-#   Defaults to present
-#
 # [*config_file*]
 #   The path to zun.conf
 #   Defaults to /etc/zun/zun.conf
 #
 class cubbystack::zun (
   $settings,
-  $package_ensure = present,
-  $config_file    = '/etc/zun/zun.conf',
+  $config_file = '/etc/zun/zun.conf',
 ) {
 
   contain ::cubbystack::params
