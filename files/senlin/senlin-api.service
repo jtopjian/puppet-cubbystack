@@ -1,0 +1,9 @@
+[Unit]
+Description = OpenStack Senlin Service API
+
+[Service]
+ExecStart = /usr/local/bin/senlin-api
+User = senlin
+
+[Install]
+WantedBy = multi-user.target

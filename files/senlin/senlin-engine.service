@@ -1,0 +1,9 @@
+[Unit]
+Description = OpenStack Senlin Service Engine
+
+[Service]
+ExecStart = /usr/local/bin/senlin-engine
+User = senlin
+
+[Install]
+WantedBy = multi-user.target
