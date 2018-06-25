@@ -13,8 +13,7 @@
 #
 class cubbystack::neutron::fwaas (
   $settings,
-  $package_ensure = present,
-  $config_file    = '/etc/neutron/fwaas_driver.ini',
+  $config_file = '/etc/neutron/fwaas_driver.ini',
 ) {
 
   contain ::cubbystack::params
