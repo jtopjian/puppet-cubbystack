@@ -7,9 +7,9 @@
 # [*settings*]
 #   A hash of key => value settings to go in gnocchi.conf
 #
-# [*package_ensure*]
-#   The status of the gnocchi package
-#   Defaults to present
+# [*version*]
+#   The version of Gnocchi to install
+#   Defaults master
 #
 # [*config_file*]
 #   The path to gnocchi.conf
@@ -17,8 +17,8 @@
 #
 class cubbystack::gnocchi (
   $settings,
-  $package_ensure = present,
-  $config_file    = '/etc/gnocchi/gnocchi.conf',
+  $version     = 'master',
+  $config_file = '/etc/gnocchi/gnocchi.conf',
 ) {
 
   contain ::cubbystack::params
@@ -53,7 +53,7 @@ class cubbystack::gnocchi (
   vcsrepo { '/srv/gnocchi':
     ensure   => present,
     provider => git,
-    revision => '4.2.4',
+    revision => $version,
     owner    => 'gnocchi',
     group    => 'gnocchi',
     source   => 'https://github.com/gnocchixyz/gnocchi',

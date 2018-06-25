@@ -4,12 +4,12 @@
 #
 # === Parameters
 #
-# [*package_ensure*]
-#   The status of the gnocchi::client package
-#   Defaults to present
+# [*version*]
+#   The version of the gnocchi::client to install
+#   Defaults to master
 #
 class cubbystack::gnocchi::client (
-  $package_ensure = present,
+  $version = 'master',
 ) {
 
   contain ::cubbystack::params
@@ -21,7 +21,7 @@ class cubbystack::gnocchi::client (
   vcsrepo { '/srv/gnocchiclient':
     ensure   => present,
     provider => git,
-    revision => '7.0.1',
+    revision => $version,
     source   => 'https://github.com/gnocchixyz/python-gnocchiclient',
   }
 
