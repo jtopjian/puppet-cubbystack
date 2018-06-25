@@ -181,6 +181,13 @@ class cubbystack::params {
       $barbican_worker_package_name   = 'barbican-worker'
       $barbican_listener_package_name = 'barbican-keystone-listener'
 
+      # Magnum
+      $magnum_common_package_name    = 'magnum-common'
+      $magnum_api_package_name       = 'magnum-api'
+      $magnum_api_service_name       = 'magnum-api'
+      $magnum_conductor_package_name = 'magnum-conductor'
+      $magnum_conductor_service_name = 'magnum-conductor'
+
       # debian specific nova config
       $root_helper              = 'sudo nova-rootwrap'
       $lock_path                = '/var/lock/nova'
