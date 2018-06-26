@@ -33,8 +33,6 @@ define cubbystack::functions::create_keystone_endpoint (
   $catalog_file  = '/etc/keystone/default_catalog.templates'
 ) {
 
-  include concat::setup
-
   $x = split($name, '/')
   $region = $x[0]
   $service = $x[1]
@@ -43,6 +41,9 @@ define cubbystack::functions::create_keystone_endpoint (
     target  => $catalog_file,
     content => template('cubbystack/keystone/endpoint.erb'),
     order   => 2,
+    tag     => 'cubbystack_keystone_catalog',
   }
+
+  Concat::Fragment<| tag == 'cubbystack_keystone_catalog' |> ~> Exec<| tag == 'cubbystack_keystone_apache' |>
 
 }

@@ -5,13 +5,14 @@
 class cubbystack::cinder::db_sync {
 
   # Order the db sync correctly
-  Package<| tag == 'cubbystack_cinder' |>           ~> Exec['cinder-manage db sync']
-  Cubbystack_config<| tag == 'cubbystack_cinder' |> -> Exec['cinder-manage db sync']
-  Exec['cinder-manage db sync']                     ~> Service<| tag == 'cubbystack_cinder' |>
+  Package<| tag == 'cubbystack_cinder' |>           ~> Exec['cinder db sync']
+  Cubbystack_config<| tag == 'cubbystack_cinder' |> -> Exec['cinder db sync']
+  Exec['cinder db sync']                            ~> Service<| tag == 'cubbystack_cinder' |>
 
   # Configure the cinder database
-  exec { 'cinder-manage db sync':
+  exec { 'cinder db sync':
     path        => '/usr/bin',
+    comamnd     => 'cinder-manage db sync',
     refreshonly => true,
     logoutput   => 'on_failure',
   }

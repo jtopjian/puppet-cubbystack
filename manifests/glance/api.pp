@@ -21,7 +21,7 @@ class cubbystack::glance::api (
   $config_file    = '/etc/glance/glance-api.conf',
 ) {
 
-  include ::cubbystack::params
+  contain ::cubbystack::params
 
   ## Meta settings and globals
   $tags = ['cubbystack_openstack', 'cubbystack_glance']

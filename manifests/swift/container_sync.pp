@@ -24,13 +24,13 @@ class cubbystack::swift::container_sync (
   $realm_settings,
   $client_settings    = undef,
   $manage_service     = false,
-  $package_ensure     = latest,
+  $package_ensure     = present,
   $service_enable     = true,
   $realm_config_file  = '/etc/swift/container-sync-realms.conf',
   $client_config_file = '/etc/swift/container-sync-client.conf',
 ) {
 
-  include ::cubbystack::params
+  contain ::cubbystack::params
 
   ## Meta settings and globals
   $tags = ['cubbystack_openstack', 'cubbystack_swift', 'swift-container', 'swift-container-sync']

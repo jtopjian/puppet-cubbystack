@@ -1,15 +1,24 @@
 class cubbystack::repo::ubuntu (
-  $release = 'kilo',
+  $release = 'queens',
   $repo    = 'updates'
 ) {
 
-  contain apt::update
-  if ! ($::lsbdistcodename == 'xenial' and $release == 'mitaka') {
+  if ! ($::lsbdistcodename == "trusty" and $release == "icehouse") and ! ($::lsbdistcodename == "xenial" and $release == "mitaka") {
+    package { 'ubuntu-cloud-keyring':
+      ensure => latest,
+    }
+
     apt::source { 'ubuntu-cloud-archive':
-      location          => 'http://ubuntu-cloud.archive.canonical.com/ubuntu',
-      release           => "${::lsbdistcodename}-${repo}/${release}",
-      repos             => 'main',
-      required_packages => 'ubuntu-cloud-keyring',
+      location => 'http://ubuntu-cloud.archive.canonical.com/ubuntu',
+      release  => "${::lsbdistcodename}-${repo}/${release}",
+      repos    => 'main',
+      notify   => Exec['apt-get update cloud archive'],
+      require  => Package['ubuntu-cloud-keyring'],
+    }
+
+    exec { 'apt-get update cloud archive':
+      command     => '/usr/bin/apt-get update',
+      refreshonly => true,
     }
   }
 

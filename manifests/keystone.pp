@@ -13,11 +13,11 @@
 #
 # [*service_enable*]
 #   The status of the keystone service
-#   Defaults to true
+#   Defaults to false
 #
 # [*service_ensure*]
 #   The run status of the keystone service
-#   Defaults to running
+#   Defaults to stopped
 #
 # [*config_file*]
 #   The path to keystone.conf
@@ -26,12 +26,12 @@
 class cubbystack::keystone (
   $settings,
   $package_ensure = present,
-  $service_enable = true,
-  $service_ensure = 'running',
+  $service_enable = false,
+  $service_ensure = 'stopped',
   $config_file    = '/etc/keystone/keystone.conf',
 ) {
 
-  include ::cubbystack::params
+  contain ::cubbystack::params
 
   ## Meta settings and globals
   $tags = ['cubbystack_keystone', 'cubbystack_openstack']
@@ -40,17 +40,17 @@ class cubbystack::keystone (
   Package['keystone'] -> Cubbystack_config<| tag == 'cubbystack_keystone' |>
 
   # Also, any changes to keystone.conf should restart the keystone service
-  Cubbystack_config<| tag == 'cubbystack_keystone' |> ~> Service['keystone']
-  Exec['keystone-manage db_sync'] ~> Service['keystone']
+  Cubbystack_config<| tag == 'cubbystack_keystone' |> ~> Exec['keystone-apache']
+  Exec['keystone-manage db_sync'] ~> Exec['keystone-apache']
 
   # Order the db sync correctly
   Package['keystone'] ~> Exec['keystone-manage db_sync']
   Cubbystack_config<| tag == 'cubbystack_keystone' |> -> Exec['keystone-manage db_sync']
-  Exec['keystone-manage db_sync'] -> Service['keystone']
+  Exec['keystone-manage db_sync'] -> Exec['keystone-apache']
 
   # Other ordering
-  Cubbystack::Functions::Create_keystone_endpoint<||> -> Service['keystone']
-  Cubbystack::Functions::Create_keystone_endpoint<||> ~> Service['keystone']
+  Class['cubbystack::keystone::templated_catalog'] -> Exec<| tag == 'cubbystack_keystone_apache' |>
+  Class['cubbystack::keystone::templated_catalog'] ~> Exec<| tag == 'cubbystack_keystone_apache' |>
 
   # Global file attributes
   File {
@@ -62,9 +62,6 @@ class cubbystack::keystone (
     require => Package['keystone'],
   }
 
-  ## Keystone configuration
-
-  # Install keystone and manage its service
   cubbystack::functions::generic_service { 'keystone':
     package_ensure => $package_ensure,
     service_enable => $service_enable,
@@ -93,18 +90,25 @@ class cubbystack::keystone (
   }
 
   # Catalog configuration
-  if ($settings['catalog/driver'] == 'keystone.catalog.backends.templated.Catalog') or ($settings['catalog/driver'] == 'keystone.catalog.backends.templated.TemplatedCatalog') or ($settings['catalog/driver'] == "templated") {
-    class { '::cubbystack::keystone::templated_catalog': }
+  if $settings['catalog/driver'] == "templated" {
+    contain ::cubbystack::keystone::templated_catalog
   }
 
   ## Keystone database sync
   # Run a db_sync if the package is installed or upgraded
-  if $service_enable {
-    exec { 'keystone-manage db_sync':
-      path        => '/usr/bin',
-      refreshonly => true,
-      logoutput   => 'on_failure',
-    }
+  exec { 'keystone-manage db_sync':
+    path        => ['/usr/bin'],
+    refreshonly => true,
+    logoutput   => 'on_failure',
   }
 
+  ## Keystone apache2 service management
+  $apache_service_name = $::cubbystack::params::apache_service_name
+  exec { 'keystone-apache':
+    path        => ['/bin', '/usr/sbin'],
+    command     => "service ${apache_service_name} restart",
+    refreshonly => true,
+    logoutput   => 'on_failure',
+    tag         => 'cubbystack_keystone_apache',
+  }
 }

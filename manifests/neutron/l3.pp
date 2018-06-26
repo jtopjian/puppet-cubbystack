@@ -31,7 +31,7 @@ class cubbystack::neutron::l3 (
   $config_file    = '/etc/neutron/l3_agent.ini',
 ) {
 
-  include ::cubbystack::params
+  contain ::cubbystack::params
 
   ## Meta settings and globals
   $tags = ['cubbystack_openstack', 'cubbystack_neutron', 'neutron-l3']

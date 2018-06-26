@@ -9,7 +9,7 @@
 #
 # [*package_ensure*]
 #   The status of the swift-object-expirer package
-#   Defaults to latest
+#   Defaults to present
 #
 # [*service_enable*]
 #   The status of the swift-object-expirer service.
@@ -25,12 +25,12 @@
 #
 class cubbystack::swift::expirer (
   $settings,
-  $package_ensure = latest,
+  $package_ensure = present,
   $service_enable = true,
   $config_file    = '/etc/swift/object-expirer.conf',
 ) {
 
-  include ::cubbystack::params
+  contain ::cubbystack::params
 
   ## Meta settings and globals
   $tags = ['cubbystack_openstack', 'cubbystack_swift', 'swift-object-expirer']

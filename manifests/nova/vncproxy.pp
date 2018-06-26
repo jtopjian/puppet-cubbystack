@@ -22,8 +22,8 @@ class cubbystack::nova::vncproxy (
   $service_ensure = 'running'
 ) {
 
-  include ::cubbystack::params
-  include ::cubbystack::nova
+  contain ::cubbystack::params
+  contain ::cubbystack::nova
 
   if $::cubbystack::params::nova_novnc_package_name {
     package { $::cubbystack::params::nova_novnc_package_name:

@@ -24,7 +24,7 @@ class cubbystack::horizon (
   $web_group      = $::cubbystack::params::horizon_apache_group
 ) {
 
-  include ::cubbystack::params
+  contain ::cubbystack::params
 
   package { 'horizon':
     ensure => $package_ensure,

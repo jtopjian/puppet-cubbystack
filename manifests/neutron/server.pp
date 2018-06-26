@@ -19,7 +19,7 @@
 class cubbystack::neutron::server (
   $package_ensure = present,
   $service_enable = true,
-  $service_ensure = 'running'
+  $service_ensure = 'running',
 ) {
 
   cubbystack::functions::generic_service { 'neutron-server':

@@ -20,7 +20,7 @@
 #
 # [*package_ensure*]
 #   The status of the designate-common package
-#   Defaults to latest
+#   Defaults to present
 #
 # === Example Usage
 #
@@ -28,11 +28,11 @@
 #
 class cubbystack::designate (
   $settings,
-  $package_ensure   = latest,
+  $package_ensure   = present,
   $config_file      = '/etc/designate/designate.conf',
 ) {
 
-  include ::cubbystack::params
+  contain ::cubbystack::params
 
   ## Meta settings and globals
   $tags = ['openstack', 'cubbystack_designate']

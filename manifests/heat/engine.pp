@@ -22,7 +22,7 @@ class cubbystack::heat::engine (
   $service_ensure = 'running'
 ) {
 
-  include ::cubbystack::heat
+  contain ::cubbystack::heat
 
   cubbystack::functions::generic_service { 'heat-engine':
     service_enable => $service_enable,

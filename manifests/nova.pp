@@ -5,7 +5,7 @@
 # === Parameters
 #
 # [*settings*]
-#   A hash of key => value settings to go in cinder.conf
+#   A hash of key => value settings to go in nova.conf
 #
 # [*package_ensure*]
 #   The status of the nova-common package
@@ -21,10 +21,10 @@ class cubbystack::nova (
   $config_file    = '/etc/nova/nova.conf',
 ) {
 
-  include ::cubbystack::params
+  contain ::cubbystack::params
 
   ## Meta settings and globals
-  $tags = ['cubbystackopenstack', 'cubbystack_nova']
+  $tags = ['cubbystack_openstack', 'cubbystack_nova']
 
   # Make sure nova is installed before configuration begins
   Package<| tag == 'cubbystack_nova' |> -> Cubbystack_config<| tag == 'cubbystack_nova' |>
@@ -32,6 +32,7 @@ class cubbystack::nova (
 
   # Restart nova services whenever nova.conf has been changed
   Cubbystack_config<| tag == 'cubbystack_nova' |> ~> Service<| tag == 'cubbystack_nova' |>
+  Cubbystack_config<| tag == 'cubbystack_nova' |> ~> Exec<| tag == 'cubbystack_nova_placement_apache' |>
 
   # Global file attributes
   File {

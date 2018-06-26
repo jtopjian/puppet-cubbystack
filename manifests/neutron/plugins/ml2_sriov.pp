@@ -6,7 +6,7 @@
 #
 # [*package_ensure*]
 #   The status of the neutron-sriov-agent package
-#   Defaults to latest
+#   Defaults to present
 #
 # [*settings*]
 #   A hash of key => value settings to go in ml2_conf_sriov.ini
@@ -17,11 +17,11 @@
 #
 class cubbystack::neutron::plugins::ml2_sriov (
   $settings,
-  $package_ensure = latest,
+  $package_ensure = present,
   $config_file    = '/etc/neutron/plugins/ml2/sriov_agent.ini',
 ) {
 
-  include ::cubbystack::params
+  contain ::cubbystack::params
 
   ## Meta settings and globals
   $tags = ['cubbystack_openstack', 'cubbystack_neutron', 'neutron-plugin-sriov']

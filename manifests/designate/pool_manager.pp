@@ -6,7 +6,7 @@
 #
 # [*package_ensure*]
 #   The status of the designate-pool-manager package
-#   Defaults to latest
+#   Defaults to present
 #
 # [*service_enable*]
 #   The status of the designate-pool-manager service
@@ -17,12 +17,12 @@
 #   Defaults to running
 #
 class cubbystack::designate::pool-manager (
-  $package_ensure = latest,
+  $package_ensure = present,
   $service_enable = true,
   $service_ensure = 'running',
 ) {
 
-  include ::cubbystack::designate
+  contain ::cubbystack::designate
 
   cubbystack::functions::generic_service { 'designate-pool-manager':
     service_enable => $service_enable,

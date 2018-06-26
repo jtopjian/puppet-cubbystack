@@ -21,17 +21,17 @@ class cubbystack::murano (
   $config_file    = '/etc/murano/murano.conf',
 ) {
 
-  include ::cubbystack::params
+  contain ::cubbystack::params
 
   ## Meta settings and globals
-  $tags = ['cubbystack_openstack', 'cubbystack_murano']
+  $tags = ['cubbystack-openstack', 'cubbystack-murano']
 
   # Make sure murano is installed before configuration begins
-  Package<| tag == 'cubbystack_murano' |> -> Cubbystack_config<| tag == 'cubbystack_murano' |>
-  Cubbystack_config<| tag == 'cubbystack_murano' |> -> Service<| tag == 'cubbystack_murano' |>
+  Package<| tag == 'cubbystack-murano' |> -> Cubbystack_config<| tag == 'cubbystack-murano' |>
+  Cubbystack_config<| tag == 'cubbystack-murano' |> -> Service<| tag == 'cubbystack-murano' |>
 
   # Restart murano services whenever murano.conf has been changed
-  Cubbystack_config<| tag == 'cubbystack_murano' |> ~> Service<| tag == 'cubbystack_murano' |>
+  Cubbystack_config<| tag == 'cubbystack-murano' |> ~> Service<| tag == 'cubbystack-murano' |>
 
   # Global file attributes
   File {

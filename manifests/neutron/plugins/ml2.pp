@@ -21,7 +21,7 @@ class cubbystack::neutron::plugins::ml2 (
   $config_file    = '/etc/neutron/plugins/ml2/ml2_conf.ini',
 ) {
 
-  include ::cubbystack::params
+  contain ::cubbystack::params
 
   ## Meta settings and globals
   $tags = ['cubbystack_openstack', 'cubbystack_neutron', 'neutron-plugin-ml2']

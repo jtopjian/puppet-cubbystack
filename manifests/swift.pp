@@ -23,7 +23,7 @@ class cubbystack::swift (
   $purge_config   = true,
 ) {
 
-  include ::cubbystack::params
+  contain ::cubbystack::params
 
   # Meta and globals
   $tags = 'cubbystack_swift'

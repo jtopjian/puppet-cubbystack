@@ -4,7 +4,15 @@ class cubbystack::params {
     'Debian': {
 
       # Utils / Misc
-      $openstack_utils = false
+      $openstack_utils     = false
+      $apache_service_name = 'apache2'
+
+      # Keystone
+      $keystone_package_name              = 'keystone'
+      $keystone_service_name              = 'keystone'
+      $keystone_wsgi_script_dir           = '/usr/lib/cgi-bin/keystone'
+      $keystone_wsgi_admin_script_source  = '/usr/bin/keystone-wsgi-admin'
+      $keystone_wsgi_public_script_source = '/usr/bin/keystone-wsgi-public'
 
       # Glance
       $glance_package_name          = 'glance'
@@ -35,6 +43,7 @@ class cubbystack::params {
       $nova_conductor_package_name    = 'nova-conductor'
       $nova_api_metadata_package_name = 'nova-api-metadata'
       $nova_cells_package_name        = 'nova-cells'
+      $nova_placement_package_name    = 'nova-placement-api'
 
       # nova service names
       $nova_api_service_name          = 'nova-api'
@@ -48,6 +57,7 @@ class cubbystack::params {
       $nova_conductor_service_name    = 'nova-conductor'
       $nova_api_metadata_service_name = 'nova-api-metadata'
       $nova_cells_service_name        = 'nova-cells'
+      $nova_placement_service_name    = 'nova-placement-api'
 
       # Neutron
       $neutron_common_package_name     = 'neutron-common'
@@ -59,18 +69,18 @@ class cubbystack::params {
       $neutron_l3_service_name         = 'neutron-l3-agent'
       $neutron_metadata_package_name   = 'neutron-metadata-agent'
       $neutron_metadata_service_name   = 'neutron-metadata-agent'
-      $neutron_lbaas_package_name      = 'neutron-lbaas-agent'
-      $neutron_lbaas_service_name      = 'neutron-lbaas-agent'
+      $neutron_lbaas_package_name      = 'neutron-lbaasv2-agent'
+      $neutron_lbaas_service_name      = 'neutron-lbaasv2-agent'
       $neutron_plugin_ovs_package_name = 'neutron-plugin-openvswitch-agent'
       $neutron_plugin_ovs_service_name = 'neutron-plugin-openvswitch-agent'
+      $neutron_ovs_agent_package_name  = 'neutron-openvswitch-agent'
+      $neutron_ovs_agent_service_name  = 'neutron-openvswitch-agent'
       $neutron_plugin_ml2_package_name = 'neutron-plugin-ml2'
-      #$neutron_plugin_linuxbridge_package_name = 'neutron-plugin-linuxbridge-agent'
-      #$neutron_plugin_linuxbridge_service_name = 'neutron-plugin-linuxbridge-agent'
+      $neutron_plugin_linuxbridge_package_name = 'neutron-linuxbridge-agent'
+      $neutron_plugin_linuxbridge_service_name = 'neutron-linuxbridge-agent'
 
       case $::lsbdistcodename {
         'xenial': {
-          $neutron_plugin_linuxbridge_package_name = 'neutron-linuxbridge-agent'
-          $neutron_plugin_linuxbridge_service_name = 'neutron-linuxbridge-agent'
           $neutron_plugin_sriov_package_name       = 'neutron-sriov-agent'
           $neutron_plugin_sriov_service_name       = 'neutron-sriov-agent'
           $keystone_package_name                   = 'keystone'
@@ -78,8 +88,6 @@ class cubbystack::params {
           #$keystone_service_name                   = 'apache2'
         }
         default: {
-          $neutron_plugin_linuxbridge_package_name = 'neutron-plugin-linuxbridge-agent'
-          $neutron_plugin_linuxbridge_service_name = 'neutron-plugin-linuxbridge-agent'
           $neutron_plugin_sriov_package_name       = 'neutron-plugin-sriov-agent'
           $neutron_plugin_sriov_service_name       = 'neutron-plugin-sriov-agent'
           $keystone_package_name                   = 'keystone'
@@ -146,6 +154,13 @@ class cubbystack::params {
       $murano_cfapi_package_name  = 'murano-cfapi'
       $murano_cfapi_service_name  = 'murano-cfapi'
 
+      # Sahara
+      $sahara_common_package_name = 'sahara-common'
+      $sahara_api_package_name    = 'sahara-api'
+      $sahara_api_service_name    = 'sahara-api'
+      $sahara_engine_package_name = 'sahara-engine'
+      $sahara_engine_service_name = 'sahara-engine'
+
       # Designate
       $designate_common_package_name       = 'designate'
       $designate_agent_service_name        = 'designate-agent'
@@ -160,10 +175,15 @@ class cubbystack::params {
       $designate_zone_manager_package_name = 'designate-zone-manager'
       $designate_zone_manager_service_name = 'designate-zone-manager'
 
+      # Zaqar
+      $zaqar_common_package_name = 'zaqar-common'
+      $zaqar_api_package_name    = 'zaqar-server'
+      $zaqar_api_service_name    = 'zaqar-server'
+
       # debian specific nova config
       $root_helper              = 'sudo nova-rootwrap'
       $lock_path                = '/var/lock/nova'
-      $nova_db_charset          = 'latin1'
+      $nova_db_charset          = 'utf8'
 
       # Misc
       $libvirt_package_name     = 'libvirt-bin'
@@ -183,10 +203,10 @@ class cubbystack::params {
         default: {
           case $::lsbdistcodename {
             'trusty': {
-              $service_provider          = 'upstart'
+                $service_provider = 'upstart'
             }
             default: {
-              $service_prodiver          = 'systemd'
+                $service_provider = 'systemd'
             }
           }
           $nova_consoleauth_package_name = 'nova-consoleauth'
@@ -198,7 +218,8 @@ class cubbystack::params {
     'RedHat': {
 
       # Utils / Misc
-      $openstack_utils = ['openstack-utils', 'openstack-selinux']
+      $openstack_utils     = ['openstack-utils', 'openstack-selinux']
+      $apache_service_name = 'httpd'
 
       # Keystone
       $keystone_package_name = 'openstack-keystone'

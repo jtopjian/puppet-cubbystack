@@ -22,7 +22,7 @@ class cubbystack::trove::api (
   $service_ensure = 'running',
 ) {
 
-  include ::cubbystack::trove
+  contain ::cubbystack::trove
 
   cubbystack::functions::generic_service { 'trove-api':
     service_enable => $service_enable,

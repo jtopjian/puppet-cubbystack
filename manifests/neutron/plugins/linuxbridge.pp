@@ -20,11 +20,11 @@ class cubbystack::neutron::plugins::linuxbridge (
   $package_ensure = present,
   $service_enable = true,
   $service_ensure = 'running',
-  $config_file    = undef,
+  $config_file    = '/etc/neutron/plugins/ml2/linuxbridge_agent.ini',
   $settings       = undef,
 ) {
 
-  include ::cubbystack::params
+  contain ::cubbystack::params
 
   ## Meta settings and globals
   $tags = ['cubbystack_openstack', 'cubbystack_neutron', 'neutron-plugin-linuxbridge']
@@ -43,28 +43,26 @@ class cubbystack::neutron::plugins::linuxbridge (
   }
 
   ## Neutron linuxbridge configuration
-  if $config_file != undef {
-    file { $config_file: }
+  file { $config_file: }
 
-    $settings.each |$setting, $value| {
-      cubbystack_config { "${config_file}: ${setting}":
-        value => $value,
-        tag   => $tags,
-      }
+  $settings.each |$setting, $value| {
+    cubbystack_config { "${config_file}: ${setting}":
+      value => $value,
+      tag   => $tags,
     }
   }
 
   # This is a hack
-  file { '/etc/init/neutron-plugin-linuxbridge-agent.conf':
-    ensure  => present,
-    owner   => 'root',
-    group   => 'root',
-    mode    => '0644',
-    source  => 'puppet:///modules/cubbystack/neutron/neutron-plugin-linuxbridge-agent.conf',
-    tag     => $tags,
-    notify  => Service[$::cubbystack::params::neutron_plugin_linuxbridge_service_name],
-    require => Package[$::cubbystack::params::neutron_plugin_linuxbridge_package_name],
-  }
+  #file { '/etc/init/neutron-plugin-linuxbridge-agent.conf':
+  #  ensure  => present,
+  #  owner   => 'root',
+  #  group   => 'root',
+  #  mode    => '0644',
+  #  source  => 'puppet:///modules/cubbystack/neutron/neutron-plugin-linuxbridge-agent.conf',
+  #  tag     => $tags,
+  #  notify  => Service[$::cubbystack::params::neutron_plugin_linuxbridge_service_name],
+  #  require => Package[$::cubbystack::params::neutron_plugin_linuxbridge_package_name],
+  #}
 
   cubbystack::functions::generic_service { 'neutron-plugin-linuxbridge':
     service_enable => $service_enable,

@@ -21,13 +21,13 @@
 #   Defaults to true
 #
 class cubbystack::nova::network (
-  $package_ensure  = present,
-  $service_enable  = true,
-  $install_service = true,
-  $service_ensure  = 'running',
+  $package_ensure   = present,
+  $service_enable   = true,
+  $service_ensure   = 'running',
+  $install_service  = true,
 ) {
 
-  include ::cubbystack::nova
+  contain ::cubbystack::nova
 
   # TODO: Move to firewall config
   sysctl::value { 'net.ipv4.ip_forward':

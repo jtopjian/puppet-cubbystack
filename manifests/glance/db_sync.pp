@@ -5,12 +5,13 @@
 class cubbystack::glance::db_sync {
 
   # Order and notifications
-  Package<| tag == 'cubbystack_glance' |> ~> Exec['glance-manage db_sync']
-  Cubbystack_config<| tag == 'cubbystack_glance' |> -> Exec['glance-manage db_sync']
-  Exec['glance-manage db_sync'] -> Service<| tag == 'cubbystack_glance' |>
+  Package<| tag == 'cubbystack_glance' |>           ~> Exec['glance db sync']
+  Cubbystack_config<| tag == 'cubbystack_glance' |> -> Exec['glance db sync']
+  Exec['glance db sync']                            -> Service<| tag == 'cubbystack_glance' |>
 
-  exec { 'glance-manage db_sync':
+  exec { 'glance db sync':
     path        => '/usr/bin',
+    command     => 'glance-manage db_sync',
     refreshonly => true,
     logoutput   => 'on_failure',
   }
