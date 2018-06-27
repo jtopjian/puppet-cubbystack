@@ -16,7 +16,7 @@
 #   The status of the designate-pool-manager service
 #   Defaults to running
 #
-class cubbystack::designate::pool-manager (
+class cubbystack::designate::pool_manager (
   $package_ensure = latest,
   $service_enable = true,
   $service_ensure = 'running',

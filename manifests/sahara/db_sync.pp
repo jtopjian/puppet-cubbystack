@@ -11,7 +11,7 @@ class cubbystack::sahara::db_sync {
 
   exec { 'sahara-db-sync':
     path        => '/usr/bin',
-    command     => 'sahara-db-manage --config-file /etc/sahara/sahara.conf upgrade',
+    command     => 'sahara-db-manage --config-file /etc/sahara/sahara.conf upgrade head',
     refreshonly => true,
     logoutput   => 'on_failure',
   }

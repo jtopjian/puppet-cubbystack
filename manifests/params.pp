@@ -4,7 +4,8 @@ class cubbystack::params {
     'Debian': {
 
       # Utils / Misc
-      $openstack_utils = false
+      $openstack_utils     = false
+      $apache_service_name = 'apache2'
 
       # Glance
       $glance_package_name          = 'glance'
@@ -163,6 +164,19 @@ class cubbystack::params {
       $designate_sink_service_name         = 'designate-sink'
       $designate_zone_manager_package_name = 'designate-zone-manager'
       $designate_zone_manager_service_name = 'designate-zone-manager'
+
+      # Barbican
+      $barbican_common_package_name   = 'barbican-common'
+      $barbican_api_package_name      = 'barbican-api'
+      $barbican_worker_package_name   = 'barbican-worker'
+      $barbican_listener_package_name = 'barbican-keystone-listener'
+
+      # Magnum
+      $magnum_common_package_name    = 'magnum-common'
+      $magnum_api_package_name       = 'magnum-api'
+      $magnum_api_service_name       = 'magnum-api'
+      $magnum_conductor_package_name = 'magnum-conductor'
+      $magnum_conductor_service_name = 'magnum-conductor'
 
       # debian specific nova config
       $root_helper              = 'sudo nova-rootwrap'
