@@ -21,7 +21,7 @@ class cubbystack::magnum (
   $config_file    = '/etc/magnum/magnum.conf',
 ) {
 
-  contain ::cubbystack::params
+  include ::cubbystack::params
 
   ## Meta settings and globals
   $tags = ['cubbystack_openstack', 'cubbystack_magnum']

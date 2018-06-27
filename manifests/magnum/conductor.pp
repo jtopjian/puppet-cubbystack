@@ -22,7 +22,7 @@ class cubbystack::magnum::conductor (
   $service_ensure = 'running'
 ) {
 
-  contain ::cubbystack::magnum
+  include ::cubbystack::magnum
 
   cubbystack::functions::generic_service { 'magnum-conductor':
     service_enable => $service_enable,
