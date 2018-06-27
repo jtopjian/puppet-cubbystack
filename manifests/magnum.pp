@@ -56,12 +56,6 @@ class cubbystack::magnum (
     recurse => true,
   }
 
-  ## Magnum policy file
-  file { '/etc/magnum/policy.json':
-    source  => 'puppet:///modules/cubbystack/magnum/policy.json',
-    require => File['/etc/magnum'],
-  }
-
   file { '/var/log/magnum': ensure => directory }
   file { $config_file: }
 
