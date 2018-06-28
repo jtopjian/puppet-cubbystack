@@ -83,15 +83,10 @@ class cubbystack::params {
         'xenial': {
           $neutron_plugin_sriov_package_name       = 'neutron-sriov-agent'
           $neutron_plugin_sriov_service_name       = 'neutron-sriov-agent'
-          $keystone_package_name                   = 'keystone'
-          $keystone_service_name                   = 'keystone'
-          #$keystone_service_name                   = 'apache2'
         }
         default: {
           $neutron_plugin_sriov_package_name       = 'neutron-plugin-sriov-agent'
           $neutron_plugin_sriov_service_name       = 'neutron-plugin-sriov-agent'
-          $keystone_package_name                   = 'keystone'
-          $keystone_service_name                   = 'keystone'
         }
       }
 

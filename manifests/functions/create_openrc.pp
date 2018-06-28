@@ -36,7 +36,7 @@
 define cubbystack::functions::create_openrc (
   $admin_password,
   $keystone_host        = '127.0.0.1',
-  $keystone_api_version = 'v3',
+  $keystone_api_version = 'v2.0',
   $user                 = 'admin',
   $project              = 'admin',
   $user_domain_name     = 'Default',
@@ -46,19 +46,11 @@ define cubbystack::functions::create_openrc (
   $owner                = 'root',
   $group                = 'root',
 ) {
+  #$rc_content = ""
 
   if $keystone_api_version == 'v3' {
     $identity_api_version = '3'
-  } else {
-    $identity_api_version = '2.0'
-  }
-
-  file { $name:
-    owner   => $owner,
-    group   => $group,
-    mode    => '0640',
-    content =>
-"
+    $rc_content = "
 export OS_PROJECT_NAME=${project}
 export OS_PROJECT_DOMAIN_ID=${project_domain_id}
 export OS_USERNAME=${user}
@@ -69,5 +61,23 @@ export OS_AUTH_STRATEGY=keystone
 export OS_REGION_NAME=${region}
 export OS_IDENTITY_API_VERSION=${identity_api_version}
 "
+  } else {
+    $identity_api_version = '2.0'
+    $rc_content = "
+export OS_PROJECT_NAME=${project}
+export OS_USERNAME=${user}
+export OS_PASSWORD=\"${admin_password}\"
+export OS_AUTH_URL=\"${protocol}://${keystone_host}:5000/${keystone_api_version}/\"
+export OS_AUTH_STRATEGY=keystone
+export OS_REGION_NAME=${region}
+export OS_IDENTITY_API_VERSION=${identity_api_version}
+"
+  }
+
+  file { $name:
+    owner   => $owner,
+    group   => $group,
+    mode    => '0640',
+    content => "${rc_content}"
   }
 }
