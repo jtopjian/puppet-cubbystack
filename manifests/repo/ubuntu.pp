@@ -3,7 +3,7 @@ class cubbystack::repo::ubuntu (
   $repo    = 'updates'
 ) {
 
-  if ! ($::lsbdistcodename == "trusty" and $release == "icehouse") and ! ($::lsbdistcodename == "xenial" and $release == "mitaka") {
+  if ! ($::lsbdistcodename == "trusty" and $release == "icehouse") and ! ($::lsbdistcodename == "xenial" and $release == "mitaka") and ! ($::lsbdistcodename == "bionic" and $release == "queens") {
     package { 'ubuntu-cloud-keyring':
       ensure => latest,
     }
