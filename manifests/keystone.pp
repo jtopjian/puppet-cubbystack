@@ -13,11 +13,11 @@
 #
 # [*service_enable*]
 #   The status of the keystone service
-#   Defaults to false
+#   Defaults to true
 #
 # [*service_ensure*]
 #   The run status of the keystone service
-#   Defaults to stopped
+#   Defaults to running
 #
 # [*config_file*]
 #   The path to keystone.conf
@@ -26,8 +26,8 @@
 class cubbystack::keystone (
   $settings,
   $package_ensure = present,
-  $service_enable = false,
-  $service_ensure = 'stopped',
+  $service_enable = true,
+  $service_ensure = 'running',
   $config_file    = '/etc/keystone/keystone.conf',
 ) {
 

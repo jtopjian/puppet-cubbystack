@@ -9,7 +9,7 @@ class cubbystack::params {
 
       # Keystone
       $keystone_package_name              = 'keystone'
-      $keystone_service_name              = 'keystone'
+      $keystone_service_name              = 'apache2'
       $keystone_wsgi_script_dir           = '/usr/lib/cgi-bin/keystone'
       $keystone_wsgi_admin_script_source  = '/usr/bin/keystone-wsgi-admin'
       $keystone_wsgi_public_script_source = '/usr/bin/keystone-wsgi-public'
@@ -22,7 +22,7 @@ class cubbystack::params {
       # Cinder
       $cinder_common_package_name    = 'cinder-common'
       $cinder_api_package_name       = 'cinder-api'
-      $cinder_api_service_name       = 'cinder-api'
+      $cinder_api_service_name       = 'apache2'
       $cinder_scheduler_package_name = 'cinder-scheduler'
       $cinder_scheduler_service_name = 'cinder-scheduler'
       $cinder_volume_package_name    = 'cinder-volume'
@@ -31,7 +31,6 @@ class cubbystack::params {
       # Nova
       # nova package names
       $nova_api_package_name          = 'nova-api'
-      $nova_cert_package_name         = 'nova-cert'
       $nova_common_package_name       = 'nova-common'
       $nova_compute_package_name      = 'nova-compute'
       $nova_doc_package_name          = 'nova-doc'
@@ -47,7 +46,6 @@ class cubbystack::params {
 
       # nova service names
       $nova_api_service_name          = 'nova-api'
-      $nova_cert_service_name         = 'nova-cert'
       $nova_compute_service_name      = 'nova-compute'
       $nova_consoleauth_service_name  = 'nova-consoleauth'
       $nova_network_service_name      = 'nova-network'
@@ -206,7 +204,7 @@ class cubbystack::params {
           }
           $nova_consoleauth_package_name = 'nova-consoleauth'
           $horizon_package_name          = 'openstack-dashboard'
-          $horizon_package_deps          = ['python-django', 'python-compressor', 'python-appconf', 'python-cloudfiles', 'python-tz', 'node-less']
+          $horizon_pacakge_deps          = ['python-django', 'python-django-compressor', 'python-django-appconf', 'python-cloudfiles', 'python-tz', 'node-less']
         }
       }
     }
@@ -237,7 +235,6 @@ class cubbystack::params {
       # Nova
       # nova package names
       $nova_api_package_name         = false
-      $nova_cert_package_name        = false
       $nova_common_package_name      = 'openstack-nova'
       $nova_compute_package_name     = 'openstack-nova-compute'
       $nova_doc_package_name         = 'openstack-nova-doc'
@@ -249,7 +246,6 @@ class cubbystack::params {
 
       # nova service names
       $nova_api_service_name         = 'openstack-nova-api'
-      $nova_cert_service_name        = 'openstack-nova-cert'
       $nova_compute_service_name     = 'openstack-nova-compute'
       $nova_consoleauth_service_name = 'openstack-nova-consoleauth'
       $nova_network_service_name     = 'openstack-nova-network'
