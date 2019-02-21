@@ -180,7 +180,7 @@ class cubbystack::params {
 
       # Misc
       $libvirt_package_name     = 'libvirt-bin'
-      $libvirt_service_name     = 'libvirt-bin'
+      $libvirt_service_name     = 'libvirtd'
       $libvirt_type_kvm         = 'qemu-kvm'
       $numpy_package_name       = 'python-numpy'
       $tgt_package_name         = 'tgt'
