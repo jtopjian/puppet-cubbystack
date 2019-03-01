@@ -55,7 +55,7 @@ class cubbystack::params {
       $nova_conductor_service_name    = 'nova-conductor'
       $nova_api_metadata_service_name = 'nova-api-metadata'
       $nova_cells_service_name        = 'nova-cells'
-      $nova_placement_service_name    = 'nova-placement-api'
+      $nova_placement_service_name    = 'apache2'
 
       # Neutron
       $neutron_common_package_name     = 'neutron-common'
