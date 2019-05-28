@@ -37,6 +37,7 @@ class cubbystack::swift::expirer (
 
   # Restart swift if the configuration changes
   Cubbystack_config<| tag == 'swift-object-expirer' |> ~> Service<| tag == 'swift-object-expirer' |>
+  Cubbystack_config<| tag == 'swift-object-expirer' |> ~> Exec['cubbystack restart swift']
 
   # object settings
   $settings.each |$setting, $value| {

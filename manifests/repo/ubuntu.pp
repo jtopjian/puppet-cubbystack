@@ -4,7 +4,7 @@ class cubbystack::repo::ubuntu (
 ) {
 
   contain apt::update
-  if ! ($::lsbdistcodename == 'xenial' and $release == 'mitaka') {
+  if ! ($::lsbdistcodename == "xenial" and $release == "mitaka") and ! ($::lsbdistcodename == "bionic" and $release == "queens") {
     apt::source { 'ubuntu-cloud-archive':
       location          => 'http://ubuntu-cloud.archive.canonical.com/ubuntu',
       release           => "${::lsbdistcodename}-${repo}/${release}",

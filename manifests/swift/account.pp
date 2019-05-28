@@ -33,6 +33,7 @@ class cubbystack::swift::account (
 
   # Restart account-server if the configuration changes
   Cubbystack_config<| tag == 'swift-account' |> ~> Service<| tag == 'swift-account' |>
+  Cubbystack_config<| tag == 'swift-account' |> ~> Exec['cubbystack restart swift']
 
   # account settings
   $settings.each |$setting, $value| {

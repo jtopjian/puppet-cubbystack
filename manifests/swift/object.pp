@@ -33,6 +33,7 @@ class cubbystack::swift::object (
 
   # Restart swift if the configuration changes
   Cubbystack_config<| tag == 'swift-object' |> ~> Service<| tag == 'swift-object' |>
+  Cubbystack_config<| tag == 'swift-object' |> ~> Exec['cubbystack restart swift']
 
   # object settings
   $settings.each |$setting, $value| {

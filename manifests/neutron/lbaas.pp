@@ -48,6 +48,7 @@ class cubbystack::neutron::lbaas (
   # Order the db sync correctly
   Package<| tag == 'neutron-lbaas' |>                     ~> Exec['neutron-db-manage --service lbaas upgrade heads']
   Cubbystack_config<| tag == 'neutron-lbaas' |>           -> Exec['neutron-db-manage --service lbaas upgrade heads']
+  Exec['neutron-db-manage upgrade heads']                 -> Exec['neutron-db-manage --service lbaas upgrade heads']
   Exec['neutron-db-manage --service lbaas upgrade heads'] ~> Service<| tag == 'cubbystack_neutron' |>
 
   File {

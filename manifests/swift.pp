@@ -54,6 +54,13 @@ class cubbystack::swift (
     recurse => true;
   }
 
+  # Exec block to restart all swift services
+  exec { 'cubbystack restart swift':
+    path        => ['/bin', '/usr/bin'],
+    command     => 'swift-init restart all',
+    refreshonly => true,
+  }
+
   # Configure the swift.conf file
   $settings.each |$setting, $value| {
     cubbystack_config { "${config_file}: ${setting}":

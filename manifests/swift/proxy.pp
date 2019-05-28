@@ -33,6 +33,7 @@ class cubbystack::swift::proxy (
 
   # Restart proxy-server if the configuration changes
   Cubbystack_config<| tag == 'swift-proxy' |> ~> Service<| tag == 'swift-proxy' |>
+  Cubbystack_config<| tag == 'swift-proxy' |> ~> Exec['cubbystack restart swift']
 
   # proxy settings
   $settings.each |$setting, $value| {

@@ -33,6 +33,7 @@ class cubbystack::swift::container (
 
   # Restart container-server if the configuration changes
   Cubbystack_config<| tag == 'swift-container' |>  ~> Service<| tag == 'swift-container' |>
+  Cubbystack_config<| tag == 'swift-container' |>  ~> Exec['cubbystack restart swift']
 
   # container settings
   $settings.each |$setting, $value| {

@@ -37,7 +37,9 @@ class cubbystack::swift::container_sync (
 
   # Restart container-sync if the configuration changes
   Cubbystack_config<| tag == 'swift-container' |>  ~> Service<| tag == 'swift-container' |>
+  Cubbystack_config<| tag == 'swift-container' |>  ~> Exec['cubbystack restart swift']
   Cubbystack_config<| tag == 'swift-container-sync' |>  ~> Service<| tag == 'swift-container-sync' |>
+  Cubbystack_config<| tag == 'swift-container-sync' |>  ~> Exec['cubbystack restart swift']
 
   # container settings
   $realm_settings.each |$setting, $value| {
