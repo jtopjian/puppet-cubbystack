@@ -37,7 +37,7 @@ class cubbystack::neutron (
   File {
     ensure  => present,
     owner   => 'neutron',
-    group   => 'neutron',
+    #group   => 'neutron',
     mode    => '0640',
     tag     => $tags,
     require => Package['neutron-common'],
