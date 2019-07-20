@@ -15,7 +15,7 @@ class cubbystack::params {
       # Cinder
       $cinder_common_package_name    = 'cinder-common'
       $cinder_api_package_name       = 'cinder-api'
-      $cinder_api_service_name       = 'cinder-api'
+      $cinder_api_service_name       = 'apache2'
       $cinder_scheduler_package_name = 'cinder-scheduler'
       $cinder_scheduler_service_name = 'cinder-scheduler'
       $cinder_volume_package_name    = 'cinder-volume'
@@ -51,6 +51,7 @@ class cubbystack::params {
       $nova_api_metadata_service_name = 'nova-api-metadata'
       $nova_cells_service_name        = 'nova-cells'
       $nova_placement_service_name    = 'apache2'
+      #$nova_placement_service_name    = 'nova-placement-api'
 
       # Neutron
       $neutron_common_package_name     = 'neutron-common'

@@ -21,7 +21,7 @@ class cubbystack::nova::placement (
   $service_ensure = 'running',
 ) {
 
-  contain ::cubbystack::nova
+  include ::cubbystack::nova
 
   cubbystack::functions::generic_service { 'nova-placement':
     service_enable => $service_enable,
