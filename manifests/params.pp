@@ -36,7 +36,7 @@ class cubbystack::params {
       $nova_conductor_package_name    = 'nova-conductor'
       $nova_api_metadata_package_name = 'nova-api-metadata'
       $nova_cells_package_name        = 'nova-cells'
-      $nova_placement_package_name    = 'nova-placement-api'
+      $nova_placement_package_name    = 'apache2'
 
       # nova service names
       $nova_api_service_name          = 'nova-api'
@@ -65,8 +65,8 @@ class cubbystack::params {
       $neutron_metadata_service_name   = 'neutron-metadata-agent'
       $neutron_lbaas_package_name      = 'neutron-lbaasv2-agent'
       $neutron_lbaas_service_name      = 'neutron-lbaasv2-agent'
-      $neutron_plugin_ovs_package_name = 'neutron-plugin-openvswitch-agent'
-      $neutron_plugin_ovs_service_name = 'neutron-plugin-openvswitch-agent'
+      $neutron_plugin_ovs_package_name = 'neutron-openvswitch-agent'
+      $neutron_plugin_ovs_service_name = 'neutron-openvswitch-agent'
       $neutron_ovs_agent_package_name  = 'neutron-openvswitch-agent'
       $neutron_ovs_agent_service_name  = 'neutron-openvswitch-agent'
       $neutron_plugin_ml2_package_name = 'neutron-plugin-ml2'

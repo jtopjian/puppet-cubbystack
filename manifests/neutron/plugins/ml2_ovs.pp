@@ -1,4 +1,4 @@
-# == Class: cubbystack::neutron::plugins::ovs_controller
+# == Class: cubbystack::neutron::plugins::ovs_compute
 #
 # Configures the neutron-openvswitch-agent
 #
@@ -17,7 +17,7 @@
 #
 # NEIL #
 #
-class cubbystack::neutron::plugins::ovs_controller (
+class cubbystack::neutron::plugins::ovs_compute (
   $settings,
   $package_ensure = latest,
   $config_file    = '/etc/neutron/plugins/ml2/openvswitch_agent.ini',
@@ -26,13 +26,13 @@ class cubbystack::neutron::plugins::ovs_controller (
   include ::cubbystack::params
 
   ## Meta settings and globals
-  $tags = ['openstack', 'neutron', 'neutron-openvswitch-agent']
+  $tags = ['cubbystack_openstack', 'cubbystack_neutron', 'neutron-openvswitch-agent']
 
  # Make sure Neutron Open vSwich is installed and configured before any configuration begins
- Package['neutron-openvswitch-agent'] -> Cubbystack_config<| tag == 'neutron' |>
+ Package['neutron-openvswitch-agent'] -> Cubbystack_config<| tag == 'cubbystack_neutron' |>
 
  # Restart neutron-openvswitch-agent after any configuration changes
- Cubbystack_config<| tag =='neutron-openvswitch-agent' |> ~> Service<| tag == 'neutron' |>
+ Cubbystack_config<| tag =='neutron-openvswitch-agent' |> ~> Service<| tag == cubbystack_'neutron' |>
 
  File {
    ensure  => present,
