@@ -16,7 +16,9 @@
 #   Defaults to running
 #
 class cubbystack::nova::placement (
+  $settings,
   $package_ensure = present,
+  $config_file   = '/etc/placement/placement.conf',
   $service_enable = true,
   $service_ensure = 'running',
 ) {
@@ -39,5 +41,25 @@ class cubbystack::nova::placement (
     refreshonly => true,
     logoutput   => 'on_failure',
     tag         => 'cubbystack_nova_placement_apache',
+  }
+
+  file { '/var/log/placement':
+    ensure  => directory,
+    recurse =>  true,
+  }
+
+  file { '/etc/placement':
+    ensure  => directory,
+    recurse =>  true,
+  }
+
+  file { $config_file: }
+
+  ## Configure placement.conf
+  $settings.each |$setting, $value| {
+    cubbystack_config { "${config_file}: ${setting}":
+      value => $value,
+      tag   => $tags,
+    }
   }
 }
