@@ -24,5 +24,6 @@
       options:
         host: <%= target['host'] %>
         port: 53
-        connection: 'mysql+pymysql://pdns:<%= target['password'] -%>@<%= target['sqlhost'] -%>:<%= target['sqlport'] -%>/pdns?charset=utf8'
+        api_endpoint: <%= target['api_endpoint'] %>
+        api_token: <%= target['api_token'] %>
 <% end -%>
