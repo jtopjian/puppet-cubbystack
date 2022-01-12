@@ -14,6 +14,22 @@ class cubbystack::nova::api_db_sync {
     path        => '/usr/bin',
     refreshonly => true,
     logoutput   => 'on_failure',
+    notify      => Exec['nova-manage cell_v2 map_cell0'],
+  }
+
+  exec { 'nova-manage cell_v2 map_cell0':
+    path        => '/usr/bin',
+    refreshonly => true,
+    logoutput   => 'on_failure',
+    notify      => Exec['nova-manage cell_v2 create_cell --name=cell1'],
+  }
+
+  exec { 'nova-manage cell_v2 create_cell --name=cell1':
+    path        => ['/bin', '/usr/bin'],
+    refreshonly => true,
+    logoutput   => 'on_failure',
+    notify      => Exec['nova db sync'],
+    unless      => "nova-manage cell_v2 list_cells | grep -q cell1",
   }
 
 }

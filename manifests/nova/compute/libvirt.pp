@@ -6,19 +6,19 @@
 #
 # [*package_ensure*]
 #   The status of the nova-api package
-#   Defaults to latest
+#   Defaults to present
 #
 # [*libvirt_type*]
 #   The libvirt category to use
 #   Defaults to kvm
 #
 class cubbystack::nova::compute::libvirt (
-  $package_ensure = latest,
+  $package_ensure = present,
   $libvirt_type   = 'kvm'
 ) {
 
-  include ::cubbystack::params
-  include ::cubbystack::nova
+  contain ::cubbystack::params
+  contain ::cubbystack::nova
 
   $package_name = "${::cubbystack::params::nova_compute_package_name}-${libvirt_type}"
   Package[$package_name] ~> Service<| tag == 'cubbystack_nova' |>
@@ -30,11 +30,11 @@ class cubbystack::nova::compute::libvirt (
   }
 
   # Hack
-  if $::lsbdistcodename == "xenial" {
+   if $::lsbdistcodename == "xenial" {
     $service_ensure = "fpuppet"
-  } else {
-    $service_ensure = "running"
-  }
+   } else {
+     $service_ensure = "running"
+   }
 
   cubbystack::functions::generic_service { 'libvirt':
     package_name   => $::cubbystack::params::libvirt_package_name,

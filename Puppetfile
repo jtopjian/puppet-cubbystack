@@ -2,28 +2,28 @@ forge 'http://forge.puppetlabs.com'
 
 mod 'apt',
   :git => 'https://github.com/puppetlabs/puppetlabs-apt',
-  :ref => '1.4.0'
+  :ref => 'v8.0.2'
 
 mod 'vcsrepo',
   :git => 'https://github.com/puppetlabs/puppetlabs-vcsrepo',
-  :ref => '0.2.0'
+  :ref => 'v4.0.1'
 
 mod 'concat',
   :git => 'https://github.com/puppetlabs/puppetlabs-concat',
-  :ref => '1.0.0'
+  :ref => 'v7.0.1'
 
 mod 'mysql',
   :git => 'https://github.com/puppetlabs/puppetlabs-mysql',
-  :ref => '2.1.0'
+  :ref => 'v11.0.1'
 
 mod 'stdlib',
   :git => 'https://github.com/puppetlabs/puppetlabs-stdlib',
-  :ref => '4.1.0'
+  :ref => '7.0.1'
 
 mod 'inifile',
   :git => 'https://github.com/puppetlabs/puppetlabs-inifile',
-  :ref => '1.0.0'
+  :ref => '5.0.1'
 
-mod 'keystone',
-  :git => 'https://github.com/stackforge/puppet-keystone',
-  :ref => '1f30c5bc5c8539c2771bac204b3f4c4240ee97c8'
+mod 'openstacklib',
+  :git => 'https://github.com/openstack/puppet-openstacklib',
+  :ref => '16.3.0'
