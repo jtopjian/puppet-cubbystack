@@ -179,7 +179,7 @@ class cubbystack::params {
       $nova_db_charset          = 'utf8'
 
       # Misc
-      $libvirt_package_name     = 'libvirt-bin'
+      $libvirt_package_name     = 'libvirt-daemon'
       $libvirt_service_name     = 'libvirtd'
       $libvirt_type_kvm         = 'qemu-kvm'
       $numpy_package_name       = 'python-numpy'
